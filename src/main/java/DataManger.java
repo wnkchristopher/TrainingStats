@@ -21,7 +21,7 @@ public class DataManger {
             return;
         }
         try {     //add exercise to list of exercises
-            FileWriter writer = new FileWriter("Data/exercises.txt", true);
+            FileWriter writer = new FileWriter("./Data/exercises.txt", true);
             writer.write(name);
             writer.write("\r\n");
             writer.close();
@@ -44,7 +44,7 @@ public class DataManger {
         List<String> exerciseList = new ArrayList<>();
         try {
             String line;
-            BufferedReader bufferreader = new BufferedReader(new FileReader("Data/exercises.txt"));
+            BufferedReader bufferreader = new BufferedReader(new FileReader("./Data/exercises.txt"));
             while ((line = bufferreader.readLine()) != null) {
                 exerciseList.add(line);
             }
@@ -57,7 +57,7 @@ public class DataManger {
     }
     public void changeExerciseOrder(List<String> exerciseOrder){
         try {
-            PrintWriter writer = new PrintWriter("Data/exercises.txt");
+            PrintWriter writer = new PrintWriter("./Data/exercises.txt");
             writer.print("");
             writer.close();
         }catch(FileNotFoundException e){
@@ -109,7 +109,7 @@ public class DataManger {
     }
 
     private boolean isFileEmpty(String exercise){
-        File logFile = new File("Data/Exercises/" + exercise + ".txt");
+        File logFile = new File("./Data/Exercises/" + exercise + ".txt");
         if(logFile.length() == 0){
             return true;
         }
@@ -122,13 +122,14 @@ public class DataManger {
     private void writeExerciseStats(String exercise, String content, Date dateOfTraining){
         int line = this.getLineToInsert(exercise, dateOfTraining);
         try {
-            PrintWriter writer = new PrintWriter(new FileWriter("Data/Exercises/" + exercise + ".txt", true));
+            //create file
+            PrintWriter writer = new PrintWriter(new FileWriter("./Data/Exercises/" + exercise + ".txt", true));
             //writer.write(content);
             writer.close();
             //new stats getting insert sorted
             if(dateOfTraining != null){
                 Path path = FileSystems.getDefault()
-                        .getPath("Data/Exercises/" + exercise + ".txt");
+                        .getPath("./Data/Exercises/" + exercise + ".txt");
                 List<String> lines = Files.readAllLines(path, Charset.forName("ISO-8859-1"));
                 lines.add(line, content);
                 Files.write(path, lines);
@@ -161,7 +162,7 @@ public class DataManger {
         try {
             String stringDate;
             String line;
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("Data/Exercises/" + exercise + ".txt"));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("./Data/Exercises/" + exercise + ".txt"));
             while ((line = bufferedReader.readLine()) != null) {
 
                 Date d = this.getDateOfLine(line);
@@ -196,7 +197,7 @@ public class DataManger {
         try {
             int lineNumber = 0;
             String line;
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("Data/Exercises/" + exercise + ".txt"));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("./Data/Exercises/" + exercise + ".txt"));
             while ((line = bufferedReader.readLine()) != null) {
                 lineNumber ++;
                 Date d = this.getDateOfLine(line);
@@ -221,7 +222,7 @@ public class DataManger {
         String line = "";
         int lineNumber = this.getLineOfDate(exercise,date);
         try {
-            line = Files.readAllLines(Paths.get("Data/Exercises/"+exercise+".txt")).get(lineNumber-1);
+            line = Files.readAllLines(Paths.get("./Data/Exercises/"+exercise+".txt")).get(lineNumber-1);
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -241,7 +242,7 @@ public class DataManger {
         try {
             String line;
             BufferedReader bufferedReader =
-                    new BufferedReader(new FileReader("Data/Exercises/"+ exercise+".txt"));
+                    new BufferedReader(new FileReader("./Data/Exercises/"+ exercise+".txt"));
             while ((line = bufferedReader.readLine()) != null) {
                 Date d = this.getDateOfLine(line);
                 if(d == null){
