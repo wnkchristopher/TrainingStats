@@ -17,7 +17,7 @@ public class Main {
 
 
     /**
-     * checks if the necessary folders exist. If not, it creates them
+     * checks whether the necessary folders exist. If not, it creates them
      */
     public void checkRequiredStructure(){
         String data = "./Data";

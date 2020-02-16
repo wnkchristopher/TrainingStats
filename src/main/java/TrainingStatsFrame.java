@@ -19,9 +19,9 @@ public class TrainingStatsFrame{
 
     public TrainingStatsFrame(){
         dataManger = new DataManger();
-        this.exerciseOrder = this.dataManger.getExerciseList();
     }
     public void createFrame(){
+        this.exerciseOrder = this.dataManger.getExerciseList();
         this.createFrame(1000,1000);
     }
     public void createFrame(int width, int height){
@@ -30,7 +30,8 @@ public class TrainingStatsFrame{
         frame.setSize(width, height);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+
         frame.setLayout(null);
         frame.setTitle("Add your training stats");
 
