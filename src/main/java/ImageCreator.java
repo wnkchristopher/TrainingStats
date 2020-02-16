@@ -318,7 +318,7 @@ public class ImageCreator {
         return coordinates;
     }
 
-
+    //TODO: if someone is doing more than 15 sets, it should be a random color
     private Color getColorOfSet(int set){
         switch(set){
             case 1: return Color.BLUE;

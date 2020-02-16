@@ -196,8 +196,8 @@ public class TrainingStatsFrame{
             }
         });
 
-
-        panel.add(pnlMove);
+        //out commented because functionality is not implemented and without a function it is senseless
+        //panel.add(pnlMove);
         panel.add(Box.createHorizontalStrut(10));
         panel.add(lblExerciseTitle);
         panel.add(this.getSetPanel(exercise, 1));
