@@ -11,8 +11,6 @@ public class Frame {
     PdfFrame pdfFrame;
     public Frame(){
         dataManger = new DataManger();
-        trainingStatsFrame = new TrainingStatsFrame();
-        pdfFrame = new PdfFrame();
     }
 
     public JFrame createFrame(String title, int width, int height){
@@ -87,6 +85,7 @@ public class Frame {
         btnAddTraining.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                trainingStatsFrame = new TrainingStatsFrame();
                 trainingStatsFrame.createFrame();
             }
         });
@@ -99,6 +98,7 @@ public class Frame {
         btnGeneratePdf.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                pdfFrame = new PdfFrame();
                 pdfFrame.createFrame();
             }
         });

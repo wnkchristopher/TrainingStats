@@ -13,7 +13,6 @@ public class TrainingStatsFrame{
     Map<ExerciseSet, PlaceholderTextField[]> txtFields = new HashMap<>();//1 for Reps, 2 for Weight
     List<String> exerciseOrder = new ArrayList<>();
     JPanel contentPanel;
-    JScrollPane sPExercises;
     Map<String,JPanel> exercisePanels = new HashMap<>();
     JButton btnSubmit;
 
@@ -30,7 +29,7 @@ public class TrainingStatsFrame{
         frame.setSize(width, height);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
-        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         frame.setLayout(null);
         frame.setTitle("Add your training stats");
@@ -123,7 +122,6 @@ public class TrainingStatsFrame{
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        this.frame.add(sPExercises);
         sPExercises.setLocation(10,90);
         sPExercises.setSize(960,700);
         sPExercises.setVisible(true);

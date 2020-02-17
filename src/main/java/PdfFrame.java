@@ -1,14 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
+import java.util.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 
 public class PdfFrame {
-    private JFrame frame = new JFrame();
+    private JFrame frame;
     private JTextField txtFrom;
     private JTextField txtTo;
     private JRadioButton rbMorePdfs;
@@ -18,6 +16,7 @@ public class PdfFrame {
     private DataManger dataManger;
     private List<JCheckBox> cBExercises;
     private JButton btnGeneratePdf;
+    private JPanel pnlExercises;
 
 
     public PdfFrame(){
@@ -26,8 +25,11 @@ public class PdfFrame {
     }
 
     public void createFrame(){
+        frame = new JFrame();
         cBExercises = new ArrayList<>();
+        this.pnlExercises = new JPanel();
         this.createFrame(500,500);
+
     }
     public void createFrame(int width, int height){
         frame.setSize(width,height);
@@ -35,7 +37,7 @@ public class PdfFrame {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
         frame.setLayout(null);
-        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setTitle("Generate PDF");
 
         ImageIcon imageIcon = new ImageIcon("resources/img/logo.png");
@@ -54,18 +56,26 @@ public class PdfFrame {
     }
 
     private void addPanel(){
-        JPanel pnlExercises = new JPanel();
         BoxLayout boxlayout = new BoxLayout(pnlExercises, BoxLayout.Y_AXIS);
         pnlExercises.setLayout(boxlayout);
-        pnlExercises.setBackground(Color.white);
-        pnlExercises.setVisible(true);
+
+        sPExercises = new JScrollPane(pnlExercises,
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        sPExercises.setLocation(50,50);
+        sPExercises.setSize(150,300);
+        sPExercises.setVisible(true);
+
+        sPExercises.getViewport().revalidate();
 
         List<String> exercises;
         exercises = dataManger.getExerciseList();
 
         pnlExercises.removeAll();
-
         for(String exercise : exercises){
+            Random random = new Random();
+            random.ints(100);
             JCheckBox cb = new JCheckBox();
             cb.setText(exercise);
             cb.setBackground(Color.white);
@@ -73,19 +83,19 @@ public class PdfFrame {
             this.cBExercises.add(cb);
             pnlExercises.add(cb);
         }
+        pnlExercises.validate();
+        pnlExercises.repaint();
 
-        sPExercises = new JScrollPane(pnlExercises,
-                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-
-        sPExercises.getViewport().revalidate();
-
-        sPExercises.setLocation(50,50);
-        sPExercises.setSize(150,300);
-        sPExercises.setVisible(true);
+        pnlExercises.setBackground(Color.white);
+        pnlExercises.setVisible(true);
 
 
+
+        this.frame.add(sPExercises);
+
+        pnlExercises.setLocation(50,50);
+        pnlExercises.setSize(150,300);
+        pnlExercises.setVisible(true);
         this.frame.add(sPExercises);
 
     }
@@ -139,6 +149,7 @@ public class PdfFrame {
 
     private void addSendButton(){
         this.btnGeneratePdf = new JButton("Generate PDF");
+
         btnGeneratePdf.setBounds(275, 250, 150, 40);
 
         btnGeneratePdf.addActionListener(new ActionListener() {
