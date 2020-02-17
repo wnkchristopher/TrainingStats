@@ -14,7 +14,6 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.BadElementException;
 
 
-
 import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -31,17 +30,17 @@ public class GeneratePdf {
     TableGenerator tableGenerator;
 
 
-    public GeneratePdf(){
+    public GeneratePdf() {
         dataManger = new DataManger();
         this.imageCreator = new ImageCreator();
         this.tableGenerator = new TableGenerator();
     }
 
-    public void generatePdf(Date from, Date to, ArrayList<String> exercises, PdfType type){
-        if(type == PdfType.ONE_PDF_FOR_ALL_EXERCISES){
+    public void generatePdf(Date from, Date to, ArrayList<String> exercises, PdfType type) {
+        if (type == PdfType.ONE_PDF_FOR_ALL_EXERCISES) {
             this.generatePdf(from, to, exercises);
-        }else if(type == PdfType.ONE_PDF_FOR_EACH_EXERCISE){
-            for(String exercise: exercises){
+        } else if (type == PdfType.ONE_PDF_FOR_EACH_EXERCISE) {
+            for (String exercise : exercises) {
                 this.generatePdf(from, to, exercise);
             }
         }
@@ -49,26 +48,27 @@ public class GeneratePdf {
 
     /**
      * Generates a pdf for multiple exercises
+     *
      * @param from
      * @param to
      * @param exercises
      */
-    public void generatePdf(Date from, Date to, List<String> exercises){
+    public void generatePdf(Date from, Date to, List<String> exercises) {
 
         Document document = this.generateDocument("TrainingsData");
         document.open();
 
         this.addHeadline("trainings data", document);
 
-        this.addDate(from,to, document);
+        this.addDate(from, to, document);
 
         this.spacer(document, 1);
 
-        document.setMargins(10,10,10,10);
+        document.setMargins(10, 10, 10, 10);
 
         //Headline End
 
-        for(String exercise : exercises){
+        for (String exercise : exercises) {
             this.addExerciseHeadline(document, exercise);
 
             this.addImage(from, to, exercise, document);
@@ -79,7 +79,7 @@ public class GeneratePdf {
 
             this.addTable(from, to, exercise, document);
 
-            this.spacer(document,2);
+            this.spacer(document, 2);
         }
         document.close();
     }
@@ -87,17 +87,18 @@ public class GeneratePdf {
 
     /**
      * Generates a pdf for a specific exercise
+     *
      * @param from
      * @param to
      * @param exercise
      */
-    public void generatePdf(Date from, Date to, String exercise){
+    public void generatePdf(Date from, Date to, String exercise) {
 
         Document document = generateDocument(exercise);
 
         document.open();
 
-        document.setMargins(10,10,10,10);
+        document.setMargins(10, 10, 10, 10);
 
         this.addExerciseHeadline(document, exercise);
 
@@ -116,11 +117,11 @@ public class GeneratePdf {
     private Document generateDocument(String name) {
         Document document = new Document();
 
-        try{
+        try {
             PdfWriter.getInstance(document, new FileOutputStream(name + ".pdf"));
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
-        }catch (DocumentException e){
+        } catch (DocumentException e) {
             e.printStackTrace();
         }
         return document;
@@ -133,9 +134,9 @@ public class GeneratePdf {
         paragraph.add(headline);
         paragraph.setAlignment(Element.ALIGN_CENTER);
 
-        try{
+        try {
             document.add(paragraph);
-        }catch(DocumentException e){
+        } catch (DocumentException e) {
             e.printStackTrace();
         }
     }
@@ -148,9 +149,9 @@ public class GeneratePdf {
         Paragraph paragraph = new Paragraph();
         paragraph.add(headline);
         paragraph.setAlignment(Element.ALIGN_CENTER);
-        try{
+        try {
             document.add(paragraph);
-        }catch(DocumentException e){
+        } catch (DocumentException e) {
             e.printStackTrace();
         }
 
@@ -160,19 +161,19 @@ public class GeneratePdf {
         Font font = FontFactory.getFont(FontFactory.COURIER, 10, BaseColor.BLACK);
         DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         Paragraph paragraphDate = new Paragraph();
-        String textDates = format.format(from)+ " - "+  format.format(to);
+        String textDates = format.format(from) + " - " + format.format(to);
         paragraphDate.add(new Chunk(textDates, font));
         paragraphDate.setAlignment(Element.ALIGN_CENTER);
 
-        try{
+        try {
             document.add(paragraphDate);
-        }catch(DocumentException e){
+        } catch (DocumentException e) {
             e.printStackTrace();
         }
     }
 
     private void addFrequencyPerWeek(Date from, Date to, String exercise, Document document) {
-        Font font = FontFactory.getFont(FontFactory.COURIER, 10,Font.BOLD ,BaseColor.BLACK);
+        Font font = FontFactory.getFont(FontFactory.COURIER, 10, Font.BOLD, BaseColor.BLACK);
         Paragraph paragraphFrequency = new Paragraph();
         DecimalFormat f = new DecimalFormat("#0.00");
         String frequency = "Frequency: " + String.valueOf(f.format
@@ -180,23 +181,23 @@ public class GeneratePdf {
         paragraphFrequency.add(new Chunk(frequency, font));
         paragraphFrequency.setAlignment(Element.ALIGN_CENTER);
 
-        try{
+        try {
             document.add(paragraphFrequency);
-        }catch(DocumentException e){
+        } catch (DocumentException e) {
             e.printStackTrace();
         }
     }
 
 
     private void addImage(Date from, Date to, String exercise, Document document) {
-        try{
+        try {
             BufferedImage bufferedImage =
                     this.imageCreator.createCoordinateSystem(from, to, exercise, GraphType.EFFECTIVE_GRAPH);
             Image imageEffective = Image.getInstance(bufferedImage, null);
             imageEffective.scalePercent(50);
             document.add(imageEffective);
 
-            bufferedImage=
+            bufferedImage =
                     this.imageCreator.createCoordinateSystem(from, to, exercise, GraphType.WEIGHT_GRAPH);
             Image imageWeight = Image.getInstance(bufferedImage, null);
             imageWeight.scalePercent(25);
@@ -205,7 +206,7 @@ public class GeneratePdf {
                     this.imageCreator.createCoordinateSystem(from, to, exercise, GraphType.REPS_GRAPH);
             Image imageReps = Image.getInstance(bufferedImage, null);
             imageReps.scalePercent(25);
-           // document.add(imageReps);
+            // document.add(imageReps);
 
             PdfPTable table = new PdfPTable(2);
             PdfPCell pic1 = new PdfPCell(imageWeight);
@@ -218,11 +219,11 @@ public class GeneratePdf {
             table.setHorizontalAlignment(Element.ALIGN_LEFT);
             document.add(table);
 
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
-        }catch(BadElementException e){
+        } catch (BadElementException e) {
             e.printStackTrace();
-        }catch(DocumentException e){
+        } catch (DocumentException e) {
             e.printStackTrace();
         }
     }
@@ -230,18 +231,18 @@ public class GeneratePdf {
     private void addTable(Date from, Date to, String exercise, Document document) {
         PdfPTable table = tableGenerator.generateTable(from, to, exercise);
 
-        try{
+        try {
             document.add(table);
-        }catch(DocumentException e){
+        } catch (DocumentException e) {
             e.printStackTrace();
         }
     }
 
-    private void spacer(Document document, int spaces){
-        for(int i = 0; i<=spaces; i++){
-            try{
-                document.add( Chunk.NEWLINE );
-            }catch(DocumentException ex){
+    private void spacer(Document document, int spaces) {
+        for (int i = 0; i <= spaces; i++) {
+            try {
+                document.add(Chunk.NEWLINE);
+            } catch (DocumentException ex) {
                 ex.printStackTrace();
             }
         }

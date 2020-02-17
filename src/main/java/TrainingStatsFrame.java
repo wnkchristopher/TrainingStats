@@ -1,4 +1,5 @@
 import com.sun.javafx.scene.traversal.Direction;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -6,29 +7,31 @@ import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.List;
 
-public class TrainingStatsFrame{
+public class TrainingStatsFrame {
     JFrame frame;
     PlaceholderTextField txtDate;
     DataManger dataManger;
     Map<ExerciseSet, PlaceholderTextField[]> txtFields = new HashMap<>();//1 for Reps, 2 for Weight
     List<String> exerciseOrder = new ArrayList<>();
     JPanel contentPanel;
-    Map<String,JPanel> exercisePanels = new HashMap<>();
+    Map<String, JPanel> exercisePanels = new HashMap<>();
     JButton btnSubmit;
 
-    public TrainingStatsFrame(){
+    public TrainingStatsFrame() {
         dataManger = new DataManger();
     }
-    public void createFrame(){
+
+    public void createFrame() {
         this.exerciseOrder = this.dataManger.getExerciseList();
-        this.createFrame(1000,1000);
+        this.createFrame(1000, 1000);
     }
-    public void createFrame(int width, int height){
+
+    public void createFrame(int width, int height) {
         frame = new JFrame();
         frame.getContentPane().setBackground(Color.decode("#ffddc1"));
         frame.setSize(width, height);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
+        frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         frame.setLayout(null);
@@ -47,9 +50,9 @@ public class TrainingStatsFrame{
         frame.setVisible(true);
     }
 
-    private void addHeadline(){
+    private void addHeadline() {
         JLabel label = new JLabel();
-        label.setBounds(350,10,300,40);
+        label.setBounds(350, 10, 300, 40);
         label.setText("Add your workout");
         label.setFont(new Font("ITALIC", 2, 27));
         label.setVisible(true);
@@ -58,45 +61,46 @@ public class TrainingStatsFrame{
     }
 
 
-    private void addInputDate(){
+    private void addInputDate() {
         JPanel pnl = new JPanel();
         this.txtDate = new PlaceholderTextField();
         this.txtDate.setPlaceholder("dd.mm.yyyy");
         JLabel lbl = new JLabel();
-        lbl.setBounds(0,0,50,30);
+        lbl.setBounds(0, 0, 50, 30);
         lbl.setText("Date: ");
         lbl.setFont(new Font("Helvetica", 3, 16));
-        this.txtDate.setBounds(50,0,200, 30);
+        this.txtDate.setBounds(50, 0, 200, 30);
         pnl.setLayout(null);
         pnl.add(lbl);
         pnl.add(this.txtDate);
-        pnl.setBounds(30,50, 260, 40);
+        pnl.setBounds(30, 50, 260, 40);
         pnl.setBackground(Color.decode("#ffddc1"));
         this.frame.add(pnl);
     }
-    private void addAddButton(){
+
+    private void addAddButton() {
         this.btnSubmit = new JButton();
-        btnSubmit.setBounds(350,850, 300, 50);
+        btnSubmit.setBounds(350, 850, 300, 50);
         btnSubmit.setText("Add to your training stats");
         btnSubmit.setFont(new Font("Helvetica", 3, 16));
         btnSubmit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Date dateOfTraining = dataManger.convertToDate(txtDate.getText());
-                if(dateOfTraining == null){
-                    JOptionPane.showMessageDialog(null,"Format of date is wrong",
+                if (dateOfTraining == null) {
+                    JOptionPane.showMessageDialog(null, "Format of date is wrong",
                             "Error: Date", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 Map<ExerciseSet, String[]> tmpMap = new HashMap<>();
-                for(ExerciseSet exerciseSet : txtFields.keySet()){    //Get content of textFields
+                for (ExerciseSet exerciseSet : txtFields.keySet()) {    //Get content of textFields
                     String reps = txtFields.get(exerciseSet)[0].getText();
                     String weight = txtFields.get(exerciseSet)[1].getText();
                     String[] s = new String[2];
                     s[0] = reps;
                     s[1] = weight;
-                    if(!s[0].isEmpty() && !s[1].isEmpty()){
+                    if (!s[0].isEmpty() && !s[1].isEmpty()) {
                         tmpMap.put(exerciseSet, s);
                     }
 
@@ -113,7 +117,8 @@ public class TrainingStatsFrame{
         this.frame.add(btnSubmit);
 
     }
-    private void addContentPanel(){
+
+    private void addContentPanel() {
         this.contentPanel = new JPanel();
         BoxLayout boxlayout = new BoxLayout(contentPanel, BoxLayout.Y_AXIS);
         contentPanel.setLayout(boxlayout);
@@ -122,15 +127,15 @@ public class TrainingStatsFrame{
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        sPExercises.setLocation(10,90);
-        sPExercises.setSize(960,700);
+        sPExercises.setLocation(10, 90);
+        sPExercises.setSize(960, 700);
         sPExercises.setVisible(true);
 
         sPExercises.getViewport().revalidate();
 
-        for(String s : this.exerciseOrder){
+        for (String s : this.exerciseOrder) {
             //add textfields to maps
-            ExerciseSet e1 = new ExerciseSet(s,1);
+            ExerciseSet e1 = new ExerciseSet(s, 1);
             txtFields.put(e1, new PlaceholderTextField[2]);
             ExerciseSet e2 = new ExerciseSet(s, 2);
             txtFields.put(e2, new PlaceholderTextField[2]);
@@ -146,7 +151,7 @@ public class TrainingStatsFrame{
     }
 
 
-    private JPanel exercisePanel(String exercise){
+    private JPanel exercisePanel(String exercise) {
         JPanel panel = new JPanel();
         JTextField txtSaveSetNumber = new JTextField();
         txtSaveSetNumber.setText("2");
@@ -154,19 +159,19 @@ public class TrainingStatsFrame{
 
         BoxLayout boxLayout = new BoxLayout(panel, BoxLayout.X_AXIS);
         panel.setLayout(boxLayout);
-        panel.setPreferredSize(new Dimension(930,100));
-        panel.setMinimumSize(new Dimension(930,100));
-        panel.setMaximumSize(new Dimension(930,100));
+        panel.setPreferredSize(new Dimension(930, 100));
+        panel.setMinimumSize(new Dimension(930, 100));
+        panel.setMaximumSize(new Dimension(930, 100));
 
         JLabel lblExerciseTitle = new JLabel();
         lblExerciseTitle.setText(exercise);
         lblExerciseTitle.setFont(new Font("Helvetica", 1, 16));
-        lblExerciseTitle.setPreferredSize(new Dimension(200,30));
+        lblExerciseTitle.setPreferredSize(new Dimension(200, 30));
         lblExerciseTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         JPanel pnlMove = new JPanel();
-        pnlMove.setPreferredSize(new Dimension(30,30));
-        pnlMove.setMaximumSize(new Dimension(30,30));
+        pnlMove.setPreferredSize(new Dimension(30, 30));
+        pnlMove.setMaximumSize(new Dimension(30, 30));
         pnlMove.setBackground(Color.decode("#A4A4A4"));
 
         JPanel pnlSpacer = new JPanel();
@@ -184,7 +189,7 @@ public class TrainingStatsFrame{
                 panel.remove(btnUpDown);
                 int set = Integer.valueOf(txtSaveSetNumber.getText());
                 set++;
-                ExerciseSet e1 = new ExerciseSet(exercise,set);
+                ExerciseSet e1 = new ExerciseSet(exercise, set);
                 txtFields.put(e1, new PlaceholderTextField[2]);
                 panel.add(getSetPanel(exercise, set));
                 txtSaveSetNumber.setText(String.valueOf(set));
@@ -212,19 +217,20 @@ public class TrainingStatsFrame{
 
         return panel;
     }
-    private JPanel getSetPanel(String exercise, int set){
+
+    private JPanel getSetPanel(String exercise, int set) {
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3,1));
-        panel.setPreferredSize(new Dimension(90,80));
-        panel.setMaximumSize(new Dimension(90,80));
+        panel.setLayout(new GridLayout(3, 1));
+        panel.setPreferredSize(new Dimension(90, 80));
+        panel.setMaximumSize(new Dimension(90, 80));
 
         JLabel lblSet = new JLabel("set " + set);
-        lblSet.setPreferredSize(new Dimension(70,30));
+        lblSet.setPreferredSize(new Dimension(70, 30));
         PlaceholderTextField txtReps = new PlaceholderTextField();
-        txtReps.setPreferredSize(new Dimension(70,20));
+        txtReps.setPreferredSize(new Dimension(70, 20));
         txtReps.setPlaceholder("Reps");
         PlaceholderTextField txtWeight = new PlaceholderTextField();
-        txtWeight.setPreferredSize(new Dimension(70,20));
+        txtWeight.setPreferredSize(new Dimension(70, 20));
         txtWeight.setPlaceholder("Weight in kg");
 
 
@@ -233,8 +239,8 @@ public class TrainingStatsFrame{
         pTF[1] = txtWeight;
 
         panel.add(lblSet);
-        for(ExerciseSet exerciseSet : this.txtFields.keySet()){
-            if(exerciseSet.getExercise().equals(exercise) && exerciseSet.getSet() == set){
+        for (ExerciseSet exerciseSet : this.txtFields.keySet()) {
+            if (exerciseSet.getExercise().equals(exercise) && exerciseSet.getSet() == set) {
                 this.txtFields.put(exerciseSet, pTF);
                 panel.add(this.txtFields.get(exerciseSet)[0]);
                 panel.add(this.txtFields.get(exerciseSet)[1]);
@@ -243,26 +249,27 @@ public class TrainingStatsFrame{
         }
         return panel;
     }
-    private JPanel moveUpDownButton(String exercise){
+
+    private JPanel moveUpDownButton(String exercise) {
         int img_width, img_height;
         img_width = 30;
         img_height = 30;
 
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(2,1));
-        panel.setPreferredSize(new Dimension(30,80));
+        panel.setLayout(new GridLayout(2, 1));
+        panel.setPreferredSize(new Dimension(30, 80));
 
         JButton btnUp = new JButton();
         ImageIcon imageIcon = new ImageIcon("resources/img/angle_up.png");
         Image image = imageIcon.getImage(); // transform it
-        Image newImg = image.getScaledInstance(img_width, img_height,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        Image newImg = image.getScaledInstance(img_width, img_height, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         imageIcon = new ImageIcon(newImg);
         btnUp.setIcon(imageIcon);
 
         JButton btnDown = new JButton();
         imageIcon = new ImageIcon("resources/img/angle_down.png");
         image = imageIcon.getImage();
-        newImg = image.getScaledInstance(img_width, img_height,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        newImg = image.getScaledInstance(img_width, img_height, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         imageIcon = new ImageIcon(newImg);
         imageIcon = new ImageIcon(newImg);
         btnDown.setIcon(imageIcon);
@@ -277,12 +284,12 @@ public class TrainingStatsFrame{
         btnUp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                swapExerciseOrder(exercise,Direction.UP);
+                swapExerciseOrder(exercise, Direction.UP);
             }
         });
 
-        panel.setPreferredSize(new Dimension(40,80));
-        panel.setMaximumSize(new Dimension(40,80));
+        panel.setPreferredSize(new Dimension(40, 80));
+        panel.setMaximumSize(new Dimension(40, 80));
 
         panel.add(btnUp);
         panel.add(btnDown);
@@ -293,25 +300,26 @@ public class TrainingStatsFrame{
 
         return panel;
     }
-    private void swapExerciseOrder(String exercise, Direction direction){
+
+    private void swapExerciseOrder(String exercise, Direction direction) {
         int position = this.exerciseOrder.indexOf(exercise);
-        int max = this.exerciseOrder.size()-1;
-        if(direction == Direction.UP){
-            if(position > 0){
-                Collections.swap(this.exerciseOrder, position, position-1);
+        int max = this.exerciseOrder.size() - 1;
+        if (direction == Direction.UP) {
+            if (position > 0) {
+                Collections.swap(this.exerciseOrder, position, position - 1);
             }
-        }else if(direction == Direction.DOWN){
-            if(position < max){
-                Collections.swap(this.exerciseOrder,position, position+1);
+        } else if (direction == Direction.DOWN) {
+            if (position < max) {
+                Collections.swap(this.exerciseOrder, position, position + 1);
             }
         }
         dataManger.changeExerciseOrder(this.exerciseOrder);
         this.refresh(exercise);
     }
 
-    private void refresh(String exercise){
+    private void refresh(String exercise) {
         this.contentPanel.removeAll();
-        for(String e : this.exerciseOrder){
+        for (String e : this.exerciseOrder) {
             this.contentPanel.add(this.exercisePanels.get(e));
         }
         this.contentPanel.validate();

@@ -1,7 +1,8 @@
 public class TrainingSet {
     private double reps;
     private double weight;
-    public TrainingSet(double repetitions, double weight){
+
+    public TrainingSet(double repetitions, double weight) {
         this.reps = repetitions;
         this.weight = weight;
     }

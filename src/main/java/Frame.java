@@ -9,11 +9,12 @@ public class Frame {
     DataManger dataManger;
     TrainingStatsFrame trainingStatsFrame;
     PdfFrame pdfFrame;
-    public Frame(){
+
+    public Frame() {
         dataManger = new DataManger();
     }
 
-    public JFrame createFrame(String title, int width, int height){
+    public JFrame createFrame(String title, int width, int height) {
 
         JFrame frame = new JFrame();
         frame.setLayout(null);
@@ -21,7 +22,7 @@ public class Frame {
         frame.getContentPane().setBackground(Color.decode("#ffddc1"));
         frame.setSize(width, height);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
+        frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.frame = frame;
@@ -35,9 +36,9 @@ public class Frame {
         return frame;
     }
 
-    public void showMainPage(){
+    public void showMainPage() {
         JLabel label = new JLabel();
-        label.setBounds(70,20,250,30);
+        label.setBounds(70, 20, 250, 30);
         label.setText("Your training manager");
         label.setFont(new Font("ITALIC", 2, 25));
         label.setVisible(true);
@@ -52,22 +53,22 @@ public class Frame {
         cBExercises.setBounds(0, 0, 310, 50);
         cBExercises.setVisible(true);
         Iterator iterator = dataManger.getExerciseList().iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             cBExercises.addItem(iterator.next());
         }
 
         JButton btnAddExercise = new JButton();
         btnAddExercise.setText("Add exercise");
-        btnAddExercise.setBounds(0,60, 310, 50);
+        btnAddExercise.setBounds(0, 60, 310, 50);
         btnAddExercise.setFont(new Font("Helvetica", 1, 16));
         btnAddExercise.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String inputExercise = JOptionPane.showInputDialog("New exercise:");
-                if(inputExercise == null || inputExercise.equals("")){
+                if (inputExercise == null || inputExercise.equals("")) {
                     return;
                 }
-                if(!dataManger.proveExerciseExists(inputExercise)){
+                if (!dataManger.proveExerciseExists(inputExercise)) {
                     cBExercises.addItem(inputExercise);
                 }
                 dataManger.addNewExercise(inputExercise);
@@ -111,7 +112,7 @@ public class Frame {
 
     }
 
-    public JFrame getFrame(){
+    public JFrame getFrame() {
         return this.frame;
     }
 }

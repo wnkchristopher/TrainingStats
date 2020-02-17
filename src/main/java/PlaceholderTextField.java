@@ -13,8 +13,7 @@ public class PlaceholderTextField extends JTextField {
     public PlaceholderTextField(
             final Document pDoc,
             final String pText,
-            final int pColumns)
-    {
+            final int pColumns) {
         super(pDoc, pText, pColumns);
     }
 

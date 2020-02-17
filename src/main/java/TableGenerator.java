@@ -9,49 +9,49 @@ import java.util.*;
 
 public class TableGenerator {
     DataManger dataManger;
-    public TableGenerator(){
+
+    public TableGenerator() {
         dataManger = new DataManger();
     }
 
-    public PdfPTable generateTable(Date from, Date to, String exercise){
+    public PdfPTable generateTable(Date from, Date to, String exercise) {
         Font fontH1 = new Font(Font.getFamily("Currier"), 7, Font.NORMAL);
         int highestSet = dataManger.getHighestSet(from, to, exercise);
         List<Date> dates = getDates(from, to, exercise);
-        PdfPTable table = new PdfPTable(1+highestSet*2);
+        PdfPTable table = new PdfPTable(1 + highestSet * 2);
         table.setLockedWidth(true);
         table.setTotalWidth(445f);
         PdfPCell cell = new PdfPCell();
         cell.setRowspan(2);
         table.addCell(cell);
-        for(int i = 0; i < highestSet; i++){
-            PdfPCell c = new PdfPCell(new Phrase("Set " +(i+1),fontH1));
+        for (int i = 0; i < highestSet; i++) {
+            PdfPCell c = new PdfPCell(new Phrase("Set " + (i + 1), fontH1));
             c.setColspan(2);
             table.addCell(c);
         }
 
         List<List<TrainingSet>> statsOfSets = new ArrayList<>();
 
-        for(int i = 0; i<highestSet; i++){
-            statsOfSets.add(this.dataManger.getListOfSet(i+1, from,to, exercise));
+        for (int i = 0; i < highestSet; i++) {
+            statsOfSets.add(this.dataManger.getListOfSet(i + 1, from, to, exercise));
             table.addCell(new Phrase("Weight", fontH1));
             table.addCell(new Phrase("Reps", fontH1));
         }
 
 
-
         Format formatter = new SimpleDateFormat("dd.MM.yyyy");
-        for(int i = 0; i<dates.size(); i++){
+        for (int i = 0; i < dates.size(); i++) {
             String s = formatter.format(dates.get(i));
             table.addCell(new PdfPCell(new Phrase(s, fontH1)));
-            for(int u = 0; u<highestSet; u++){
-                try{
+            for (int u = 0; u < highestSet; u++) {
+                try {
                     TrainingSet trainingSet = statsOfSets.get(u).get(i);
                     table.addCell(new Phrase(String.valueOf(trainingSet.getWeight()), fontH1));
                     table.addCell(new Phrase(String.valueOf(trainingSet.getReps()), fontH1));
-                }catch (NullPointerException e){
+                } catch (NullPointerException e) {
                     table.addCell("");
                     table.addCell("");
-                }catch(IndexOutOfBoundsException e){
+                } catch (IndexOutOfBoundsException e) {
                     table.addCell("");
                     table.addCell("");
                 }
@@ -62,7 +62,7 @@ public class TableGenerator {
     }
 
 
-    private List<Date> getDates(Date from, Date to, String exercise){
+    private List<Date> getDates(Date from, Date to, String exercise) {
         List<Date> dates = new LinkedList<>();
         for (Map.Entry<Date, List<TrainingSet>> m : dataManger.getStatsBetweenDates(exercise, from, to).entrySet()) {
             dates.add(m.getKey());
