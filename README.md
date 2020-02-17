@@ -6,4 +6,10 @@ a desire period of time. The PDF contains three scales to see your progress and 
 I implemented this application for my own usage. This is the reason why not everything is perfect.
 
 ## Installation
-It is no installation necessary. You can just download the TrainingStats.jar from the root folder of the git repository. I recommend to create a folder and safe the jar in there, because it will create some text files to safe your training data. 
+It is no installation necessary. You can just download the TrainingStats.jar from the root folder of the git repository.
+I recommend to create a folder and safe the jar in there, because it will create some text files to safe your training #
+data. 
+
+## Example
+If you interested how a generated PDF can be. You can just have a look into TrainingsData.pdf in the root folder
+of the git repository. 
