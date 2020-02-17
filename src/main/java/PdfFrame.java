@@ -101,11 +101,11 @@ public class PdfFrame {
     }
 
     private void addToggleButtons(){
-        rbMorePdfs = new JRadioButton("More PDFs");
-        rbOnePdf = new JRadioButton("One PDF");
+        rbMorePdfs = new JRadioButton("One PDF for each selected exercise");
+        rbOnePdf = new JRadioButton("One PDF for all selected exercises");
         ButtonGroup bgPdf = new ButtonGroup();
-        rbMorePdfs.setBounds(50,370, 150, 20);
-        rbOnePdf.setBounds(50,390, 150, 20);
+        rbMorePdfs.setBounds(50,370, 240, 20);
+        rbOnePdf.setBounds(50,390, 240, 20);
         bgPdf.add(rbMorePdfs);
         bgPdf.add(rbOnePdf);
         rbMorePdfs.setSelected(true);
@@ -155,6 +155,7 @@ public class PdfFrame {
         btnGeneratePdf.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                ArrayList<String> exercises = new ArrayList<>();
                 Date from = dataManger.convertToDate(txtFrom.getText());
                 Date to = dataManger.convertToDate(txtTo.getText());
                 if(from == null || to == null){
@@ -176,9 +177,13 @@ public class PdfFrame {
                 }else{
                     for(JCheckBox cb : cBExercises){
                         if(cb.isSelected()){
-                            generatePdf.generatePdf(from, to, cb.getText());
+                            exercises.add(cb.getText());
                         }
-
+                    }
+                    if(rbOnePdf.isSelected()){
+                        generatePdf.generatePdf(from,to,exercises, PdfType.ONE_PDF_FOR_ALL_EXERCISES);
+                    }else if(rbMorePdfs.isSelected()){
+                        generatePdf.generatePdf(from,to,exercises, PdfType.ONE_PDF_FOR_EACH_EXERCISE);
                     }
                 }
             }

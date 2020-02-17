@@ -18,6 +18,8 @@ public class TableGenerator {
         int highestSet = dataManger.getHighestSet(from, to, exercise);
         List<Date> dates = getDates(from, to, exercise);
         PdfPTable table = new PdfPTable(1+highestSet*2);
+        table.setLockedWidth(true);
+        table.setTotalWidth(445f);
         PdfPCell cell = new PdfPCell();
         cell.setRowspan(2);
         table.addCell(cell);
@@ -31,7 +33,7 @@ public class TableGenerator {
 
         for(int i = 0; i<highestSet; i++){
             statsOfSets.add(this.dataManger.getListOfSet(i+1, from,to, exercise));
-            table.addCell(new Phrase("Width", fontH1));
+            table.addCell(new Phrase("Weight", fontH1));
             table.addCell(new Phrase("Reps", fontH1));
         }
 
