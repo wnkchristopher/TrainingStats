@@ -55,10 +55,10 @@ public class GeneratePdf {
      */
     public void generatePdf(Date from, Date to, List<String> exercises){
 
-        Document document = this.generateDocument("Trainingsdaten");
+        Document document = this.generateDocument("TrainingsData");
         document.open();
 
-        this.addHeadline("Trainingsdaten", document);
+        this.addHeadline("trainings data", document);
 
         this.addDate(from,to, document);
 

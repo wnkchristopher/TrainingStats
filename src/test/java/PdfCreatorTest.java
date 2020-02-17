@@ -28,13 +28,13 @@ public class PdfCreatorTest {
         }catch(ParseException e){
             e.printStackTrace();
         }
-        generatePdf.generatePdf(from, to, "Klimmzüge");
+        generatePdf.generatePdf(from, to, "pull ups");
     }
 
     @Test
     public void createPdfTest(){
-        String strFrom = "15.3.19";
-        String strTo = "21.6.19";
+        String strFrom = "15.3.2019";
+        String strTo = "21.6.2019";
 
         Date from = new Date();
         Date to = new Date();
@@ -46,9 +46,9 @@ public class PdfCreatorTest {
             e.printStackTrace();
         }
         List<String> exercises = new ArrayList<>();
-        exercises.add("Klimmzüge");
-        exercises.add("Dips");
-        exercises.add("Seilzugrudern");
+        exercises.add("pull ups");
+        exercises.add("dips");
+        exercises.add("cable rowing");
         generatePdf.generatePdf(from, to, exercises);
     }
 }
