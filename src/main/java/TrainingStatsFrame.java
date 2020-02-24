@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.*;
 import java.util.List;
 
@@ -44,10 +46,78 @@ public class TrainingStatsFrame {
         this.addInputDate();
         this.addAddButton();
         this.addContentPanel();
+        this.addInfo();
 
         frame.getRootPane().setDefaultButton(btnSubmit); //enter for button
 
         frame.setVisible(true);
+    }
+
+    private void addInfo() {
+        int width = 30;
+        int top = 50;
+        int distanceRight = 40;
+
+        JLabel lblInfo = new JLabel();
+        ImageIcon tmpImageHelp = new ImageIcon("resources/img/help_small.png");
+        Image image = tmpImageHelp.getImage(); // transform it
+        Image newImg = image.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        final ImageIcon imageHelp = new ImageIcon(newImg);
+        lblInfo.setIcon(imageHelp);
+
+        ImageIcon tmpImageHelpHover = new ImageIcon("resources/img/help_hover_small.png");
+        image = tmpImageHelpHover.getImage(); // transform it
+        newImg = image.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        final ImageIcon imageHelpHover = new ImageIcon(newImg);
+
+        JLabel tmpLblText = new JLabel();
+        tmpLblText.setOpaque(true);
+        tmpLblText.setBackground(Color.white);
+        tmpLblText.setVerticalTextPosition(SwingConstants.TOP);
+        tmpLblText.setFont(new Font("Serif", Font.BOLD, 16));
+        tmpLblText.setText("<html><body>you can leave the weight field blank or enter a 'b' for body weight exercises</body></html>");
+        tmpLblText.setBounds(this.frame.getWidth()- width-distanceRight-253,top-30,250,60);
+
+        final JLabel lblText = tmpLblText;
+        lblText.setVisible(false);
+        frame.add(lblText);
+
+
+        lblInfo.setBounds(this.frame.getWidth() - width - distanceRight, top, width, 30);
+
+        lblInfo.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                lblInfo.setIcon(imageHelpHover);
+                lblText.setVisible(true);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                lblInfo.setIcon(imageHelp);
+                lblText.setVisible(false);
+            }
+        });
+
+        lblInfo.setVisible(true);
+
+
+        this.frame.add(lblInfo);
     }
 
     private void addHeadline() {
