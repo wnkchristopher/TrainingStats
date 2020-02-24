@@ -1,6 +1,9 @@
 import com.sun.javafx.scene.traversal.Direction;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -73,10 +76,13 @@ public class TrainingStatsFrame {
         JLabel tmpLblText = new JLabel();
         tmpLblText.setOpaque(true);
         tmpLblText.setBackground(Color.white);
-        tmpLblText.setVerticalTextPosition(SwingConstants.TOP);
         tmpLblText.setFont(new Font("Serif", Font.BOLD, 16));
-        tmpLblText.setText("<html><body>you can leave the weight field blank or enter a 'b' for body weight exercises</body></html>");
-        tmpLblText.setBounds(this.frame.getWidth()- width-distanceRight-253,top-30,250,60);
+        tmpLblText.setText("<html><body>you can leave the weight field blank " +
+                "or enter a 'b' for body weight exercises</body></html>");
+        Border border = BorderFactory.createLineBorder(Color.BLACK, 3);
+        Border margin = new EmptyBorder(10,10,10,10);
+        tmpLblText.setBorder(new CompoundBorder(border, margin));
+        tmpLblText.setBounds(this.frame.getWidth()- width-distanceRight-273,top-38,270,75);
 
         final JLabel lblText = tmpLblText;
         lblText.setVisible(false);
