@@ -1,5 +1,9 @@
+
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
@@ -110,6 +114,73 @@ public class Frame {
         this.frame.add(pnlExercises);
         this.frame.add(label);
 
+        this.addWeightPanel();
+
+    }
+
+    private void addWeightPanel(){
+
+
+        JPanel pnlWeight = new JPanel();
+        pnlWeight.setOpaque(false);
+        pnlWeight.setBorder(BorderFactory.createLineBorder(Color.black));
+        pnlWeight.setBounds(30,320,310,80);
+
+        GroupLayout groupLayout = new GroupLayout(pnlWeight);
+        groupLayout.setAutoCreateGaps(true);
+        groupLayout.setAutoCreateContainerGaps(true);
+        pnlWeight.setLayout(groupLayout);
+
+        JLabel lblWeight = new JLabel();
+        lblWeight.setText("Your Weight");
+
+        JTextField txtWeight = new JTextField();
+        txtWeight.setText("80");
+
+        JLabel lblKilo = new JLabel();
+        lblKilo.setText("kg");
+
+        JTextField txtDate = new JTextField();
+        txtDate.setText("25.02.2020");
+
+        JButton btnSubmitWeight = new JButton();
+        btnSubmitWeight.setText("update");
+        Dimension dimension = btnSubmitWeight.getPreferredSize();
+        dimension.height = 50;
+        btnSubmitWeight.setPreferredSize(dimension);
+        btnSubmitWeight.setMinimumSize(dimension);
+
+        groupLayout.setHorizontalGroup(
+                groupLayout.createSequentialGroup()
+                    .addComponent(lblWeight)
+                        .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                .addGroup(groupLayout.createSequentialGroup()
+                                        .addComponent(txtWeight)
+                                        .addComponent(lblKilo)
+                                )
+                            .addComponent(txtDate)
+                        )
+                        .addComponent(btnSubmitWeight)
+
+        );
+
+        groupLayout.setVerticalGroup(
+                groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                        .addComponent(lblWeight)
+                        .addGroup(groupLayout.createSequentialGroup()
+                                .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                        .addComponent(txtWeight)
+                                        .addComponent(lblKilo)
+                                )
+                            .addComponent(txtDate)
+                        )
+                        .addComponent(btnSubmitWeight)
+        );
+
+
+        pnlWeight.setVisible(true);
+
+        frame.add(pnlWeight);
     }
 
     public JFrame getFrame() {

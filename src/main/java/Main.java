@@ -12,7 +12,7 @@ public class Main {
         m.checkRequiredStructure();
 
         Frame frame = new Frame();
-        frame.createFrame("TrainStats", 400, 400);
+        frame.createFrame("TrainStats", 400, 480);
     }
 
 
