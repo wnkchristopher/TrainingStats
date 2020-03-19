@@ -1,9 +1,6 @@
 
 import javax.swing.*;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
@@ -54,12 +51,37 @@ public class Frame {
 
         JComboBox cBExercises = new JComboBox();
         cBExercises.setFont(new Font("Helvetica", 3, 16));
-        cBExercises.setBounds(0, 0, 310, 50);
+        cBExercises.setBounds(0, 0, 270, 50);
         cBExercises.setVisible(true);
         Iterator iterator = dataManger.getExerciseList().iterator();
         while (iterator.hasNext()) {
             cBExercises.addItem(iterator.next());
         }
+
+        JButton btnDeleteExercise = new JButton();
+        btnDeleteExercise.setBounds(273, 0, 37, 50);
+        ImageIcon imageIcon = new ImageIcon("resources/img/delete_small.png");
+        Image image = imageIcon.getImage(); // transform it
+        Image newImg = image.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        imageIcon = new ImageIcon(newImg);
+        btnDeleteExercise.setIcon(imageIcon);
+
+        //TODO: error message if deletion did not work
+        btnDeleteExercise.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String exercise = cBExercises.getSelectedItem().toString();
+                int dialogResult = JOptionPane.showConfirmDialog (null,
+                        "Are you sure to delete " + exercise + "?","Warning", JOptionPane.YES_NO_OPTION);
+                if(dialogResult == JOptionPane.YES_OPTION){
+                    dataManger.deleteExercise(exercise);
+                    cBExercises.removeItem(exercise);
+                }
+            }
+        });
+
+
+        pnlExercises.add(btnDeleteExercise);
 
         JButton btnAddExercise = new JButton();
         btnAddExercise.setText("Add exercise");

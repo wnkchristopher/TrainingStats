@@ -302,4 +302,19 @@ public class DataManger {
         return (quantityWorkouts / weeks);
 
     }
+
+    public boolean deleteExercise(String exercise){
+        String path = "./Data/Exercises/" + exercise + ".txt";
+        File file = new File(path);
+        if(file.exists()){
+            file.delete();
+        }else{
+            return false;
+        }
+        List<String> exercises = this.getExerciseList();
+        exercises.remove(exercise);
+        this.changeExerciseOrder(exercises);
+
+        return true;
+    }
 }
