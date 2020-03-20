@@ -73,7 +73,9 @@ public class GeneratePdf {
 
             this.addImage(from, to, exercise, document);
 
-            this.addFrequencyPerWeek(from, to, exercise, document);
+            if(!exercise.equals("weight")){
+                this.addFrequencyPerWeek(from, to, exercise, document);
+            }
 
             this.spacer(document, 1);
 
@@ -104,7 +106,9 @@ public class GeneratePdf {
 
         this.addImage(from, to, exercise, document);
 
-        this.addFrequencyPerWeek(from, to, exercise, document);
+        if(!exercise.equals("weight")){
+            this.addFrequencyPerWeek(from, to, exercise, document);
+        }
 
         this.spacer(document, 1);
 
@@ -190,34 +194,46 @@ public class GeneratePdf {
 
 
     private void addImage(Date from, Date to, String exercise, Document document) {
+        boolean weight = false;
+        int scaleWeight = 25;
+        if(exercise.equals("weight")){
+            weight = true;
+            scaleWeight = 50;
+        }
         try {
-            BufferedImage bufferedImage =
-                    this.imageCreator.createCoordinateSystem(from, to, exercise, GraphType.EFFECTIVE_GRAPH);
-            Image imageEffective = Image.getInstance(bufferedImage, null);
-            imageEffective.scalePercent(50);
-            document.add(imageEffective);
+            BufferedImage bufferedImage;
 
             bufferedImage =
                     this.imageCreator.createCoordinateSystem(from, to, exercise, GraphType.WEIGHT_GRAPH);
             Image imageWeight = Image.getInstance(bufferedImage, null);
-            imageWeight.scalePercent(25);
+            imageWeight.scalePercent(scaleWeight);
 
-            bufferedImage =
-                    this.imageCreator.createCoordinateSystem(from, to, exercise, GraphType.REPS_GRAPH);
-            Image imageReps = Image.getInstance(bufferedImage, null);
-            imageReps.scalePercent(25);
-            // document.add(imageReps);
+            if(!weight){
+                bufferedImage =
+                        this.imageCreator.createCoordinateSystem(from, to, exercise, GraphType.EFFECTIVE_GRAPH);
+                Image imageEffective = Image.getInstance(bufferedImage, null);
+                imageEffective.scalePercent(50);
+                document.add(imageEffective);
 
-            PdfPTable table = new PdfPTable(2);
-            PdfPCell pic1 = new PdfPCell(imageWeight);
-            PdfPCell pic2 = new PdfPCell(imageReps);
-            pic1.setBorder(Rectangle.NO_BORDER);
-            pic2.setBorder(Rectangle.NO_BORDER);
-            table.addCell(pic1);
-            table.addCell(pic2);
+                bufferedImage =
+                        this.imageCreator.createCoordinateSystem(from, to, exercise, GraphType.REPS_GRAPH);
+                Image imageReps = Image.getInstance(bufferedImage, null);
+                imageReps.scalePercent(25);
 
-            table.setHorizontalAlignment(Element.ALIGN_LEFT);
-            document.add(table);
+                PdfPTable table = new PdfPTable(2);
+                PdfPCell pic1 = new PdfPCell(imageWeight);
+                PdfPCell pic2 = new PdfPCell(imageReps);
+                pic1.setBorder(Rectangle.NO_BORDER);
+                pic2.setBorder(Rectangle.NO_BORDER);
+                table.addCell(pic1);
+                table.addCell(pic2);
+
+                table.setHorizontalAlignment(Element.ALIGN_LEFT);
+                document.add(table);
+            }else{
+                document.add(imageWeight);
+            }
+
 
         } catch (IOException e) {
             e.printStackTrace();

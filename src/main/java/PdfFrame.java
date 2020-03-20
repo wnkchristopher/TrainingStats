@@ -72,11 +72,9 @@ public class PdfFrame {
 
         List<String> exercises;
         exercises = dataManger.getExerciseList();
-
+        exercises.add(0, "weight");
         pnlExercises.removeAll();
         for (String exercise : exercises) {
-            Random random = new Random();
-            random.ints(100);
             JCheckBox cb = new JCheckBox();
             cb.setText(exercise);
             cb.setBackground(Color.white);

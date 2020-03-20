@@ -109,7 +109,11 @@ public class ImageCreator {
 
     private BufferedImage drawGraph(BufferedImage image, String exercise, Date from, Date to,
                                     GraphType graphType) {
-        int highestSet = this.dataManger.getHighestSet(from, to, exercise);
+        ExerciseType exerciseType = ExerciseType.EXERCISE;
+        if(exercise.equals("weight")){
+            exerciseType = ExerciseType.BODYWEIGHT;
+        }
+        int highestSet = this.dataManger.getHighestSet(from, to, exercise, exerciseType);
 
         for (int i = 1; i <= highestSet; i++) {
             Coordinate tmp = null;
@@ -257,10 +261,15 @@ public class ImageCreator {
     }
 
     private double[] getMinMaxEffective(Date from, Date to, String exercise, GraphType graphType) {
+        ExerciseType exerciseType = ExerciseType.EXERCISE;
+        if(exercise.equals("weight")){
+            exerciseType = ExerciseType.BODYWEIGHT;
+        }
         double min = 0, max = 0;
         boolean firstTime = true;
-        Map<Date, List<TrainingSet>> map = this.dataManger.getStatsBetweenDates(exercise, from, to);
-        for (Map.Entry<Date, List<TrainingSet>> m : dataManger.getStatsBetweenDates(exercise, from, to).entrySet()) {
+        Map<Date, List<TrainingSet>> map = this.dataManger.getStatsBetweenDates(exercise, from, to, exerciseType);
+        for (Map.Entry<Date, List<TrainingSet>> m :
+                dataManger.getStatsBetweenDates(exercise, from, to, exerciseType).entrySet()) {
             for (TrainingSet t : m.getValue()) {
                 double value = 0;
                 if (graphType == GraphType.EFFECTIVE_GRAPH) {
@@ -292,11 +301,16 @@ public class ImageCreator {
 
 
     private List<Coordinate> getListOfSet(int set, Date from, Date to, String exercise, GraphType graphType) {
+        ExerciseType exerciseType = ExerciseType.EXERCISE;
+        if(exercise.equals("weight")){
+            exerciseType = ExerciseType.BODYWEIGHT;
+        }
         int daysBetweenDates = this.calculateStats.calculateDaysBetweenDates(to, from);
         double[] maxMin = this.getMinMaxEffective(from, to, exercise, graphType);
         int differentMaxMinTraining = (int) (maxMin[1] - maxMin[0]);
         List<Coordinate> coordinates = new LinkedList<>();
-        for (Map.Entry<Date, List<TrainingSet>> m : dataManger.getStatsBetweenDates(exercise, from, to).entrySet()) {
+        for (Map.Entry<Date, List<TrainingSet>> m :
+                dataManger.getStatsBetweenDates(exercise, from, to, exerciseType).entrySet()) {
             if (m.getValue().size() >= set) {
                 int tmpDays = calculateStats.calculateDaysBetweenDates(m.getKey(), from); //days between from date and date of training
                 double graphTypeValue = 0;
@@ -322,7 +336,7 @@ public class ImageCreator {
         return coordinates;
     }
 
-    //TODO: if someone is doing more than 15 sets, it should be a random color
+
     private Color getColorOfSet(int set) {
         switch (set) {
             case 1:
@@ -330,7 +344,7 @@ public class ImageCreator {
             case 2:
                 return Color.RED;
             case 3:
-                return Color.decode("#34792F");
+                return new Color(0x34792F);
             case 4:
                 return Color.MAGENTA;
             case 5:
@@ -355,7 +369,7 @@ public class ImageCreator {
                 return new Color(0x5f1073);
             case 15:
                 return new Color(0x253fb2);
-            default: { // need to change it
+            default: {
                 return Color.black;
             }
         }

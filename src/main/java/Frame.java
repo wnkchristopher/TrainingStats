@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.Iterator;
 
 public class Frame {
@@ -77,6 +78,13 @@ public class Frame {
                     dataManger.deleteExercise(exercise);
                     cBExercises.removeItem(exercise);
                 }
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnDeleteExercise.setBackground(Color.GREEN);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnDeleteExercise.setBackground(UIManager.getColor("control"));
             }
         });
 
@@ -171,6 +179,19 @@ public class Frame {
         dimension.height = 50;
         btnSubmitWeight.setPreferredSize(dimension);
         btnSubmitWeight.setMinimumSize(dimension);
+        btnSubmitWeight.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Date date = dataManger.convertToDate(txtDate.getText());
+                if (date == null) {
+                    JOptionPane.showMessageDialog(null, "Format of date is wrong",
+                            "Error: Date", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                String entry = txtDate.getText() + "|0|" + txtWeight.getText();
+                dataManger.writeExerciseStats("weight", entry, date, ExerciseType.BODYWEIGHT);
+            }
+        });
 
         groupLayout.setHorizontalGroup(
                 groupLayout.createSequentialGroup()

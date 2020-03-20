@@ -29,7 +29,7 @@ public class DataManger {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.writeExerciseStats(name, "", null);
+        this.writeExerciseStats(name, "", null, ExerciseType.EXERCISE);
     }
 
     public boolean proveExerciseExists(String exercise_name) {
@@ -89,14 +89,14 @@ public class DataManger {
                 exerciseContent += "|" + exerciseSetMap.get(exerciseSet)[0] + "|"
                         + exerciseSetMap.get(exerciseSet)[1];
             } else {
-                this.writeExerciseStats(exerciseChecker, exerciseContent, dateOfTraining);
+                this.writeExerciseStats(exerciseChecker, exerciseContent, dateOfTraining, ExerciseType.EXERCISE);
                 exerciseChecker = exerciseSet.getExercise();
                 exerciseContent = date + "|" +
                         exerciseSetMap.get(exerciseSet)[0] + "|" + exerciseSetMap.get(exerciseSet)[1];
             }
         }
         if (!exerciseContent.isEmpty()) {
-            this.writeExerciseStats(exerciseChecker, exerciseContent, dateOfTraining);
+            this.writeExerciseStats(exerciseChecker, exerciseContent, dateOfTraining, ExerciseType.EXERCISE);
         }
     }
 
@@ -120,18 +120,24 @@ public class DataManger {
     }
 
 
-    private void writeExerciseStats(String exercise, String content, Date dateOfTraining) {
-        int line = this.getLineToInsert(exercise, dateOfTraining);
+    public void writeExerciseStats(String exercise, String content, Date dateOfTraining, ExerciseType exerciseType) {
+        int line = this.getLineToInsert(exercise, dateOfTraining, exerciseType);
+        String filepath = "";
+        if(exerciseType.equals(ExerciseType.EXERCISE)){
+            filepath = "./Data/Exercises/" + exercise + ".txt";
+        }else if(exerciseType.equals(ExerciseType.BODYWEIGHT)){
+            filepath = "./Data/" + exercise + ".txt";
+        }
         try {
             //create file
             PrintWriter writer =
-                    new PrintWriter(new FileWriter("./Data/Exercises/" + exercise + ".txt", true));
+                    new PrintWriter(new FileWriter(filepath, true));
             //writer.write(content);
             writer.close();
             //new stats getting insert sorted
             if (dateOfTraining != null) {
                 Path path = FileSystems.getDefault()
-                        .getPath("./Data/Exercises/" + exercise + ".txt");
+                        .getPath(filepath);
                 List<String> lines = Files.readAllLines(path, Charset.forName("ISO-8859-1"));
                 lines.add(line, content);
                 Files.write(path, lines);
@@ -155,9 +161,16 @@ public class DataManger {
         return this.convertToDate(stringDate);
     }
 
-    private int getLineToInsert(String exercise, Date date) {
+    private int getLineToInsert(String exercise, Date date, ExerciseType exerciseType) {
         if (date == null) {
             return 0;
+        }
+
+        String filePath = "";
+        if(exerciseType.equals(ExerciseType.EXERCISE)){
+            filePath = "./Data/Exercises/" + exercise + ".txt";
+        }else if(exerciseType.equals(ExerciseType.BODYWEIGHT)){
+            filePath = "./Data/" + exercise + ".txt";
         }
 
         int lineCounter = 0;
@@ -165,19 +178,13 @@ public class DataManger {
             String stringDate;
             String line;
             BufferedReader bufferedReader =
-                    new BufferedReader(new FileReader("./Data/Exercises/" + exercise + ".txt"));
+                    new BufferedReader(new FileReader(filePath));
             while ((line = bufferedReader.readLine()) != null) {
 
                 Date d = this.getDateOfLine(line);
                 if (d == null) {
                     break;
                 }
-                /*int i = line.indexOf("|");
-                if(i<0){
-                    break;
-                }
-                stringDate = line.substring(0,i);
-                Date d = this.convertToDate(stringDate);*/
                 if (d.before(date)) {
                     lineCounter++;
                 } else {
@@ -196,12 +203,16 @@ public class DataManger {
         return lineCounter;
     }
 
-    private int getLineOfDate(String exercise, Date date) {
+    private int getLineOfDate(String exercise, Date date, ExerciseType exerciseType) {
+        String filePath = "./Data/Exercises/" + exercise + ".txt";
+        if(exerciseType.equals(ExerciseType.BODYWEIGHT)){
+            filePath = "./Data/" + exercise + ".txt";
+        }
         try {
             int lineNumber = 0;
             String line;
             BufferedReader bufferedReader =
-                    new BufferedReader(new FileReader("./Data/Exercises/" + exercise + ".txt"));
+                    new BufferedReader(new FileReader(filePath));
             while ((line = bufferedReader.readLine()) != null) {
                 lineNumber++;
                 Date d = this.getDateOfLine(line);
@@ -221,12 +232,16 @@ public class DataManger {
         return -1;
     }
 
-    private List<TrainingSet> getTrainingSets(String exercise, Date date) {
+    private List<TrainingSet> getTrainingSets(String exercise, Date date, ExerciseType exerciseType) {
+        String filePath = "./Data/Exercises/" + exercise + ".txt";
+        if(exerciseType.equals(ExerciseType.BODYWEIGHT)){
+            filePath = "./Data/" + exercise + ".txt";
+        }
         List<TrainingSet> list = new LinkedList<>();
         String line = "";
-        int lineNumber = this.getLineOfDate(exercise, date);
+        int lineNumber = this.getLineOfDate(exercise, date, exerciseType);
         try {
-            line = Files.readAllLines(Paths.get("./Data/Exercises/" + exercise + ".txt")).get(lineNumber - 1);
+            line = Files.readAllLines(Paths.get(filePath)).get(lineNumber - 1);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -240,20 +255,27 @@ public class DataManger {
 
     }
 
-    public Map<Date, List<TrainingSet>> getStatsBetweenDates(String exercise, Date from, Date to) {
+    public Map<Date, List<TrainingSet>> getStatsBetweenDates
+            (String exercise, Date from, Date to, ExerciseType exerciseType) {
+        String filepath = "";
+        if(exerciseType.equals(ExerciseType.EXERCISE)){
+            filepath = "./Data/Exercises/" + exercise + ".txt";
+        }else if(exerciseType.equals(ExerciseType.BODYWEIGHT)){
+            filepath = "./Data/" + exercise + ".txt";
+        }
 
         Map<Date, List<TrainingSet>> tmpMap = new HashMap<>();
         try {
             String line;
             BufferedReader bufferedReader =
-                    new BufferedReader(new FileReader("./Data/Exercises/" + exercise + ".txt"));
+                    new BufferedReader(new FileReader(filepath));
             while ((line = bufferedReader.readLine()) != null) {
                 Date d = this.getDateOfLine(line);
                 if (d == null) {
                     break;
                 }
                 if ((d.after(from) && d.before(to)) || d.equals(from) || d.equals(to)) {
-                    tmpMap.put(d, this.getTrainingSets(exercise, d));
+                    tmpMap.put(d, this.getTrainingSets(exercise, d, exerciseType));
                 }
 
             }
@@ -266,10 +288,11 @@ public class DataManger {
         return (new TreeMap<>(tmpMap));
     }
 
-    public int getHighestSet(Date from, Date to, String exercise) {
+    public int getHighestSet(Date from, Date to, String exercise, ExerciseType exerciseType) {
         int highestSet = 0;
-        Map<Date, List<TrainingSet>> map = this.getStatsBetweenDates(exercise, from, to);
-        for (Map.Entry<Date, List<TrainingSet>> m : this.getStatsBetweenDates(exercise, from, to).entrySet()) {
+        Map<Date, List<TrainingSet>> map = this.getStatsBetweenDates(exercise, from, to, exerciseType);
+        for (Map.Entry<Date, List<TrainingSet>> m :
+                this.getStatsBetweenDates(exercise, from, to, exerciseType).entrySet()) {
             int i = 0;
             for (TrainingSet t : m.getValue()) {
                 i++;
@@ -282,9 +305,10 @@ public class DataManger {
         return highestSet;
     }
 
-    public List<TrainingSet> getListOfSet(int set, Date from, Date to, String exercise) {
+    public List<TrainingSet> getListOfSet(int set, Date from, Date to, String exercise, ExerciseType exerciseType) {
         List<TrainingSet> listStats = new LinkedList<>();
-        for (Map.Entry<Date, List<TrainingSet>> m : this.getStatsBetweenDates(exercise, from, to).entrySet()) {
+        for (Map.Entry<Date, List<TrainingSet>> m :
+                this.getStatsBetweenDates(exercise, from, to, exerciseType).entrySet()) {
             try {
                 listStats.add
                         (new TrainingSet(m.getValue().get(set - 1).getReps(), m.getValue().get(set - 1).getWeight()));
@@ -298,7 +322,7 @@ public class DataManger {
     public float getFrequencyPerWeek(Date from, Date to, String exercise) {
         float days = (float) this.calculateStats.calculateDaysBetweenDates(to, from);
         float weeks = days / 7;
-        float quantityWorkouts = (float) this.getListOfSet(1, from, to, exercise).size();
+        float quantityWorkouts = (float) this.getListOfSet(1, from, to, exercise, ExerciseType.EXERCISE).size();
         return (quantityWorkouts / weeks);
 
     }

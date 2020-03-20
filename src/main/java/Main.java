@@ -23,6 +23,7 @@ public class Main {
         String data = "./Data";
         String exercises = "./Data/Exercises";
         String exercisesTxt = "./Data/exercises.txt";
+        String weightTxt = "./Data/weight.txt";
         File file;
         Path path = Paths.get(data);
         if (!Files.exists(path)) {
@@ -40,6 +41,15 @@ public class Main {
         if (!Files.exists(path)) {
             file = new File(exercises);
             file.mkdir();
+        }
+        path = Paths.get(weightTxt);
+        if (!Files.exists(path)) {
+            file = new File(weightTxt);
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

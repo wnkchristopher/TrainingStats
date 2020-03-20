@@ -15,8 +15,12 @@ public class TableGenerator {
     }
 
     public PdfPTable generateTable(Date from, Date to, String exercise) {
+        ExerciseType exerciseType = ExerciseType.EXERCISE;
+        if(exercise.equals("weight")){
+            exerciseType = ExerciseType.BODYWEIGHT;
+        }
         Font fontH1 = new Font(Font.getFamily("Currier"), 7, Font.NORMAL);
-        int highestSet = dataManger.getHighestSet(from, to, exercise);
+        int highestSet = dataManger.getHighestSet(from, to, exercise,exerciseType);
         List<Date> dates = getDates(from, to, exercise);
         PdfPTable table = new PdfPTable(1 + highestSet * 2);
         table.setLockedWidth(true);
@@ -33,7 +37,7 @@ public class TableGenerator {
         List<List<TrainingSet>> statsOfSets = new ArrayList<>();
 
         for (int i = 0; i < highestSet; i++) {
-            statsOfSets.add(this.dataManger.getListOfSet(i + 1, from, to, exercise));
+            statsOfSets.add(this.dataManger.getListOfSet(i + 1, from, to, exercise, exerciseType));
             table.addCell(new Phrase("Weight", fontH1));
             table.addCell(new Phrase("Reps", fontH1));
         }
@@ -63,8 +67,13 @@ public class TableGenerator {
 
 
     private List<Date> getDates(Date from, Date to, String exercise) {
+        ExerciseType exerciseType = ExerciseType.EXERCISE;
+        if(exercise.equals("weight")){
+            exerciseType = ExerciseType.BODYWEIGHT;
+        }
         List<Date> dates = new LinkedList<>();
-        for (Map.Entry<Date, List<TrainingSet>> m : dataManger.getStatsBetweenDates(exercise, from, to).entrySet()) {
+        for (Map.Entry<Date, List<TrainingSet>> m :
+                dataManger.getStatsBetweenDates(exercise, from, to, exerciseType).entrySet()) {
             dates.add(m.getKey());
         }
         return dates;

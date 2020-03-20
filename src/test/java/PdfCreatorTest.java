@@ -28,6 +28,7 @@ public class PdfCreatorTest {
         }catch(ParseException e){
             e.printStackTrace();
         }
+        generatePdf.generatePdf(from,to, "weight");
         generatePdf.generatePdf(from, to, "pull ups");
     }
 
@@ -46,6 +47,7 @@ public class PdfCreatorTest {
             e.printStackTrace();
         }
         List<String> exercises = new ArrayList<>();
+        exercises.add("weight");
         exercises.add("pull ups");
         exercises.add("dips");
         exercises.add("cable rowing");
