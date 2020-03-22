@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class DataManger {
     CalculateStats calculateStats;
@@ -123,9 +124,9 @@ public class DataManger {
     public void writeExerciseStats(String exercise, String content, Date dateOfTraining, ExerciseType exerciseType) {
         int line = this.getLineToInsert(exercise, dateOfTraining, exerciseType);
         String filepath = "";
-        if(exerciseType.equals(ExerciseType.EXERCISE)){
+        if (exerciseType.equals(ExerciseType.EXERCISE)) {
             filepath = "./Data/Exercises/" + exercise + ".txt";
-        }else if(exerciseType.equals(ExerciseType.BODYWEIGHT)){
+        } else if (exerciseType.equals(ExerciseType.BODYWEIGHT)) {
             filepath = "./Data/" + exercise + ".txt";
         }
         try {
@@ -167,9 +168,9 @@ public class DataManger {
         }
 
         String filePath = "";
-        if(exerciseType.equals(ExerciseType.EXERCISE)){
+        if (exerciseType.equals(ExerciseType.EXERCISE)) {
             filePath = "./Data/Exercises/" + exercise + ".txt";
-        }else if(exerciseType.equals(ExerciseType.BODYWEIGHT)){
+        } else if (exerciseType.equals(ExerciseType.BODYWEIGHT)) {
             filePath = "./Data/" + exercise + ".txt";
         }
 
@@ -205,7 +206,7 @@ public class DataManger {
 
     private int getLineOfDate(String exercise, Date date, ExerciseType exerciseType) {
         String filePath = "./Data/Exercises/" + exercise + ".txt";
-        if(exerciseType.equals(ExerciseType.BODYWEIGHT)){
+        if (exerciseType.equals(ExerciseType.BODYWEIGHT)) {
             filePath = "./Data/" + exercise + ".txt";
         }
         try {
@@ -234,7 +235,7 @@ public class DataManger {
 
     private List<TrainingSet> getTrainingSets(String exercise, Date date, ExerciseType exerciseType) {
         String filePath = "./Data/Exercises/" + exercise + ".txt";
-        if(exerciseType.equals(ExerciseType.BODYWEIGHT)){
+        if (exerciseType.equals(ExerciseType.BODYWEIGHT)) {
             filePath = "./Data/" + exercise + ".txt";
         }
         List<TrainingSet> list = new LinkedList<>();
@@ -248,6 +249,9 @@ public class DataManger {
         String[] split = line.split("\\|");
 
         for (int i = 1; i < split.length; i += 2) {
+            if (split[i + 1].contains("b")) {
+                split[i + 1] = this.calculateActualWeight(date, split[i + 1]);
+            }
             list.add(new TrainingSet(Double.valueOf(split[i]), Double.valueOf(split[i + 1])));
         }
 
@@ -258,9 +262,9 @@ public class DataManger {
     public Map<Date, List<TrainingSet>> getStatsBetweenDates
             (String exercise, Date from, Date to, ExerciseType exerciseType) {
         String filepath = "";
-        if(exerciseType.equals(ExerciseType.EXERCISE)){
+        if (exerciseType.equals(ExerciseType.EXERCISE)) {
             filepath = "./Data/Exercises/" + exercise + ".txt";
-        }else if(exerciseType.equals(ExerciseType.BODYWEIGHT)){
+        } else if (exerciseType.equals(ExerciseType.BODYWEIGHT)) {
             filepath = "./Data/" + exercise + ".txt";
         }
 
@@ -327,12 +331,12 @@ public class DataManger {
 
     }
 
-    public boolean deleteExercise(String exercise){
+    public boolean deleteExercise(String exercise) {
         String path = "./Data/Exercises/" + exercise + ".txt";
         File file = new File(path);
-        if(file.exists()){
+        if (file.exists()) {
             file.delete();
-        }else{
+        } else {
             return false;
         }
         List<String> exercises = this.getExerciseList();
@@ -340,5 +344,74 @@ public class DataManger {
         this.changeExerciseOrder(exercises);
 
         return true;
+    }
+
+    //includes bodyweight
+    private String calculateActualWeight(Date date, String weight) {
+        Double extraWeight = 0.0;
+        if (weight.contains("+")) {
+            String[] split = weight.split("\\+");
+            extraWeight = Double.valueOf(split[split.length - 1]);
+        } else if (weight.contains("-")) {
+            String[] split = weight.split("-");
+            extraWeight = -1.0 * Double.valueOf(split[split.length - 1]);
+        }
+
+        double actualWeight = this.getWeight(date) + extraWeight;
+
+        return String.valueOf(actualWeight);
+    }
+
+    private double getWeight(Date date) {
+        Map<Date, Double> weights = this.getWeightMap();
+
+        long days = 0;
+        Date chosenDate = null;
+        boolean firstDay = true;
+
+
+        for (Map.Entry<Date, Double> entry : weights.entrySet()) {
+            long diff = date.getTime() - entry.getKey().getTime();
+            long daysBetweenDates = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            if (daysBetweenDates == 0) {
+                return entry.getValue();
+            }
+            if (Math.abs(daysBetweenDates) < Math.abs(days) || firstDay) {
+                days = daysBetweenDates;
+                chosenDate = entry.getKey();
+                firstDay = false;
+            }
+        }
+        if (weights.isEmpty()) {//no entries in weight.txt
+            return Main.defaultWeight;
+        } else {
+            return weights.get(chosenDate); // closest weight
+        }
+    }
+
+    private Map<Date, Double> getWeightMap() {
+        Map<Date, Double> weights = new HashMap<>();
+        String filepath = "./Data/" + Main.bodyweight + ".txt";
+
+        try {
+            String line;
+            BufferedReader bufferedReader =
+                    new BufferedReader(new FileReader(filepath));
+            while ((line = bufferedReader.readLine()) != null) {
+                Date d = this.getDateOfLine(line);
+                if (d == null) {
+                    break;
+                }
+                String[] split = line.split("\\|");
+                String weight = split[split.length - 1];
+                weights.put(d, Double.valueOf(weight));
+            }
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        return weights;
     }
 }

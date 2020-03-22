@@ -8,6 +8,7 @@ import java.io.File;
 public class Main {
 
     public static String bodyweight = "weight";
+    public static double defaultWeight = 75.0;
 
     public static void main(String[] args) {
         Main m = new Main();

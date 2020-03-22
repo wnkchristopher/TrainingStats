@@ -80,9 +80,9 @@ public class TrainingStatsFrame {
         tmpLblText.setText("<html><body>you can leave the weight field blank " +
                 "or enter a 'b' for body weight exercises</body></html>");
         Border border = BorderFactory.createLineBorder(Color.BLACK, 3);
-        Border margin = new EmptyBorder(10,10,10,10);
+        Border margin = new EmptyBorder(10, 10, 10, 10);
         tmpLblText.setBorder(new CompoundBorder(border, margin));
-        tmpLblText.setBounds(this.frame.getWidth()- width-distanceRight-273,top-38,270,75);
+        tmpLblText.setBounds(this.frame.getWidth() - width - distanceRight - 273, top - 38, 270, 75);
 
         final JLabel lblText = tmpLblText;
         lblText.setVisible(false);
@@ -176,8 +176,19 @@ public class TrainingStatsFrame {
                     String[] s = new String[2];
                     s[0] = reps;
                     s[1] = weight;
-                    if (!s[0].isEmpty() && !s[1].isEmpty()) {
-                        tmpMap.put(exerciseSet, s);
+                    if (!s[0].isEmpty()) {
+                        if (s[1].isEmpty() || s[1].contains("b")) {
+                            String digits = s[1].replaceAll("\\D+", "");
+                            if (s[1].contains("+")) {
+                                s[1] = "b+" + digits;
+                                tmpMap.put(exerciseSet, s);
+                            } else if (s[1].contains("-")) {
+                                s[1] = "b-" + digits;
+                                tmpMap.put(exerciseSet, s);
+                            }
+                        } else {
+                            tmpMap.put(exerciseSet, s);
+                        }
                     }
 
                     //refresh for next entry
