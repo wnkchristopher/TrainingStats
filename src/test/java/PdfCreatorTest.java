@@ -16,8 +16,8 @@ public class PdfCreatorTest {
 
     @Test
     public void createPdfsTest(){
-        String strFrom = "15.3.19";
-        String strTo = "21.6.19";
+        String strFrom = "15.3.2019";
+        String strTo = "21.6.2019";
 
         Date from = new Date();
         Date to = new Date();

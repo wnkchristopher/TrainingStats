@@ -14,6 +14,39 @@ public class TableGenerator {
         dataManger = new DataManger();
     }
 
+    public PdfPTable generateWeightTable(Date from, Date to, String exercise) {
+        ExerciseType exerciseType = ExerciseType.EXERCISE;
+        if(exercise.equals("weight")){
+            exerciseType = ExerciseType.BODYWEIGHT;
+        }
+        Font fontH1 = new Font(Font.getFamily("Currier"), 7, Font.NORMAL);
+        int highestSet = dataManger.getHighestSet(from, to, exercise,exerciseType);
+        List<Date> dates = getDates(from, to, exercise);
+        PdfPTable table = new PdfPTable(2);
+        table.setLockedWidth(true);
+        table.setTotalWidth(445f);
+
+        List<List<TrainingSet>> statsOfSets = new ArrayList<>();
+        statsOfSets.add(this.dataManger.getListOfSet(1, from, to, exercise, exerciseType));
+
+        Format formatter = new SimpleDateFormat("dd.MM.yyyy");
+        for (int i = 0; i < dates.size(); i++) {
+            String s = formatter.format(dates.get(i));
+            table.addCell(new PdfPCell(new Phrase(s, fontH1)));
+            try {
+                TrainingSet trainingSet = statsOfSets.get(0).get(i);
+                table.addCell(new Phrase(String.valueOf(trainingSet.getWeight()) + " kg", fontH1));
+            } catch (NullPointerException e) {
+                table.addCell("");
+            } catch (IndexOutOfBoundsException e) {
+                table.addCell("");
+            }
+
+        }
+
+        return table;
+    }
+
     public PdfPTable generateTable(Date from, Date to, String exercise) {
         ExerciseType exerciseType = ExerciseType.EXERCISE;
         if(exercise.equals("weight")){

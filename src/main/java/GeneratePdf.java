@@ -245,7 +245,12 @@ public class GeneratePdf {
     }
 
     private void addTable(Date from, Date to, String exercise, Document document) {
-        PdfPTable table = tableGenerator.generateTable(from, to, exercise);
+        PdfPTable table;
+        if(exercise.equals("weight")){
+            table = tableGenerator.generateWeightTable(from, to, exercise);
+        }else{
+            table = tableGenerator.generateTable(from, to, exercise);
+        }
 
         try {
             document.add(table);
