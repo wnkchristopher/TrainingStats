@@ -7,6 +7,8 @@ import java.io.File;
 
 public class Main {
 
+    public static String bodyweight = "weight";
+
     public static void main(String[] args) {
         Main m = new Main();
         m.checkRequiredStructure();

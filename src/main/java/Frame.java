@@ -189,7 +189,7 @@ public class Frame {
                     return;
                 }
                 String entry = txtDate.getText() + "|0|" + txtWeight.getText();
-                dataManger.writeExerciseStats("weight", entry, date, ExerciseType.BODYWEIGHT);
+                dataManger.writeExerciseStats(Main.bodyweight, entry, date, ExerciseType.BODYWEIGHT);
             }
         });
 

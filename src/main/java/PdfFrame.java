@@ -72,7 +72,7 @@ public class PdfFrame {
 
         List<String> exercises;
         exercises = dataManger.getExerciseList();
-        exercises.add(0, "weight");
+        exercises.add(0, Main.bodyweight);
         pnlExercises.removeAll();
         for (String exercise : exercises) {
             JCheckBox cb = new JCheckBox();
