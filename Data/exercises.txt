@@ -1,4 +1,3 @@
-dips
 Schulterdrücken
 Seitheben
 pull ups
@@ -10,4 +9,5 @@ Seitstütz
 Half-Roll-Down
 Trizeps-Ziehen
 Reverse-Crunch
-Unterarmstütz
+plank
+dips

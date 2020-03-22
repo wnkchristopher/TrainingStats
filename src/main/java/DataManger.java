@@ -59,6 +59,11 @@ public class DataManger {
         return exerciseList;
     }
 
+    public void writeExerciseTxt(List<String> exerciseOrder) {
+
+    }
+
+
     public void changeExerciseOrder(List<String> exerciseOrder) {
         try {
             PrintWriter writer = new PrintWriter("./Data/exercises.txt");
@@ -413,5 +418,26 @@ public class DataManger {
         }
 
         return weights;
+    }
+
+    public boolean changeExerciseName(String exercise, String newName) {
+
+        if(new File("./Data/Exercises/"+newName+ ".txt").exists()){
+            return false;
+        }
+        try {
+            Files.move(Paths.get("./Data/Exercises/"+ exercise+".txt"),
+                    Paths.get("./Data/Exercises/"+ newName+".txt"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        List exercises = this.getExerciseList();
+        int index = exercises.indexOf(exercise);
+        exercises.remove(index);
+        exercises.add(index, newName);
+        this.changeExerciseOrder(exercises);
+
+        return true;
     }
 }

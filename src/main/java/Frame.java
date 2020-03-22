@@ -52,18 +52,41 @@ public class Frame {
 
         JComboBox cBExercises = new JComboBox();
         cBExercises.setFont(new Font("Helvetica", 3, 16));
-        cBExercises.setBounds(0, 0, 270, 50);
+        cBExercises.setBounds(0, 0, 230, 50);
         cBExercises.setVisible(true);
         Iterator iterator = dataManger.getExerciseList().iterator();
         while (iterator.hasNext()) {
             cBExercises.addItem(iterator.next());
         }
 
+        JButton btnEditExercise = new JButton();
+        btnEditExercise.setBounds(233, 0, 37, 50);
+        ImageIcon imageIcon = new ImageIcon("resources/img/edit_small.png");
+        Image image = imageIcon.getImage(); // transform it
+        Image newImg = image.getScaledInstance(25, 25, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        imageIcon = new ImageIcon(newImg);
+        btnEditExercise.setIcon(imageIcon);
+
+        //TODO: error message if deletion did not work
+        btnEditExercise.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String exercise = cBExercises.getSelectedItem().toString();
+                String newName = JOptionPane.showInputDialog
+                        ("Rename " +  exercise + " to: ");
+                if(dataManger.changeExerciseName(exercise, newName)){
+                    cBExercises.removeItem(exercise);
+                    cBExercises.addItem(newName);
+                    cBExercises.setSelectedItem(newName);
+                }
+            }
+        });
+
         JButton btnDeleteExercise = new JButton();
         btnDeleteExercise.setBounds(273, 0, 37, 50);
-        ImageIcon imageIcon = new ImageIcon("resources/img/delete_small.png");
-        Image image = imageIcon.getImage(); // transform it
-        Image newImg = image.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        imageIcon = new ImageIcon("resources/img/delete_small.png");
+        image = imageIcon.getImage(); // transform it
+        newImg = image.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         imageIcon = new ImageIcon(newImg);
         btnDeleteExercise.setIcon(imageIcon);
 
@@ -79,16 +102,10 @@ public class Frame {
                     cBExercises.removeItem(exercise);
                 }
             }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnDeleteExercise.setBackground(Color.GREEN);
-            }
-
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnDeleteExercise.setBackground(UIManager.getColor("control"));
-            }
         });
 
 
+        pnlExercises.add(btnEditExercise);
         pnlExercises.add(btnDeleteExercise);
 
         JButton btnAddExercise = new JButton();
