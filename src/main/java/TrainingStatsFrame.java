@@ -77,12 +77,14 @@ public class TrainingStatsFrame {
         tmpLblText.setOpaque(true);
         tmpLblText.setBackground(Color.white);
         tmpLblText.setFont(new Font("Serif", Font.BOLD, 16));
-        tmpLblText.setText("<html><body>you can leave the weight field blank " +
-                "or enter a 'b' for body weight exercises</body></html>");
+        tmpLblText.setText("<html><body>For body weight exercises " +
+                "enter a 'b' or leave it empty<br>" +
+                "extra weight: b+extra weight <br>" +
+                "support weight: b-support weight");
         Border border = BorderFactory.createLineBorder(Color.BLACK, 3);
         Border margin = new EmptyBorder(10, 10, 10, 10);
         tmpLblText.setBorder(new CompoundBorder(border, margin));
-        tmpLblText.setBounds(this.frame.getWidth() - width - distanceRight - 273, top - 38, 270, 75);
+        tmpLblText.setBounds(this.frame.getWidth() - width - distanceRight - 273, top - 38, 270, 90);
 
         final JLabel lblText = tmpLblText;
         lblText.setVisible(false);
@@ -110,7 +112,9 @@ public class TrainingStatsFrame {
             @Override
             public void mouseEntered(MouseEvent e) {
                 lblInfo.setIcon(imageHelpHover);
+                frame.add(lblText);
                 lblText.setVisible(true);
+
             }
 
             @Override
