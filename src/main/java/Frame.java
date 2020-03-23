@@ -74,10 +74,15 @@ public class Frame {
                 String exercise = cBExercises.getSelectedItem().toString();
                 String newName = JOptionPane.showInputDialog
                         ("Rename " +  exercise + " to: ");
-                if(dataManger.changeExerciseName(exercise, newName)){
-                    cBExercises.removeItem(exercise);
-                    cBExercises.addItem(newName);
-                    cBExercises.setSelectedItem(newName);
+
+                if(newName != null){
+                    if(dataManger.changeExerciseName(exercise, newName)){
+                        cBExercises.removeItem(exercise);
+                        cBExercises.addItem(newName);
+                        cBExercises.setSelectedItem(newName);
+                    }else{
+                        JOptionPane.showMessageDialog(null,newName + " already exists");
+                    }
                 }
             }
         });
