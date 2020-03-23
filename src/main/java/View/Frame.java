@@ -1,3 +1,8 @@
+package View;
+
+import Model.Constants;
+import Model.DataManger;
+import Model.ExerciseType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -190,7 +195,7 @@ public class Frame {
                 return;
             }
             String entry = txtDate.getText() + "|0|" + txtWeight.getText();
-            dataManger.writeExerciseStats(Main.bodyWeight, entry, date, ExerciseType.BODYWEIGHT);
+            dataManger.writeExerciseStats(Constants.bodyWeight, entry, date, ExerciseType.BODYWEIGHT);
         });
 
         groupLayout.setHorizontalGroup(

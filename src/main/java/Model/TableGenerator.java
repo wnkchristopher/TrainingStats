@@ -1,3 +1,5 @@
+package Model;
+
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -44,7 +46,7 @@ public class TableGenerator {
 
     public PdfPTable generateTable(Date from, Date to, String exercise) {
         ExerciseType exerciseType = ExerciseType.EXERCISE;
-        if(exercise.equals(Main.bodyWeight)){
+        if(exercise.equals(Constants.bodyWeight)){
             exerciseType = ExerciseType.BODYWEIGHT;
         }
         Font fontH1 = new Font(Font.getFamily("Currier"), 7, Font.NORMAL);
@@ -96,7 +98,7 @@ public class TableGenerator {
 
     private List<Date> getDates(Date from, Date to, String exercise) {
         ExerciseType exerciseType = ExerciseType.EXERCISE;
-        if(exercise.equals(Main.bodyWeight)){
+        if(exercise.equals(Constants.bodyWeight)){
             exerciseType = ExerciseType.BODYWEIGHT;
         }
         List<Date> dates = new LinkedList<>();

@@ -1,8 +1,13 @@
+package View;
+
+import Model.Constants;
+import Model.DataManger;
+import Model.GeneratePdf;
+import Model.PdfType;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 public class PdfFrame {
@@ -72,7 +77,7 @@ public class PdfFrame {
 
         List<String> exercises;
         exercises = dataManger.getExerciseList();
-        exercises.add(0, Main.bodyWeight);
+        exercises.add(0, Constants.bodyWeight);
         pnlExercises.removeAll();
         for (String exercise : exercises) {
             JCheckBox cb = new JCheckBox();

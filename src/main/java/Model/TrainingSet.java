@@ -1,3 +1,5 @@
+package Model;
+
 public class TrainingSet {
     private double reps;
     private double weight;

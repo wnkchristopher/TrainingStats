@@ -1,3 +1,5 @@
+package Model;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.BaseColor;
@@ -73,7 +75,7 @@ public class GeneratePdf {
 
             this.addImage(from, to, exercise, document);
 
-            if(!exercise.equals(Main.bodyWeight)){
+            if(!exercise.equals(Constants.bodyWeight)){
                 this.addFrequencyPerWeek(from, to, exercise, document);
             }
 
@@ -106,7 +108,7 @@ public class GeneratePdf {
 
         this.addImage(from, to, exercise, document);
 
-        if(!exercise.equals(Main.bodyWeight)){
+        if(!exercise.equals(Constants.bodyWeight)){
             this.addFrequencyPerWeek(from, to, exercise, document);
         }
 
@@ -196,7 +198,7 @@ public class GeneratePdf {
     private void addImage(Date from, Date to, String exercise, Document document) {
         boolean weight = false;
         int scaleWeight = 25;
-        if(exercise.equals(Main.bodyWeight)){
+        if(exercise.equals(Constants.bodyWeight)){
             weight = true;
             scaleWeight = 50;
         }
@@ -246,7 +248,7 @@ public class GeneratePdf {
 
     private void addTable(Date from, Date to, String exercise, Document document) {
         PdfPTable table;
-        if(exercise.equals(Main.bodyWeight)){
+        if(exercise.equals(Constants.bodyWeight)){
             table = tableGenerator.generateWeightTable(from, to, exercise);
         }else{
             table = tableGenerator.generateTable(from, to, exercise);

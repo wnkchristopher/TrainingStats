@@ -1,3 +1,5 @@
+import View.Frame;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -6,9 +8,6 @@ import java.io.File;
 
 
 public class Main {
-
-    public final static String bodyWeight = "weight";
-    public final static double defaultWeight = 75.0;
 
     public static void main(String[] args) {
         Main m = new Main();

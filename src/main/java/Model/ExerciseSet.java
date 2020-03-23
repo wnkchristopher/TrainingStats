@@ -1,3 +1,5 @@
+package Model;
+
 public class ExerciseSet implements Comparable<ExerciseSet> {
     private String exercise;
     private int set;

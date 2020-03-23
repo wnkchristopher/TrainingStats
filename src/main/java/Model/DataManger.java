@@ -1,3 +1,6 @@
+package Model;
+
+import Model.CalculateStats;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -390,7 +393,7 @@ public class DataManger {
             }
         }
         if (weights.isEmpty()) {//no entries in weight.txt
-            return Main.defaultWeight;
+            return Constants.defaultWeight;
         } else {
             return weights.get(chosenDate); // closest weight
         }
@@ -398,7 +401,7 @@ public class DataManger {
 
     private Map<Date, Double> getWeightMap() {
         Map<Date, Double> weights = new HashMap<>();
-        String filepath = "./Data/" + Main.bodyWeight + ".txt";
+        String filepath = "./Data/" + Constants.bodyWeight + ".txt";
 
         try {
             String line;
