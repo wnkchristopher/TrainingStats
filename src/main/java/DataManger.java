@@ -7,6 +7,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -367,7 +369,7 @@ public class DataManger {
         return String.valueOf(actualWeight);
     }
 
-    private double getWeight(Date date) {
+    public double getWeight(Date date) {
         Map<Date, Double> weights = this.getWeightMap();
 
         long days = 0;
@@ -439,5 +441,11 @@ public class DataManger {
         this.changeExerciseOrder(exercises);
 
         return true;
+    }
+    public String getCurrentDate(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDateTime now = LocalDateTime.now();
+        String dateToday = dtf.format(now);
+        return dateToday;
     }
 }

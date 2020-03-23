@@ -67,7 +67,6 @@ public class Frame {
         imageIcon = new ImageIcon(newImg);
         btnEditExercise.setIcon(imageIcon);
 
-        //TODO: error message if deletion did not work
         btnEditExercise.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -171,7 +170,7 @@ public class Frame {
     }
 
     private void addWeightPanel(){
-
+        String dateToday = dataManger.getCurrentDate();
 
         JPanel pnlWeight = new JPanel();
         pnlWeight.setOpaque(false);
@@ -187,13 +186,13 @@ public class Frame {
         lblWeight.setText("Your Weight");
 
         JTextField txtWeight = new JTextField();
-        txtWeight.setText("80");
+        txtWeight.setText(String.valueOf(dataManger.getWeight(dataManger.convertToDate(dateToday))));
 
         JLabel lblKilo = new JLabel();
         lblKilo.setText("kg");
 
         JTextField txtDate = new JTextField();
-        txtDate.setText("25.02.2020");
+        txtDate.setText(dateToday);
 
         JButton btnSubmitWeight = new JButton();
         btnSubmitWeight.setText("update");
