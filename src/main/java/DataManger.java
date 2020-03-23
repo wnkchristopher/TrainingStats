@@ -398,7 +398,7 @@ public class DataManger {
 
     private Map<Date, Double> getWeightMap() {
         Map<Date, Double> weights = new HashMap<>();
-        String filepath = "./Data/" + Main.bodyweight + ".txt";
+        String filepath = "./Data/" + Main.bodyWeight + ".txt";
 
         try {
             String line;

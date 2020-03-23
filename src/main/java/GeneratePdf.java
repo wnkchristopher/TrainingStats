@@ -73,7 +73,7 @@ public class GeneratePdf {
 
             this.addImage(from, to, exercise, document);
 
-            if(!exercise.equals(Main.bodyweight)){
+            if(!exercise.equals(Main.bodyWeight)){
                 this.addFrequencyPerWeek(from, to, exercise, document);
             }
 
@@ -106,7 +106,7 @@ public class GeneratePdf {
 
         this.addImage(from, to, exercise, document);
 
-        if(!exercise.equals(Main.bodyweight)){
+        if(!exercise.equals(Main.bodyWeight)){
             this.addFrequencyPerWeek(from, to, exercise, document);
         }
 
@@ -196,7 +196,7 @@ public class GeneratePdf {
     private void addImage(Date from, Date to, String exercise, Document document) {
         boolean weight = false;
         int scaleWeight = 25;
-        if(exercise.equals(Main.bodyweight)){
+        if(exercise.equals(Main.bodyWeight)){
             weight = true;
             scaleWeight = 50;
         }
@@ -246,7 +246,7 @@ public class GeneratePdf {
 
     private void addTable(Date from, Date to, String exercise, Document document) {
         PdfPTable table;
-        if(exercise.equals(Main.bodyweight)){
+        if(exercise.equals(Main.bodyWeight)){
             table = tableGenerator.generateWeightTable(from, to, exercise);
         }else{
             table = tableGenerator.generateTable(from, to, exercise);

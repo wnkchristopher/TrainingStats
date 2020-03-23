@@ -72,7 +72,7 @@ public class PdfFrame {
 
         List<String> exercises;
         exercises = dataManger.getExerciseList();
-        exercises.add(0, Main.bodyweight);
+        exercises.add(0, Main.bodyWeight);
         pnlExercises.removeAll();
         for (String exercise : exercises) {
             JCheckBox cb = new JCheckBox();
@@ -150,39 +150,36 @@ public class PdfFrame {
 
         btnGeneratePdf.setBounds(275, 250, 150, 40);
 
-        btnGeneratePdf.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ArrayList<String> exercises = new ArrayList<>();
-                Date from = dataManger.convertToDate(txtFrom.getText());
-                Date to = dataManger.convertToDate(txtTo.getText());
-                if (from == null || to == null) {
-                    JOptionPane.showMessageDialog(null, "Format of date is wrong",
-                            "Error: Date", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(from);
-                txtFrom.setText(calendar.get(Calendar.DAY_OF_MONTH) + "." +
-                        (calendar.get(Calendar.MONTH) + 1) + "." + calendar.get(Calendar.YEAR));
-                calendar.setTime(to);
-                txtTo.setText(calendar.get(Calendar.DAY_OF_MONTH) + "." +
-                        (calendar.get(Calendar.MONTH) + 1) + "." + calendar.get(Calendar.YEAR));
+        btnGeneratePdf.addActionListener(e -> {
+            ArrayList<String> exercises = new ArrayList<>();
+            Date from = dataManger.convertToDate(txtFrom.getText());
+            Date to = dataManger.convertToDate(txtTo.getText());
+            if (from == null || to == null) {
+                JOptionPane.showMessageDialog(null, "Format of date is wrong",
+                        "Error: Date", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(from);
+            txtFrom.setText(calendar.get(Calendar.DAY_OF_MONTH) + "." +
+                    (calendar.get(Calendar.MONTH) + 1) + "." + calendar.get(Calendar.YEAR));
+            calendar.setTime(to);
+            txtTo.setText(calendar.get(Calendar.DAY_OF_MONTH) + "." +
+                    (calendar.get(Calendar.MONTH) + 1) + "." + calendar.get(Calendar.YEAR));
 
-                if (from.after(to)) {
-                    JOptionPane.showMessageDialog(null, "Your last date has to be after " +
-                            "your first");
-                } else {
-                    for (JCheckBox cb : cBExercises) {
-                        if (cb.isSelected()) {
-                            exercises.add(cb.getText());
-                        }
+            if (from.after(to)) {
+                JOptionPane.showMessageDialog(null, "Your last date has to be after " +
+                        "your first");
+            } else {
+                for (JCheckBox cb : cBExercises) {
+                    if (cb.isSelected()) {
+                        exercises.add(cb.getText());
                     }
-                    if (rbOnePdf.isSelected()) {
-                        generatePdf.generatePdf(from, to, exercises, PdfType.ONE_PDF_FOR_ALL_EXERCISES);
-                    } else if (rbMorePdfs.isSelected()) {
-                        generatePdf.generatePdf(from, to, exercises, PdfType.ONE_PDF_FOR_EACH_EXERCISE);
-                    }
+                }
+                if (rbOnePdf.isSelected()) {
+                    generatePdf.generatePdf(from, to, exercises, PdfType.ONE_PDF_FOR_ALL_EXERCISES);
+                } else if (rbMorePdfs.isSelected()) {
+                    generatePdf.generatePdf(from, to, exercises, PdfType.ONE_PDF_FOR_EACH_EXERCISE);
                 }
             }
         });

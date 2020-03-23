@@ -7,8 +7,8 @@ import java.io.File;
 
 public class Main {
 
-    public static String bodyweight = "weight";
-    public static double defaultWeight = 75.0;
+    public final static String bodyWeight = "weight";
+    public final static double defaultWeight = 75.0;
 
     public static void main(String[] args) {
         Main m = new Main();
@@ -49,7 +49,9 @@ public class Main {
         if (!Files.exists(path)) {
             file = new File(weightTxt);
             try {
-                file.createNewFile();
+                if(!file.createNewFile()){
+                    throw new IOException("Is not able to create a new file");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

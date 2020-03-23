@@ -1,8 +1,6 @@
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -67,21 +65,16 @@ public class Frame {
         imageIcon = new ImageIcon(newImg);
         btnEditExercise.setIcon(imageIcon);
 
-        btnEditExercise.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String exercise = cBExercises.getSelectedItem().toString();
-                String newName = JOptionPane.showInputDialog
-                        ("Rename " +  exercise + " to: ");
-
-                if(newName != null){
-                    if(dataManger.changeExerciseName(exercise, newName)){
-                        cBExercises.removeItem(exercise);
-                        cBExercises.addItem(newName);
-                        cBExercises.setSelectedItem(newName);
-                    }else{
-                        JOptionPane.showMessageDialog(null,newName + " already exists");
-                    }
+        btnEditExercise.addActionListener(e -> {
+            String exercise = cBExercises.getSelectedItem().toString();
+            String newName = JOptionPane.showInputDialog("Rename " + exercise + " to: ");
+            if (newName != null) {
+                if (dataManger.changeExerciseName(exercise, newName)) {
+                    cBExercises.removeItem(exercise);
+                    cBExercises.addItem(newName);
+                    cBExercises.setSelectedItem(newName);
+                } else {
+                    JOptionPane.showMessageDialog(null, newName + " already exists");
                 }
             }
         });
@@ -95,16 +88,13 @@ public class Frame {
         btnDeleteExercise.setIcon(imageIcon);
 
         //TODO: error message if deletion did not work
-        btnDeleteExercise.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String exercise = cBExercises.getSelectedItem().toString();
-                int dialogResult = JOptionPane.showConfirmDialog (null,
-                        "Are you sure to delete " + exercise + "?","Warning", JOptionPane.YES_NO_OPTION);
-                if(dialogResult == JOptionPane.YES_OPTION){
-                    dataManger.deleteExercise(exercise);
-                    cBExercises.removeItem(exercise);
-                }
+        btnDeleteExercise.addActionListener(e -> {
+            String exercise = cBExercises.getSelectedItem().toString();
+            int dialogResult = JOptionPane.showConfirmDialog(null,
+                    "Are you sure to delete " + exercise + "?", "Warning", JOptionPane.YES_NO_OPTION);
+            if (dialogResult == JOptionPane.YES_OPTION) {
+                dataManger.deleteExercise(exercise);
+                cBExercises.removeItem(exercise);
             }
         });
 
@@ -116,18 +106,15 @@ public class Frame {
         btnAddExercise.setText("Add exercise");
         btnAddExercise.setBounds(0, 60, 310, 50);
         btnAddExercise.setFont(new Font("Helvetica", 1, 16));
-        btnAddExercise.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String inputExercise = JOptionPane.showInputDialog("New exercise:");
-                if (inputExercise == null || inputExercise.equals("")) {
-                    return;
-                }
-                if (!dataManger.proveExerciseExists(inputExercise)) {
-                    cBExercises.addItem(inputExercise);
-                }
-                dataManger.addNewExercise(inputExercise);
+        btnAddExercise.addActionListener(e -> {
+            String inputExercise = JOptionPane.showInputDialog("New exercise:");
+            if (inputExercise == null || inputExercise.equals("")) {
+                return;
             }
+            if (!dataManger.proveExerciseExists(inputExercise)) {
+                cBExercises.addItem(inputExercise);
+            }
+            dataManger.addNewExercise(inputExercise);
         });
 
         pnlExercises.add(cBExercises);
@@ -138,12 +125,9 @@ public class Frame {
         btnAddTraining.setText("Add training stats");
         btnAddTraining.setFont(new Font("Helvetica", 1, 16));
         btnAddTraining.setVisible(true);
-        btnAddTraining.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                trainingStatsFrame = new TrainingStatsFrame();
-                trainingStatsFrame.createFrame();
-            }
+        btnAddTraining.addActionListener(e -> {
+            trainingStatsFrame = new TrainingStatsFrame();
+            trainingStatsFrame.createFrame();
         });
 
         JButton btnGeneratePdf = new JButton();
@@ -151,12 +135,10 @@ public class Frame {
         btnGeneratePdf.setFont(new Font("Helvetica", 1, 16));
         btnGeneratePdf.setText("Generate PDFs");
         btnGeneratePdf.setVisible(true);
-        btnGeneratePdf.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                pdfFrame = new PdfFrame();
-                pdfFrame.createFrame();
-            }
+        btnGeneratePdf.addActionListener(e -> {
+            pdfFrame = new PdfFrame();
+            pdfFrame.createFrame();
+
         });
 
         pnlExercises.setVisible(true);
@@ -169,13 +151,13 @@ public class Frame {
 
     }
 
-    private void addWeightPanel(){
+    private void addWeightPanel() {
         String dateToday = dataManger.getCurrentDate();
 
         JPanel pnlWeight = new JPanel();
         pnlWeight.setOpaque(false);
         pnlWeight.setBorder(BorderFactory.createLineBorder(Color.black));
-        pnlWeight.setBounds(30,320,310,80);
+        pnlWeight.setBounds(30, 320, 310, 80);
 
         GroupLayout groupLayout = new GroupLayout(pnlWeight);
         groupLayout.setAutoCreateGaps(true);
@@ -200,29 +182,26 @@ public class Frame {
         dimension.height = 50;
         btnSubmitWeight.setPreferredSize(dimension);
         btnSubmitWeight.setMinimumSize(dimension);
-        btnSubmitWeight.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Date date = dataManger.convertToDate(txtDate.getText());
-                if (date == null) {
-                    JOptionPane.showMessageDialog(null, "Format of date is wrong",
-                            "Error: Date", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                String entry = txtDate.getText() + "|0|" + txtWeight.getText();
-                dataManger.writeExerciseStats(Main.bodyweight, entry, date, ExerciseType.BODYWEIGHT);
+        btnSubmitWeight.addActionListener(e -> {
+            Date date = dataManger.convertToDate(txtDate.getText());
+            if (date == null) {
+                JOptionPane.showMessageDialog(null, "Format of date is wrong",
+                        "Error: Date", JOptionPane.ERROR_MESSAGE);
+                return;
             }
+            String entry = txtDate.getText() + "|0|" + txtWeight.getText();
+            dataManger.writeExerciseStats(Main.bodyWeight, entry, date, ExerciseType.BODYWEIGHT);
         });
 
         groupLayout.setHorizontalGroup(
                 groupLayout.createSequentialGroup()
-                    .addComponent(lblWeight)
+                        .addComponent(lblWeight)
                         .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                 .addGroup(groupLayout.createSequentialGroup()
                                         .addComponent(txtWeight)
                                         .addComponent(lblKilo)
                                 )
-                            .addComponent(txtDate)
+                                .addComponent(txtDate)
                         )
                         .addComponent(btnSubmitWeight)
 
@@ -236,7 +215,7 @@ public class Frame {
                                         .addComponent(txtWeight)
                                         .addComponent(lblKilo)
                                 )
-                            .addComponent(txtDate)
+                                .addComponent(txtDate)
                         )
                         .addComponent(btnSubmitWeight)
         );

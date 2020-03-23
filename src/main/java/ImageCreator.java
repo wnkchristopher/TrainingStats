@@ -110,7 +110,7 @@ public class ImageCreator {
     private BufferedImage drawGraph(BufferedImage image, String exercise, Date from, Date to,
                                     GraphType graphType) {
         ExerciseType exerciseType = ExerciseType.EXERCISE;
-        if(exercise.equals(Main.bodyweight)){
+        if(exercise.equals(Main.bodyWeight)){
             exerciseType = ExerciseType.BODYWEIGHT;
         }
         int highestSet = this.dataManger.getHighestSet(from, to, exercise, exerciseType);
@@ -262,7 +262,7 @@ public class ImageCreator {
 
     private double[] getMinMaxEffective(Date from, Date to, String exercise, GraphType graphType) {
         ExerciseType exerciseType = ExerciseType.EXERCISE;
-        if(exercise.equals(Main.bodyweight)){
+        if(exercise.equals(Main.bodyWeight)){
             exerciseType = ExerciseType.BODYWEIGHT;
         }
         double min = 0, max = 0;
@@ -302,7 +302,7 @@ public class ImageCreator {
 
     private List<Coordinate> getListOfSet(int set, Date from, Date to, String exercise, GraphType graphType) {
         ExerciseType exerciseType = ExerciseType.EXERCISE;
-        if(exercise.equals(Main.bodyweight)){
+        if(exercise.equals(Main.bodyWeight)){
             exerciseType = ExerciseType.BODYWEIGHT;
         }
         int daysBetweenDates = this.calculateStats.calculateDaysBetweenDates(to, from);

@@ -163,45 +163,41 @@ public class TrainingStatsFrame {
         btnSubmit.setBounds(350, 850, 300, 50);
         btnSubmit.setText("Add to your training stats");
         btnSubmit.setFont(new Font("Helvetica", 3, 16));
-        btnSubmit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Date dateOfTraining = dataManger.convertToDate(txtDate.getText());
-                if (dateOfTraining == null) {
-                    JOptionPane.showMessageDialog(null, "Format of date is wrong",
-                            "Error: Date", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
+        btnSubmit.addActionListener(e -> {
+            Date dateOfTraining = dataManger.convertToDate(txtDate.getText());
+            if (dateOfTraining == null) {
+                JOptionPane.showMessageDialog(null, "Format of date is wrong",
+                        "Error: Date", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-                Map<ExerciseSet, String[]> tmpMap = new HashMap<>();
-                for (ExerciseSet exerciseSet : txtFields.keySet()) {    //Get content of textFields
-                    String reps = txtFields.get(exerciseSet)[0].getText();
-                    String weight = txtFields.get(exerciseSet)[1].getText();
-                    String[] s = new String[2];
-                    s[0] = reps;
-                    s[1] = weight;
-                    if (!s[0].isEmpty()) {
-                        if (s[1].isEmpty() || s[1].contains("b")) {
-                            String digits = s[1].replaceAll("\\D+", "");
-                            if (s[1].contains("+")) {
-                                s[1] = "b+" + digits;
-                                tmpMap.put(exerciseSet, s);
-                            } else if (s[1].contains("-")) {
-                                s[1] = "b-" + digits;
-                                tmpMap.put(exerciseSet, s);
-                            }
-                        } else {
+            Map<ExerciseSet, String[]> tmpMap = new HashMap<>();
+            for (ExerciseSet exerciseSet : txtFields.keySet()) {    //Get content of textFields
+                String reps = txtFields.get(exerciseSet)[0].getText();
+                String weight = txtFields.get(exerciseSet)[1].getText();
+                String[] s = new String[2];
+                s[0] = reps;
+                s[1] = weight;
+                if (!s[0].isEmpty()) {
+                    if (s[1].isEmpty() || s[1].contains("b")) {
+                        String digits = s[1].replaceAll("\\D+", "");
+                        if (s[1].contains("+")) {
+                            s[1] = "b+" + digits;
+                            tmpMap.put(exerciseSet, s);
+                        } else if (s[1].contains("-")) {
+                            s[1] = "b-" + digits;
                             tmpMap.put(exerciseSet, s);
                         }
+                    } else {
+                        tmpMap.put(exerciseSet, s);
                     }
-
-                    //refresh for next entry
-                    txtFields.get(exerciseSet)[0].setText("");
-                    txtFields.get(exerciseSet)[1].setText("");
                 }
-                dataManger.addWorkout(tmpMap, dateOfTraining);
 
+                //refresh for next entry
+                txtFields.get(exerciseSet)[0].setText("");
+                txtFields.get(exerciseSet)[1].setText("");
             }
+            dataManger.addWorkout(tmpMap, dateOfTraining);
         });
 
 
@@ -272,23 +268,20 @@ public class TrainingStatsFrame {
 
         JButton btnPlus = new JButton("+");
         btnPlus.setFont(new Font("Helvetica", 1, 60));
-        btnPlus.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panel.remove(btnPlus);
-                panel.remove(pnlSpacer);
-                panel.remove(btnUpDown);
-                int set = Integer.valueOf(txtSaveSetNumber.getText());
-                set++;
-                ExerciseSet e1 = new ExerciseSet(exercise, set);
-                txtFields.put(e1, new PlaceholderTextField[2]);
-                panel.add(getSetPanel(exercise, set));
-                txtSaveSetNumber.setText(String.valueOf(set));
-                panel.add(btnPlus);
-                panel.add(pnlSpacer);
-                panel.add(btnUpDown);
-                panel.updateUI();
-            }
+        btnPlus.addActionListener(e -> {
+            panel.remove(btnPlus);
+            panel.remove(pnlSpacer);
+            panel.remove(btnUpDown);
+            int set = Integer.valueOf(txtSaveSetNumber.getText());
+            set++;
+            ExerciseSet e1 = new ExerciseSet(exercise, set);
+            txtFields.put(e1, new PlaceholderTextField[2]);
+            panel.add(getSetPanel(exercise, set));
+            txtSaveSetNumber.setText(String.valueOf(set));
+            panel.add(btnPlus);
+            panel.add(pnlSpacer);
+            panel.add(btnUpDown);
+            panel.updateUI();
         });
 
         //out commented because functionality is not implemented and without a function it is senseless
@@ -365,18 +358,12 @@ public class TrainingStatsFrame {
         imageIcon = new ImageIcon(newImg);
         btnDown.setIcon(imageIcon);
 
-        btnDown.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                swapExerciseOrder(exercise, Direction.DOWN);
-            }
+        btnDown.addActionListener(e -> {
+            swapExerciseOrder(exercise, Direction.DOWN);
         });
 
-        btnUp.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                swapExerciseOrder(exercise, Direction.UP);
-            }
+        btnUp.addActionListener(e -> {
+            swapExerciseOrder(exercise, Direction.UP);
         });
 
         panel.setPreferredSize(new Dimension(40, 80));
@@ -405,10 +392,10 @@ public class TrainingStatsFrame {
             }
         }
         dataManger.changeExerciseOrder(this.exerciseOrder);
-        this.refresh(exercise);
+        this.refresh();
     }
 
-    private void refresh(String exercise) {
+    private void refresh() {
         this.contentPanel.removeAll();
         for (String e : this.exerciseOrder) {
             this.contentPanel.add(this.exercisePanels.get(e));
