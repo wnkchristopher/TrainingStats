@@ -1,5 +1,7 @@
 package Model;
 
+import Enum.ExerciseType;
+
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;

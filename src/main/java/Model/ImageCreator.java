@@ -1,6 +1,7 @@
 package Model;
 
-
+import Enum.GraphType;
+import Enum.ExerciseType;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

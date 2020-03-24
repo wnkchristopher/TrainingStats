@@ -1,4 +1,4 @@
-import View.Frame;
+import View.StartFrame;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,7 +13,7 @@ public class Main {
         Main m = new Main();
         m.checkRequiredStructure();
 
-        Frame frame = new Frame();
+        StartFrame frame = new StartFrame();
         frame.createFrame("TrainStats", 400, 480);
     }
 

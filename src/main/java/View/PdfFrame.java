@@ -3,7 +3,7 @@ package View;
 import Model.Constants;
 import Model.DataManger;
 import Model.GeneratePdf;
-import Model.PdfType;
+import Enum.PdfType;
 
 import javax.swing.*;
 import java.awt.*;

@@ -2,128 +2,44 @@ package View;
 
 import Model.Constants;
 import Model.DataManger;
-import Model.ExerciseType;
+
+import Enum.ExerciseType;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Date;
 import java.util.Iterator;
 
-public class Frame {
-    private JFrame frame;
-    DataManger dataManger;
-    TrainingStatsFrame trainingStatsFrame;
+public class StartPanel {
+    private JPanel pnlMain = new JPanel();
+    private DataManger dataManger;
+
+    TrainingStatsFrame trainingStatsFrame; //Panels. should be generated already before using
     PdfFrame pdfFrame;
 
-    public Frame() {
-        dataManger = new DataManger();
+    public StartPanel(DataManger dataManger) {
+        this.dataManger = dataManger;
     }
 
-    public JFrame createFrame(String title, int width, int height) {
+    public JPanel createPanel(int width, int height) {
+        this.pnlMain.setLayout(null);
+        this.pnlMain.setBackground(Color.decode("#ffddc1"));
+        this.pnlMain.setSize(width, height);
 
-        JFrame frame = new JFrame();
-        frame.setLayout(null);
-        frame.setTitle(title);
-        frame.getContentPane().setBackground(Color.decode("#ffddc1"));
-        frame.setSize(width, height);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.addComponents();
 
-        this.frame = frame;
-
-        ImageIcon imageIcon = new ImageIcon("resources/img/logo.png");
-        this.frame.setIconImage(imageIcon.getImage());
-
-        showMainPage();
-
-        frame.setVisible(true);
-        return frame;
+        return this.pnlMain;
     }
 
-    public void showMainPage() {
-        JLabel label = new JLabel();
-        label.setBounds(70, 20, 250, 30);
-        label.setText("Your training manager");
-        label.setFont(new Font("ITALIC", 2, 25));
-        label.setVisible(true);
 
-        JPanel pnlExercises = new JPanel();
-        pnlExercises.setLayout(null);
-        pnlExercises.setBounds(30, 80, 350, 110);
-        pnlExercises.setBackground(Color.decode("#ffddc1"));
+    private void addComponents(){
+        JLabel lblHeadline = new JLabel();
+        lblHeadline.setBounds(70, 20, 250, 30);
+        lblHeadline.setText("Your training manager");
+        lblHeadline.setFont(new Font("ITALIC", 2, 25));
+        lblHeadline.setVisible(true);
 
-        JComboBox cBExercises = new JComboBox();
-        cBExercises.setFont(new Font("Helvetica", 3, 16));
-        cBExercises.setBounds(0, 0, 230, 50);
-        cBExercises.setVisible(true);
-        Iterator iterator = dataManger.getExerciseList().iterator();
-        while (iterator.hasNext()) {
-            cBExercises.addItem(iterator.next());
-        }
-
-        JButton btnEditExercise = new JButton();
-        btnEditExercise.setBounds(233, 0, 37, 50);
-        ImageIcon imageIcon = new ImageIcon("resources/img/edit_small.png");
-        Image image = imageIcon.getImage(); // transform it
-        Image newImg = image.getScaledInstance(25, 25, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-        imageIcon = new ImageIcon(newImg);
-        btnEditExercise.setIcon(imageIcon);
-
-        btnEditExercise.addActionListener(e -> {
-            String exercise = cBExercises.getSelectedItem().toString();
-            String newName = JOptionPane.showInputDialog("Rename " + exercise + " to: ");
-            if (newName != null) {
-                if (dataManger.changeExerciseName(exercise, newName)) {
-                    cBExercises.removeItem(exercise);
-                    cBExercises.addItem(newName);
-                    cBExercises.setSelectedItem(newName);
-                } else {
-                    JOptionPane.showMessageDialog(null, newName + " already exists");
-                }
-            }
-        });
-
-        JButton btnDeleteExercise = new JButton();
-        btnDeleteExercise.setBounds(273, 0, 37, 50);
-        imageIcon = new ImageIcon("resources/img/delete_small.png");
-        image = imageIcon.getImage(); // transform it
-        newImg = image.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-        imageIcon = new ImageIcon(newImg);
-        btnDeleteExercise.setIcon(imageIcon);
-
-        //TODO: error message if deletion did not work
-        btnDeleteExercise.addActionListener(e -> {
-            String exercise = cBExercises.getSelectedItem().toString();
-            int dialogResult = JOptionPane.showConfirmDialog(null,
-                    "Are you sure to delete " + exercise + "?", "Warning", JOptionPane.YES_NO_OPTION);
-            if (dialogResult == JOptionPane.YES_OPTION) {
-                dataManger.deleteExercise(exercise);
-                cBExercises.removeItem(exercise);
-            }
-        });
-
-
-        pnlExercises.add(btnEditExercise);
-        pnlExercises.add(btnDeleteExercise);
-
-        JButton btnAddExercise = new JButton();
-        btnAddExercise.setText("Add exercise");
-        btnAddExercise.setBounds(0, 60, 310, 50);
-        btnAddExercise.setFont(new Font("Helvetica", 1, 16));
-        btnAddExercise.addActionListener(e -> {
-            String inputExercise = JOptionPane.showInputDialog("New exercise:");
-            if (inputExercise == null || inputExercise.equals("")) {
-                return;
-            }
-            if (!dataManger.proveExerciseExists(inputExercise)) {
-                cBExercises.addItem(inputExercise);
-            }
-            dataManger.addNewExercise(inputExercise);
-        });
-
-        pnlExercises.add(cBExercises);
-        pnlExercises.add(btnAddExercise);
+        JPanel pnlExercise = this.getExerciseComponent();
 
         JButton btnAddTraining = new JButton();
         btnAddTraining.setBounds(30, 200, 310, 50);
@@ -146,17 +62,90 @@ public class Frame {
 
         });
 
-        pnlExercises.setVisible(true);
-        this.frame.add(btnAddTraining);
-        this.frame.add(btnGeneratePdf);
-        this.frame.add(pnlExercises);
-        this.frame.add(label);
+        JPanel pnlWeight = this.getWeightPanel();
 
-        this.addWeightPanel();
 
+        this.pnlMain.add(lblHeadline);
+        this.pnlMain.add(pnlExercise);
+        this.pnlMain.add(btnAddTraining);
+        this.pnlMain.add(btnGeneratePdf);
+        this.pnlMain.add(pnlWeight);
     }
 
-    private void addWeightPanel() {
+    private JPanel getExerciseComponent(){
+        JPanel pnlExercises = new JPanel();
+        pnlExercises.setLayout(null);
+        pnlExercises.setBounds(30, 80, 350, 110);
+        pnlExercises.setBackground(Color.decode("#ffddc1"));
+
+        JComboBox cBExercises = new JComboBox();
+        cBExercises.setFont(new Font("Helvetica", 3, 16));
+        cBExercises.setBounds(0, 0, 230, 50);
+        cBExercises.setVisible(true);
+        Iterator iterator = dataManger.getExerciseList().iterator();
+        while (iterator.hasNext()) {
+            cBExercises.addItem(iterator.next());
+        }
+
+        JButton btnEditExercise = new JButton();
+        btnEditExercise.setBounds(233, 0, 37, 50);
+        btnEditExercise =
+                ButtonEditor.addImageToButton(btnEditExercise, Constants.PathEditImage,25,25);
+
+        btnEditExercise.addActionListener(e -> {    //Controller
+            String exercise = cBExercises.getSelectedItem().toString();
+            String newName = JOptionPane.showInputDialog("Rename " + exercise + " to: ");
+            if (newName != null) {
+                if (dataManger.changeExerciseName(exercise, newName)) {
+                    cBExercises.removeItem(exercise);
+                    cBExercises.addItem(newName);
+                    cBExercises.setSelectedItem(newName);
+                } else {
+                    JOptionPane.showMessageDialog(null, newName + " already exists");
+                }
+            }
+        });
+
+        JButton btnDeleteExercise = new JButton();
+        btnDeleteExercise.setBounds(273, 0, 37, 50);
+        btnDeleteExercise =
+                ButtonEditor.addImageToButton(btnDeleteExercise, Constants.PathDeletionImage, 20, 20);
+
+        btnDeleteExercise.addActionListener(e -> {  //Controller
+            String exercise = cBExercises.getSelectedItem().toString();
+            int dialogResult = JOptionPane.showConfirmDialog(null,
+                    "Are you sure to delete " + exercise + "?", "Warning", JOptionPane.YES_NO_OPTION);
+            if (dialogResult == JOptionPane.YES_OPTION) {
+                dataManger.deleteExercise(exercise);
+                cBExercises.removeItem(exercise);
+            }
+        });
+
+
+        JButton btnAddExercise = new JButton();
+        btnAddExercise.setText("Add exercise");
+        btnAddExercise.setBounds(0, 60, 310, 50);
+        btnAddExercise.setFont(new Font("Helvetica", 1, 16));
+        btnAddExercise.addActionListener(e -> {     //Controller
+            String inputExercise = JOptionPane.showInputDialog("New exercise:");
+            if (inputExercise == null || inputExercise.equals("")) {
+                return;
+            }
+            if (!dataManger.proveExerciseExists(inputExercise)) {
+                cBExercises.addItem(inputExercise);
+            }
+            dataManger.addNewExercise(inputExercise);
+        });
+
+        pnlExercises.add(cBExercises);
+        pnlExercises.add(btnEditExercise);
+        pnlExercises.add(btnDeleteExercise);
+        pnlExercises.add(btnAddExercise);
+
+        return pnlExercises;
+    }
+
+    private JPanel getWeightPanel(){
         String dateToday = dataManger.getCurrentDate();
 
         JPanel pnlWeight = new JPanel();
@@ -187,7 +176,7 @@ public class Frame {
         dimension.height = 50;
         btnSubmitWeight.setPreferredSize(dimension);
         btnSubmitWeight.setMinimumSize(dimension);
-        btnSubmitWeight.addActionListener(e -> {
+        btnSubmitWeight.addActionListener(e -> {  //Controller
             Date date = dataManger.convertToDate(txtDate.getText());
             if (date == null) {
                 JOptionPane.showMessageDialog(null, "Format of date is wrong",
@@ -228,10 +217,7 @@ public class Frame {
 
         pnlWeight.setVisible(true);
 
-        frame.add(pnlWeight);
+        return pnlWeight;
     }
 
-    public JFrame getFrame() {
-        return this.frame;
-    }
 }

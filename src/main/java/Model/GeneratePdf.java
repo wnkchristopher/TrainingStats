@@ -26,6 +26,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import Enum.PdfType;
+import Enum.GraphType;
+
 public class GeneratePdf {
     private DataManger dataManger;
     ImageCreator imageCreator;

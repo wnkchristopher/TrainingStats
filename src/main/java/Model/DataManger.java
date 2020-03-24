@@ -1,6 +1,6 @@
 package Model;
 
-import Model.CalculateStats;
+import Enum.ExerciseType;
 
 import java.io.*;
 import java.nio.charset.Charset;
