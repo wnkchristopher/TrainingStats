@@ -1,6 +1,5 @@
 package View;
 
-import Controller.StartPanelController;
 import Model.DataManger;
 
 import javax.swing.*;
@@ -10,7 +9,6 @@ import java.awt.*;
 public class StartFrame {
     private JFrame frame;
     private StartPanel startPanel;
-    private StartPanelController startPanelController;
     DataManger dataManger;
 
 

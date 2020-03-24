@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-public class DataManger extends Observable{
+public class DataManger extends Observable {
     CalculateStats calculateStats;
 
     public DataManger() {
@@ -28,7 +28,7 @@ public class DataManger extends Observable{
             return;
         }
         try {     //add exercise to list of exercises
-            FileWriter writer = new FileWriter("./Data/exercises.txt", true);
+            FileWriter writer = new FileWriter(Constants.PathExerciseTxt, true);
             writer.write(name);
             writer.write("\r\n");
             writer.close();
@@ -52,7 +52,7 @@ public class DataManger extends Observable{
         List<String> exerciseList = new ArrayList<>();
         try {
             String line;
-            BufferedReader bufferreader = new BufferedReader(new FileReader("./Data/exercises.txt"));
+            BufferedReader bufferreader = new BufferedReader(new FileReader(Constants.PathExerciseTxt));
             while ((line = bufferreader.readLine()) != null) {
                 exerciseList.add(line);
             }
@@ -71,7 +71,7 @@ public class DataManger extends Observable{
 
     public void changeExerciseOrder(List<String> exerciseOrder) {
         try {
-            PrintWriter writer = new PrintWriter("./Data/exercises.txt");
+            PrintWriter writer = new PrintWriter(Constants.PathExerciseTxt);
             writer.print("");
             writer.close();
         } catch (FileNotFoundException e) {
@@ -123,7 +123,7 @@ public class DataManger extends Observable{
     }
 
     private boolean isFileEmpty(String exercise) {
-        File logFile = new File("./Data/Exercises/" + exercise + ".txt");
+        File logFile = new File(Constants.PathExerciseTextFiles + exercise + ".txt");
         if (logFile.length() == 0) {
             return true;
         }
@@ -135,7 +135,7 @@ public class DataManger extends Observable{
         int line = this.getLineToInsert(exercise, dateOfTraining, exerciseType);
         String filepath = "";
         if (exerciseType.equals(ExerciseType.EXERCISE)) {
-            filepath = "./Data/Exercises/" + exercise + ".txt";
+            filepath = Constants.PathExerciseTextFiles + exercise + ".txt";
         } else if (exerciseType.equals(ExerciseType.BODYWEIGHT)) {
             filepath = "./Data/" + exercise + ".txt";
         }
@@ -179,7 +179,7 @@ public class DataManger extends Observable{
 
         String filePath = "";
         if (exerciseType.equals(ExerciseType.EXERCISE)) {
-            filePath = "./Data/Exercises/" + exercise + ".txt";
+            filePath = Constants.PathExerciseTextFiles + exercise + ".txt";
         } else if (exerciseType.equals(ExerciseType.BODYWEIGHT)) {
             filePath = "./Data/" + exercise + ".txt";
         }
@@ -215,7 +215,7 @@ public class DataManger extends Observable{
     }
 
     private int getLineOfDate(String exercise, Date date, ExerciseType exerciseType) {
-        String filePath = "./Data/Exercises/" + exercise + ".txt";
+        String filePath = Constants.PathExerciseTextFiles + exercise + ".txt";
         if (exerciseType.equals(ExerciseType.BODYWEIGHT)) {
             filePath = "./Data/" + exercise + ".txt";
         }
@@ -244,7 +244,7 @@ public class DataManger extends Observable{
     }
 
     private List<TrainingSet> getTrainingSets(String exercise, Date date, ExerciseType exerciseType) {
-        String filePath = "./Data/Exercises/" + exercise + ".txt";
+        String filePath = Constants.PathExerciseTextFiles + exercise + ".txt";
         if (exerciseType.equals(ExerciseType.BODYWEIGHT)) {
             filePath = "./Data/" + exercise + ".txt";
         }
@@ -273,7 +273,7 @@ public class DataManger extends Observable{
             (String exercise, Date from, Date to, ExerciseType exerciseType) {
         String filepath = "";
         if (exerciseType.equals(ExerciseType.EXERCISE)) {
-            filepath = "./Data/Exercises/" + exercise + ".txt";
+            filepath = Constants.PathExerciseTextFiles + exercise + ".txt";
         } else if (exerciseType.equals(ExerciseType.BODYWEIGHT)) {
             filepath = "./Data/" + exercise + ".txt";
         }
@@ -342,7 +342,7 @@ public class DataManger extends Observable{
     }
 
     public boolean deleteExercise(String exercise) {
-        String path = "./Data/Exercises/" + exercise + ".txt";
+        String path = Constants.PathExerciseTextFiles + exercise + ".txt";
         File file = new File(path);
         if (file.exists()) {
             file.delete();
@@ -427,12 +427,12 @@ public class DataManger extends Observable{
 
     public boolean changeExerciseName(String exercise, String newName) {
 
-        if(new File("./Data/Exercises/"+newName+ ".txt").exists()){
+        if (new File(Constants.PathExerciseTextFiles + newName + ".txt").exists()) {
             return false;
         }
         try {
-            Files.move(Paths.get("./Data/Exercises/"+ exercise+".txt"),
-                    Paths.get("./Data/Exercises/"+ newName+".txt"));
+            Files.move(Paths.get(Constants.PathExerciseTextFiles + exercise + ".txt"),
+                    Paths.get(Constants.PathExerciseTextFiles + newName + ".txt"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -445,7 +445,8 @@ public class DataManger extends Observable{
 
         return true;
     }
-    public String getCurrentDate(){
+
+    public String getCurrentDate() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDateTime now = LocalDateTime.now();
         String dateToday = dtf.format(now);

@@ -2,6 +2,7 @@ import Controller.StartPanelController;
 import Model.DataManger;
 import View.StartFrame;
 import View.StartPanel;
+import Model.Constants;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -35,9 +36,9 @@ public class Main {
      */
     public void checkRequiredStructure() {
         String data = "./Data";
-        String exercises = "./Data/Exercises";
-        String exercisesTxt = "./Data/exercises.txt";
-        String weightTxt = "./Data/weight.txt";
+        String exercises = Constants.PathExerciseTextFiles;
+        String exercisesTxt = Constants.PathExerciseTxt;
+        String weightTxt = Constants.PathWeightTxt;
         File file;
         Path path = Paths.get(data);
         if (!Files.exists(path)) {
