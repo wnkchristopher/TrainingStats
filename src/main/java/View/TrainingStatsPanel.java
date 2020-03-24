@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -16,17 +17,18 @@ import java.util.*;
 import java.util.List;
 
 public class TrainingStatsPanel {
-    private JPanel trainingStatsPanel;
     private PlaceholderTextField txtDate;
     private DataManger dataManger;
     private Map<ExerciseSet, PlaceholderTextField[]> txtFields = new HashMap<>();//1 for Reps, 2 for Weight
     private List<String> exerciseOrder = new ArrayList<>();
-    private JPanel contentPanel;
     private Map<String, JPanel> exercisePanels = new HashMap<>();
-    private JButton btnSubmit;
     private int width = 0, height = 0;
 
-    public TrainingStatsPanel() {
+    private JPanel trainingStatsPanel;
+    private JPanel contentPanel;
+    private JButton btnSubmit;
+
+    public TrainingStatsPanel(DataManger dataManger) {
         this.dataManger = new DataManger();
         this.exerciseOrder = dataManger.getExerciseList();
     }
@@ -41,23 +43,21 @@ public class TrainingStatsPanel {
 
         this.addComponents();
 
-        this.trainingStatsPanel.getRootPane().setDefaultButton(this.btnSubmit);
-
         return this.trainingStatsPanel;
     }
 
     private void addComponents() {
         JLabel lblHeadline = this.getHeadline();
         JPanel pnlDate = this.getInputDate();
-        JScrollPane spContent = this.getContentPanel();
+        JScrollPane spContent = this.getContentScrollPane();
         JPanel pnlInfo = this.getInfoPanel();
-        JButton btnSubmit = this.getAddButton();
+        this.btnSubmit = this.getAddButton();
 
         this.trainingStatsPanel.add(lblHeadline);
         this.trainingStatsPanel.add(pnlDate);
         this.trainingStatsPanel.add(spContent);
         this.trainingStatsPanel.add(pnlInfo);
-        this.trainingStatsPanel.add(btnSubmit);
+        this.trainingStatsPanel.add(this.btnSubmit);
     }
 
     private JLabel getHeadline() {
@@ -88,7 +88,7 @@ public class TrainingStatsPanel {
         return pnl;
     }
 
-    private JScrollPane getContentPanel() {
+    private JScrollPane getContentScrollPane() {
         this.contentPanel = new JPanel();
         BoxLayout boxlayout = new BoxLayout(contentPanel, BoxLayout.Y_AXIS);
         contentPanel.setLayout(boxlayout);
@@ -101,17 +101,16 @@ public class TrainingStatsPanel {
         sPExercises.setSize(960, 700);
         sPExercises.setVisible(true);
 
-        sPExercises.getViewport().revalidate();
 
         for (String s : this.exerciseOrder) {
             //add textFields to maps
             ExerciseSet e1 = new ExerciseSet(s, 1);
-            txtFields.put(e1, new PlaceholderTextField[2]);
+            this.txtFields.put(e1, new PlaceholderTextField[2]);
             ExerciseSet e2 = new ExerciseSet(s, 2);
-            txtFields.put(e2, new PlaceholderTextField[2]);
+            this.txtFields.put(e2, new PlaceholderTextField[2]);
 
             this.exercisePanels.put(s, this.getExercisePanel(s));
-            contentPanel.add(this.exercisePanels.get(s));
+            this.contentPanel.add(this.exercisePanels.get(s));
         }
 
         this.contentPanel.setBackground(Color.decode("#F0F8FF"));
@@ -194,19 +193,10 @@ public class TrainingStatsPanel {
         panel.setPreferredSize(new Dimension(30, 80));
 
         JButton btnUp = new JButton();
-        ImageIcon imageIcon = new ImageIcon("resources/img/angle_up.png");
-        Image image = imageIcon.getImage(); // transform it
-        Image newImg = image.getScaledInstance(img_width, img_height, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-        imageIcon = new ImageIcon(newImg);
-        btnUp.setIcon(imageIcon);
+        btnUp = ButtonEditor.addImageToButton(btnUp, "resources/img/angle_up.png", img_width, img_height);
 
         JButton btnDown = new JButton();
-        imageIcon = new ImageIcon("resources/img/angle_down.png");
-        image = imageIcon.getImage();
-        newImg = image.getScaledInstance(img_width, img_height, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-        imageIcon = new ImageIcon(newImg);
-        imageIcon = new ImageIcon(newImg);
-        btnDown.setIcon(imageIcon);
+        btnDown = ButtonEditor.addImageToButton(btnDown, "resources/img/angle_down.png", img_width, img_height);
 
         btnDown.addActionListener(e -> {
             swapExerciseOrder(exercise, Direction.DOWN);
@@ -292,9 +282,9 @@ public class TrainingStatsPanel {
             }
 
             Map<ExerciseSet, String[]> tmpMap = new HashMap<>();
-            for (ExerciseSet exerciseSet : txtFields.keySet()) {    //Get content of textFields
-                String reps = txtFields.get(exerciseSet)[0].getText();
-                String weight = txtFields.get(exerciseSet)[1].getText();
+            for (ExerciseSet exerciseSet : this.txtFields.keySet()) {    //Get content of textFields
+                String reps = this.txtFields.get(exerciseSet)[0].getText();
+                String weight = this.txtFields.get(exerciseSet)[1].getText();
                 String[] s = new String[2];
                 s[0] = reps;
                 s[1] = weight;
@@ -399,5 +389,9 @@ public class TrainingStatsPanel {
         }
         this.contentPanel.validate();
         this.contentPanel.repaint();
+    }
+
+    public JButton getBtnSubmit() {
+        return btnSubmit;
     }
 }

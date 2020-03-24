@@ -8,14 +8,8 @@ import java.awt.*;
 
 public class StartFrame {
     private JFrame frame;
-    private StartPanel startPanel;
-    DataManger dataManger;
 
-
-    public StartFrame() {
-        this.dataManger = new DataManger();
-        this.startPanel = new StartPanel(dataManger);
-    }
+    public StartFrame() {}
 
     public JFrame createFrame(StartPanel startPanel, String title, int width, int height) {
 
@@ -35,6 +29,7 @@ public class StartFrame {
         JPanel pnlMainContent = startPanel.createPanel(width, height);
 
         this.frame.add(pnlMainContent);
+
         this.frame.setVisible(true);
 
         return this.frame;

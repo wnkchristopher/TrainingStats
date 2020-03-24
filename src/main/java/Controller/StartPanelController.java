@@ -6,6 +6,7 @@ import View.PdfFrame;
 import View.StartPanel;
 import View.TrainingStatsFrame;
 import Enum.ExerciseType;
+import View.TrainingStatsPanel;
 
 import javax.swing.*;
 import java.util.Date;
@@ -61,7 +62,7 @@ public class StartPanelController implements Observer {
 
         this.startPanel.getBtnAddTraining().addActionListener(e -> {
             trainingStatsFrame = new TrainingStatsFrame();
-            trainingStatsFrame.createFrame();
+            trainingStatsFrame.createFrame(new TrainingStatsPanel(this.dataManger), 1000, 1000);
         });
 
         this.startPanel.getBtnGeneratePdf().addActionListener(e -> {
