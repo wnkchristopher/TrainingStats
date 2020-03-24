@@ -39,7 +39,7 @@ public class PdfFrame {
 
     public void createFrame(int width, int height) {
         frame.setSize(width, height);
-        frame.getContentPane().setBackground(Color.decode("#ffddc1"));
+        frame.getContentPane().setBackground(Color.decode(Constants.BackgroundColor));
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
         frame.setLayout(null);
@@ -113,9 +113,9 @@ public class PdfFrame {
         bgPdf.add(rbOnePdf);
         rbMorePdfs.setSelected(true);
 
-        rbMorePdfs.setBackground(Color.decode("#ffddc1"));
+        rbMorePdfs.setBackground(Color.decode(Constants.BackgroundColor));
         rbMorePdfs.setVisible(true);
-        rbOnePdf.setBackground(Color.decode("#ffddc1"));
+        rbOnePdf.setBackground(Color.decode(Constants.BackgroundColor));
         rbOnePdf.setVisible(true);
         this.frame.add(rbMorePdfs);
         this.frame.add(rbOnePdf);
@@ -140,7 +140,7 @@ public class PdfFrame {
 
         pnlGroupFromTo.setBounds(250, 50, 200, 200);
 
-        pnlGroupFromTo.setBackground(Color.decode("#ffddc1"));
+        pnlGroupFromTo.setBackground(Color.decode(Constants.BackgroundColor));
 
         pnlGroupFromTo.add(lblFrom);
         pnlGroupFromTo.add(txtFrom);

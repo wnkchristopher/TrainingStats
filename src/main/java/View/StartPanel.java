@@ -25,7 +25,7 @@ public class StartPanel {
 
     public JPanel createPanel(int width, int height) {
         this.pnlMain.setLayout(null);
-        this.pnlMain.setBackground(Color.decode("#ffddc1"));
+        this.pnlMain.setBackground(Color.decode(Constants.BackgroundColor));
         this.pnlMain.setSize(width, height);
 
         this.addComponents();
@@ -70,7 +70,7 @@ public class StartPanel {
         JPanel pnlExercises = new JPanel();
         pnlExercises.setLayout(null);
         pnlExercises.setBounds(30, 80, 350, 110);
-        pnlExercises.setBackground(Color.decode("#ffddc1"));
+        pnlExercises.setBackground(Color.decode(Constants.BackgroundColor));
 
         this.cBExercises = new JComboBox();
         this.cBExercises.setFont(new Font("Helvetica", 3, 16));
