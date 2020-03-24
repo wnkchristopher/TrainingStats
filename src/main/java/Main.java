@@ -1,4 +1,7 @@
+import Controller.StartPanelController;
+import Model.DataManger;
 import View.StartFrame;
+import View.StartPanel;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,8 +16,17 @@ public class Main {
         Main m = new Main();
         m.checkRequiredStructure();
 
-        StartFrame frame = new StartFrame();
-        frame.createFrame("TrainStats", 400, 480);
+        int width = 400;
+        int height = 480;
+
+        StartFrame frame = new StartFrame(); //View
+
+        DataManger dataManger = new DataManger(); //Model
+        StartPanel startPanel = new StartPanel(dataManger); //View
+        frame.createFrame(startPanel, "TrainStats", width, height);
+
+        StartPanelController startPanelController = new StartPanelController(dataManger, startPanel); //Controller
+
     }
 
 

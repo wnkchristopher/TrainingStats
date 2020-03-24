@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-public class DataManger {
+public class DataManger extends Observable{
     CalculateStats calculateStats;
 
     public DataManger() {

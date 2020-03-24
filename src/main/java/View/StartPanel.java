@@ -2,20 +2,22 @@ package View;
 
 import Model.Constants;
 import Model.DataManger;
-
-import Enum.ExerciseType;
-
 import javax.swing.*;
 import java.awt.*;
-import java.util.Date;
 import java.util.Iterator;
 
 public class StartPanel {
     private JPanel pnlMain = new JPanel();
     private DataManger dataManger;
-
-    TrainingStatsFrame trainingStatsFrame; //Panels. should be generated already before using
-    PdfFrame pdfFrame;
+    private JButton btnEditExercise;
+    private JButton btnDeleteExercise;
+    private JButton btnAddExercise;
+    private JButton btnAddTraining;
+    private JButton btnGeneratePdf;
+    private JButton btnSubmitWeight;
+    private JComboBox cBExercises;
+    private JTextField txtWeight;
+    private JTextField txtDate;
 
     public StartPanel(DataManger dataManger) {
         this.dataManger = dataManger;
@@ -32,7 +34,7 @@ public class StartPanel {
     }
 
 
-    private void addComponents(){
+    private void addComponents() {
         JLabel lblHeadline = new JLabel();
         lblHeadline.setBounds(70, 20, 250, 30);
         lblHeadline.setText("Your training manager");
@@ -41,26 +43,18 @@ public class StartPanel {
 
         JPanel pnlExercise = this.getExerciseComponent();
 
-        JButton btnAddTraining = new JButton();
-        btnAddTraining.setBounds(30, 200, 310, 50);
-        btnAddTraining.setText("Add training stats");
-        btnAddTraining.setFont(new Font("Helvetica", 1, 16));
-        btnAddTraining.setVisible(true);
-        btnAddTraining.addActionListener(e -> {
-            trainingStatsFrame = new TrainingStatsFrame();
-            trainingStatsFrame.createFrame();
-        });
+        this.btnAddTraining = new JButton();
+        this.btnAddTraining.setBounds(30, 200, 310, 50);
+        this.btnAddTraining.setText("Add training stats");
+        this.btnAddTraining.setFont(new Font("Helvetica", 1, 16));
+        this.btnAddTraining.setVisible(true);
 
-        JButton btnGeneratePdf = new JButton();
-        btnGeneratePdf.setBounds(30, 260, 310, 50);
-        btnGeneratePdf.setFont(new Font("Helvetica", 1, 16));
-        btnGeneratePdf.setText("Generate PDFs");
-        btnGeneratePdf.setVisible(true);
-        btnGeneratePdf.addActionListener(e -> {
-            pdfFrame = new PdfFrame();
-            pdfFrame.createFrame();
 
-        });
+        this.btnGeneratePdf = new JButton();
+        this.btnGeneratePdf.setBounds(30, 260, 310, 50);
+        this.btnGeneratePdf.setFont(new Font("Helvetica", 1, 16));
+        this.btnGeneratePdf.setText("Generate PDFs");
+        this.btnGeneratePdf.setVisible(true);
 
         JPanel pnlWeight = this.getWeightPanel();
 
@@ -72,70 +66,36 @@ public class StartPanel {
         this.pnlMain.add(pnlWeight);
     }
 
-    private JPanel getExerciseComponent(){
+    private JPanel getExerciseComponent() {
         JPanel pnlExercises = new JPanel();
         pnlExercises.setLayout(null);
         pnlExercises.setBounds(30, 80, 350, 110);
         pnlExercises.setBackground(Color.decode("#ffddc1"));
 
-        JComboBox cBExercises = new JComboBox();
-        cBExercises.setFont(new Font("Helvetica", 3, 16));
-        cBExercises.setBounds(0, 0, 230, 50);
-        cBExercises.setVisible(true);
+        this.cBExercises = new JComboBox();
+        this.cBExercises.setFont(new Font("Helvetica", 3, 16));
+        this.cBExercises.setBounds(0, 0, 230, 50);
+        this.cBExercises.setVisible(true);
         Iterator iterator = dataManger.getExerciseList().iterator();
         while (iterator.hasNext()) {
             cBExercises.addItem(iterator.next());
         }
 
-        JButton btnEditExercise = new JButton();
-        btnEditExercise.setBounds(233, 0, 37, 50);
-        btnEditExercise =
-                ButtonEditor.addImageToButton(btnEditExercise, Constants.PathEditImage,25,25);
+        this.btnEditExercise = new JButton();
+        this.btnEditExercise.setBounds(233, 0, 37, 50);
+        this.btnEditExercise =
+                ButtonEditor.addImageToButton(btnEditExercise, Constants.PathEditImage, 25, 25);
 
-        btnEditExercise.addActionListener(e -> {    //Controller
-            String exercise = cBExercises.getSelectedItem().toString();
-            String newName = JOptionPane.showInputDialog("Rename " + exercise + " to: ");
-            if (newName != null) {
-                if (dataManger.changeExerciseName(exercise, newName)) {
-                    cBExercises.removeItem(exercise);
-                    cBExercises.addItem(newName);
-                    cBExercises.setSelectedItem(newName);
-                } else {
-                    JOptionPane.showMessageDialog(null, newName + " already exists");
-                }
-            }
-        });
-
-        JButton btnDeleteExercise = new JButton();
-        btnDeleteExercise.setBounds(273, 0, 37, 50);
-        btnDeleteExercise =
+        this.btnDeleteExercise = new JButton();
+        this.btnDeleteExercise.setBounds(273, 0, 37, 50);
+        this.btnDeleteExercise =
                 ButtonEditor.addImageToButton(btnDeleteExercise, Constants.PathDeletionImage, 20, 20);
 
-        btnDeleteExercise.addActionListener(e -> {  //Controller
-            String exercise = cBExercises.getSelectedItem().toString();
-            int dialogResult = JOptionPane.showConfirmDialog(null,
-                    "Are you sure to delete " + exercise + "?", "Warning", JOptionPane.YES_NO_OPTION);
-            if (dialogResult == JOptionPane.YES_OPTION) {
-                dataManger.deleteExercise(exercise);
-                cBExercises.removeItem(exercise);
-            }
-        });
 
-
-        JButton btnAddExercise = new JButton();
-        btnAddExercise.setText("Add exercise");
-        btnAddExercise.setBounds(0, 60, 310, 50);
-        btnAddExercise.setFont(new Font("Helvetica", 1, 16));
-        btnAddExercise.addActionListener(e -> {     //Controller
-            String inputExercise = JOptionPane.showInputDialog("New exercise:");
-            if (inputExercise == null || inputExercise.equals("")) {
-                return;
-            }
-            if (!dataManger.proveExerciseExists(inputExercise)) {
-                cBExercises.addItem(inputExercise);
-            }
-            dataManger.addNewExercise(inputExercise);
-        });
+        this.btnAddExercise = new JButton();
+        this.btnAddExercise.setText("Add exercise");
+        this.btnAddExercise.setBounds(0, 60, 310, 50);
+        this.btnAddExercise.setFont(new Font("Helvetica", 1, 16));
 
         pnlExercises.add(cBExercises);
         pnlExercises.add(btnEditExercise);
@@ -145,7 +105,7 @@ public class StartPanel {
         return pnlExercises;
     }
 
-    private JPanel getWeightPanel(){
+    private JPanel getWeightPanel() {
         String dateToday = dataManger.getCurrentDate();
 
         JPanel pnlWeight = new JPanel();
@@ -161,31 +121,21 @@ public class StartPanel {
         JLabel lblWeight = new JLabel();
         lblWeight.setText("Your Weight");
 
-        JTextField txtWeight = new JTextField();
-        txtWeight.setText(String.valueOf(dataManger.getWeight(dataManger.convertToDate(dateToday))));
+        this.txtWeight = new JTextField();
+        this.txtWeight.setText(String.valueOf(dataManger.getWeight(dataManger.convertToDate(dateToday))));
 
         JLabel lblKilo = new JLabel();
         lblKilo.setText("kg");
 
-        JTextField txtDate = new JTextField();
-        txtDate.setText(dateToday);
+        this.txtDate = new JTextField();
+        this.txtDate.setText(dateToday);
 
-        JButton btnSubmitWeight = new JButton();
-        btnSubmitWeight.setText("update");
+        this.btnSubmitWeight = new JButton();
+        this.btnSubmitWeight.setText("update");
         Dimension dimension = btnSubmitWeight.getPreferredSize();
         dimension.height = 50;
-        btnSubmitWeight.setPreferredSize(dimension);
-        btnSubmitWeight.setMinimumSize(dimension);
-        btnSubmitWeight.addActionListener(e -> {  //Controller
-            Date date = dataManger.convertToDate(txtDate.getText());
-            if (date == null) {
-                JOptionPane.showMessageDialog(null, "Format of date is wrong",
-                        "Error: Date", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            String entry = txtDate.getText() + "|0|" + txtWeight.getText();
-            dataManger.writeExerciseStats(Constants.bodyWeight, entry, date, ExerciseType.BODYWEIGHT);
-        });
+        this.btnSubmitWeight.setPreferredSize(dimension);
+        this.btnSubmitWeight.setMinimumSize(dimension);
 
         groupLayout.setHorizontalGroup(
                 groupLayout.createSequentialGroup()
@@ -220,4 +170,39 @@ public class StartPanel {
         return pnlWeight;
     }
 
+    public JButton getBtnEditExercise() {
+        return btnEditExercise;
+    }
+
+    public JButton getBtnDeleteExercise() {
+        return btnDeleteExercise;
+    }
+
+    public JButton getBtnAddExercise() {
+        return btnAddExercise;
+    }
+
+    public JButton getBtnAddTraining() {
+        return btnAddTraining;
+    }
+
+    public JButton getBtnGeneratePdf() {
+        return btnGeneratePdf;
+    }
+
+    public JButton getBtnSubmitWeight() {
+        return btnSubmitWeight;
+    }
+
+    public JComboBox getcBExercises() {
+        return cBExercises;
+    }
+
+    public JTextField getTxtWeight() {
+        return txtWeight;
+    }
+
+    public JTextField getTxtDate() {
+        return txtDate;
+    }
 }
