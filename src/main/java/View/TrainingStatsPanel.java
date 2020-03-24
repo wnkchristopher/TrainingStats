@@ -9,7 +9,6 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -24,7 +23,7 @@ public class TrainingStatsPanel {
     private Map<String, JPanel> exercisePanels = new HashMap<>();
     private int width = 0, height = 0;
 
-    private JPanel trainingStatsPanel;
+    private JPanel pnlTrainingStats;
     private JPanel contentPanel;
     private JButton btnSubmit;
 
@@ -36,14 +35,14 @@ public class TrainingStatsPanel {
     public JPanel createPanel(int width, int height) {
         this.width = width;
         this.height = height;
-        this.trainingStatsPanel = new JPanel();
-        this.trainingStatsPanel.setBackground(Color.decode(Constants.BackgroundColor));
-        this.trainingStatsPanel.setSize(width, height);
-        this.trainingStatsPanel.setLayout(null);
+        this.pnlTrainingStats = new JPanel();
+        this.pnlTrainingStats.setBackground(Color.decode(Constants.BackgroundColor));
+        this.pnlTrainingStats.setSize(width, height);
+        this.pnlTrainingStats.setLayout(null);
 
         this.addComponents();
 
-        return this.trainingStatsPanel;
+        return this.pnlTrainingStats;
     }
 
     private void addComponents() {
@@ -53,11 +52,11 @@ public class TrainingStatsPanel {
         JPanel pnlInfo = this.getInfoPanel();
         this.btnSubmit = this.getAddButton();
 
-        this.trainingStatsPanel.add(lblHeadline);
-        this.trainingStatsPanel.add(pnlDate);
-        this.trainingStatsPanel.add(spContent);
-        this.trainingStatsPanel.add(pnlInfo);
-        this.trainingStatsPanel.add(this.btnSubmit);
+        this.pnlTrainingStats.add(lblHeadline);
+        this.pnlTrainingStats.add(pnlDate);
+        this.pnlTrainingStats.add(spContent);
+        this.pnlTrainingStats.add(pnlInfo);
+        this.pnlTrainingStats.add(this.btnSubmit);
     }
 
     private JLabel getHeadline() {

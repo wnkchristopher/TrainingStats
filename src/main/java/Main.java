@@ -1,8 +1,10 @@
 import Controller.StartPanelController;
+import Controller.TrainingStatsController;
 import Model.DataManger;
 import View.StartFrame;
 import View.StartPanel;
 import Model.Constants;
+import View.TrainingStatsPanel;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -26,7 +28,12 @@ public class Main {
         StartPanel startPanel = new StartPanel(dataManger); //View
         frame.createFrame(startPanel, "TrainStats", width, height);
 
-        StartPanelController startPanelController = new StartPanelController(dataManger, startPanel); //Controller
+
+        TrainingStatsPanel trainingStatsPanel = new TrainingStatsPanel(dataManger);
+
+        StartPanelController startPanelController = new StartPanelController(dataManger, startPanel, trainingStatsPanel); //Controller
+
+        TrainingStatsController trainingStatsController = new TrainingStatsController(dataManger, trainingStatsPanel);
 
     }
 

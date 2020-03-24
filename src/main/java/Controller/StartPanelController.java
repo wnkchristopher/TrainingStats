@@ -18,10 +18,12 @@ public class StartPanelController implements Observer {
     private StartPanel startPanel;
     private TrainingStatsFrame trainingStatsFrame;
     private PdfFrame pdfFrame;
+    private TrainingStatsPanel trainingStatsPanel;
 
-    public StartPanelController(DataManger dataManger, StartPanel startPanel) {  //dataManager = model, startPanel = view
+    public StartPanelController(DataManger dataManger, StartPanel startPanel, TrainingStatsPanel trainingStatsPanel) {  //dataManager = model, startPanel = view
         this.dataManger = dataManger;
         this.startPanel = startPanel;
+        this.trainingStatsPanel = trainingStatsPanel;
         this.trainingStatsFrame = new TrainingStatsFrame();
         this.pdfFrame = new PdfFrame();
 
@@ -62,7 +64,7 @@ public class StartPanelController implements Observer {
 
         this.startPanel.getBtnAddTraining().addActionListener(e -> {
             trainingStatsFrame = new TrainingStatsFrame();
-            trainingStatsFrame.createFrame(new TrainingStatsPanel(this.dataManger), 1000, 1000);
+            trainingStatsFrame.createFrame(this.trainingStatsPanel, 1000, 1000);
         });
 
         this.startPanel.getBtnGeneratePdf().addActionListener(e -> {
