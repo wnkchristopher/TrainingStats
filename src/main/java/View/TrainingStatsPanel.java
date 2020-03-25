@@ -6,12 +6,7 @@ import Model.ExerciseSet;
 import com.sun.javafx.scene.traversal.Direction;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.*;
 import java.util.List;
 
@@ -19,20 +14,24 @@ public class TrainingStatsPanel {
     private PlaceholderTextField txtDate;
     private DataManger dataManger;
     private Map<ExerciseSet, PlaceholderTextField[]> txtFields = new HashMap<>();//1 for Reps, 2 for Weight
-    private List<String> exerciseOrder = new ArrayList<>();
+    private List<String> exerciseOrder; // = new ArrayList<>()
     private Map<String, JPanel> exercisePanels = new HashMap<>();
     private int width = 0, height = 0;
 
     private JPanel pnlTrainingStats;
     private JPanel contentPanel;
     private JButton btnSubmit;
+    
+    private InfoBox infoBox;
 
     public TrainingStatsPanel(DataManger dataManger) {
         this.dataManger = new DataManger();
         this.exerciseOrder = dataManger.getExerciseList();
+
+        this.createPanel(1000, 1000);
     }
 
-    public JPanel createPanel(int width, int height) {
+    private JPanel createPanel(int width, int height) {
         this.width = width;
         this.height = height;
         this.pnlTrainingStats = new JPanel();
@@ -272,42 +271,7 @@ public class TrainingStatsPanel {
         this.btnSubmit.setBounds(350, 850, 300, 50);
         this.btnSubmit.setText("Add to your training stats");
         this.btnSubmit.setFont(new Font("Helvetica", 3, 16));
-        this.btnSubmit.addActionListener(e -> {
-            Date dateOfTraining = dataManger.convertToDate(txtDate.getText());
-            if (dateOfTraining == null) {
-                JOptionPane.showMessageDialog(null, "Format of date is wrong",
-                        "Error: Date", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
 
-            Map<ExerciseSet, String[]> tmpMap = new HashMap<>();
-            for (ExerciseSet exerciseSet : this.txtFields.keySet()) {    //Get content of textFields
-                String reps = this.txtFields.get(exerciseSet)[0].getText();
-                String weight = this.txtFields.get(exerciseSet)[1].getText();
-                String[] s = new String[2];
-                s[0] = reps;
-                s[1] = weight;
-                if (!s[0].isEmpty()) {
-                    if (s[1].isEmpty() || s[1].contains("b")) {
-                        String digits = s[1].replaceAll("\\D+", "");
-                        if (s[1].contains("+")) {
-                            s[1] = "b+" + digits;
-                            tmpMap.put(exerciseSet, s);
-                        } else if (s[1].contains("-")) {
-                            s[1] = "b-" + digits;
-                            tmpMap.put(exerciseSet, s);
-                        }
-                    } else {
-                        tmpMap.put(exerciseSet, s);
-                    }
-                }
-
-                //refresh for next entry
-                txtFields.get(exerciseSet)[0].setText("");
-                txtFields.get(exerciseSet)[1].setText("");
-            }
-            dataManger.addWorkout(tmpMap, dateOfTraining);
-        });
         return this.btnSubmit;
     }
 
@@ -316,67 +280,13 @@ public class TrainingStatsPanel {
         int top = 50;
         int distanceRight = 40;
 
-        JPanel pnlInfo = new JPanel();
-        pnlInfo.setLayout(null);
-        pnlInfo.setBounds(this.width - width-distanceRight, top - 38, width, 90);
-        pnlInfo.setOpaque(false);
-
-        JLabel lblInfo = new JLabel();
-        ImageIcon tmpImageHelp = new ImageIcon("resources/img/help_small.png");
-        Image image = tmpImageHelp.getImage(); // transform it
-        Image newImg = image.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-        final ImageIcon imageHelp = new ImageIcon(newImg);
-        lblInfo.setIcon(imageHelp);
-        lblInfo.setBounds(270, 10, width, 30);
-
-        ImageIcon tmpImageHelpHover = new ImageIcon("resources/img/help_hover_small.png");
-        image = tmpImageHelpHover.getImage(); // transform it
-        newImg = image.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-        final ImageIcon imageHelpHover = new ImageIcon(newImg);
-
-        JLabel tmpLblText = new JLabel();
-        tmpLblText.setOpaque(true);
-        tmpLblText.setBackground(Color.white);
-        tmpLblText.setFont(new Font("Serif", Font.BOLD, 16));
-        tmpLblText.setText("<html><body>For body weight exercises " +
+        this.infoBox = new InfoBox("<html><body>For body weight exercises " +
                 "enter a 'b' or leave it empty<br>" +
                 "extra weight: b+extra weight <br>" +
                 "support weight: b-support weight");
-        Border border = BorderFactory.createLineBorder(Color.BLACK, 3);
-        Border margin = new EmptyBorder(10, 10, 10, 10);
-        tmpLblText.setBorder(new CompoundBorder(border, margin));
-        tmpLblText.setBounds(0, 0, 270, 90);
 
-        final JLabel lblText = tmpLblText;
-        lblText.setVisible(false);
-
-
-        lblInfo.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {}
-            @Override
-            public void mousePressed(MouseEvent e) {}
-            @Override
-            public void mouseReleased(MouseEvent e) {}
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                lblInfo.setIcon(imageHelpHover);
-                lblText.setVisible(true);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                lblInfo.setIcon(imageHelp);
-                lblText.setVisible(false);
-            }
-        });
-
-        lblInfo.setVisible(true);
-
-
-        pnlInfo.add(lblInfo);
-        pnlInfo.add(lblText);
+        JPanel pnlInfo = this.infoBox.getPnlInfo();
+        pnlInfo.setLocation(this.width - width-distanceRight, top - 38);
 
         return pnlInfo;
     }
@@ -390,7 +300,19 @@ public class TrainingStatsPanel {
         this.contentPanel.repaint();
     }
 
+    public JPanel getPnlTrainingStats() {
+        return pnlTrainingStats;
+    }
+
     public JButton getBtnSubmit() {
         return btnSubmit;
+    }
+
+    public Map<ExerciseSet, PlaceholderTextField[]> getTxtFields() {
+        return txtFields;
+    }
+
+    public PlaceholderTextField getTxtDate() {
+        return txtDate;
     }
 }

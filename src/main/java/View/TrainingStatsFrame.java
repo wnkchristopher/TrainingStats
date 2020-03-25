@@ -32,7 +32,7 @@ public class TrainingStatsFrame {
         ImageIcon imageIcon = new ImageIcon("resources/img/logo.png");
         this.frame.setIconImage(imageIcon.getImage());
 
-        JPanel pnlContent = this.trainingStatsPanel.createPanel(width, height);
+        JPanel pnlContent = this.trainingStatsPanel.getPnlTrainingStats();
 
         this.frame.add(pnlContent);
 
