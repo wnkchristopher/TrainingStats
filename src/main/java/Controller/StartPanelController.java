@@ -80,7 +80,7 @@ public class StartPanelController implements Observer {
                 return;
             }
             String entry = startPanel.getTxtDate().getText() + "|0|" + startPanel.getTxtWeight().getText();
-            dataManger.writeExerciseStats(Constants.bodyWeight, entry, date, ExerciseType.BODYWEIGHT);
+            dataManger.writeExerciseStats(Constants.bodyWeight, date, entry, ExerciseType.BODYWEIGHT);
         });
     }
 

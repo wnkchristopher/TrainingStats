@@ -22,22 +22,16 @@ public class ExercisePanelController implements Observer {
         });
 
         this.exercisePanel.getBtnUp().addActionListener(e -> {
-            System.out.println("Up");
-            //swapExerciseOrder(exercise, Direction.UP);
             dataManger.changeExerciseOrder(this.exercisePanel.getExercise(), Direction.UP);
         });
 
         this.exercisePanel.getBtnDown().addActionListener(e -> {
-            System.out.println("Down");
-            //swapExerciseOrder(exercise, Direction.DOWN);
             dataManger.changeExerciseOrder(this.exercisePanel.getExercise(), Direction.DOWN);
         });
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o == this.dataManger && arg.equals(Constants.changedExerciseOrder)) {
-            System.out.println("funkt");
-        }
+
     }
 }

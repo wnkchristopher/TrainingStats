@@ -36,7 +36,7 @@ public class DataManger extends Observable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.writeExerciseStats(name, "", null, ExerciseType.EXERCISE);
+        this.writeExerciseStats(name, null, "", ExerciseType.EXERCISE);
     }
 
     public boolean proveExerciseExists(String exercise_name) {
@@ -98,32 +98,18 @@ public class DataManger extends Observable {
         }
     }
 
-    public void addWorkout(Map<ExerciseSet, String[]> exerciseSetMap, Date dateOfTraining) {
+    public String convertDateToString(Date date) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(dateOfTraining);
-        String date = calendar.get(Calendar.DAY_OF_MONTH) + "." +
+        calendar.setTime(date);
+        String stringDate = calendar.get(Calendar.DAY_OF_MONTH) + "." +
                 (calendar.get(Calendar.MONTH) + 1) + "." + calendar.get(Calendar.YEAR);
-        String exerciseChecker = "";
-        String exerciseContent = "";
-        Map<ExerciseSet, String[]> test = new TreeMap<>(exerciseSetMap);
-        for (ExerciseSet exerciseSet : test.keySet()) {
-            if (exerciseChecker.isEmpty()) {
-                exerciseChecker = exerciseSet.getExercise();
-                exerciseContent = date + "|" +
-                        exerciseSetMap.get(exerciseSet)[0] + "|" + exerciseSetMap.get(exerciseSet)[1];
-            } else if (exerciseChecker.equals(exerciseSet.getExercise())) {
-                //einfach nächste Übung rein
-                exerciseContent += "|" + exerciseSetMap.get(exerciseSet)[0] + "|"
-                        + exerciseSetMap.get(exerciseSet)[1];
-            } else {
-                this.writeExerciseStats(exerciseChecker, exerciseContent, dateOfTraining, ExerciseType.EXERCISE);
-                exerciseChecker = exerciseSet.getExercise();
-                exerciseContent = date + "|" +
-                        exerciseSetMap.get(exerciseSet)[0] + "|" + exerciseSetMap.get(exerciseSet)[1];
-            }
-        }
-        if (!exerciseContent.isEmpty()) {
-            this.writeExerciseStats(exerciseChecker, exerciseContent, dateOfTraining, ExerciseType.EXERCISE);
+
+        return stringDate;
+    }
+
+    public void addWorkout(String exercise, Date dateOfTraining, String content) {
+        if (!content.isEmpty()) {
+            this.writeExerciseStats(exercise, dateOfTraining, content, ExerciseType.EXERCISE);
         }
     }
 
@@ -147,7 +133,7 @@ public class DataManger extends Observable {
     }
 
 
-    public void writeExerciseStats(String exercise, String content, Date dateOfTraining, ExerciseType exerciseType) {
+    public void writeExerciseStats(String exercise, Date dateOfTraining, String content, ExerciseType exerciseType) {
         int line = this.getLineToInsert(exercise, dateOfTraining, exerciseType);
         String filepath = "";
         if (exerciseType.equals(ExerciseType.EXERCISE)) {

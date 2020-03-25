@@ -12,7 +12,6 @@ public class ExercisePanel {
 
     private String exercise;
     private JPanel pnlExercise;
-    private TrainingStatsPanel trainingStatsPanel;
     private Map<Integer, PlaceholderTextField[]> txtFields;
     private JButton btnPlus;
     private JPanel pnlBtnUpDown;
@@ -22,9 +21,8 @@ public class ExercisePanel {
     private int set = 1;
 
 
-    public ExercisePanel(String exercise, TrainingStatsPanel trainingStatsPanel) {
+    public ExercisePanel(String exercise) {
         txtFields = new HashMap<>();
-        this.trainingStatsPanel = trainingStatsPanel;
         this.pnlExercise = this.createExercisePanel(exercise);
         this.exercise = exercise;
         this.addNewSet();
@@ -140,14 +138,6 @@ public class ExercisePanel {
         panel.add(txtReps);
         panel.add(txtWeight);
 
-       /* for (ExerciseSet exerciseSet : txtFields.keySet()) {
-            if (exerciseSet.getExercise().equals(exercise) && exerciseSet.getSet() == set) {
-                txtFields.put(exerciseSet, pTF);
-                panel.add(txtFields.get(exerciseSet)[0]);
-                panel.add(txtFields.get(exerciseSet)[1]);
-                break;
-            }
-        }*/
         return panel;
     }
 
@@ -177,5 +167,9 @@ public class ExercisePanel {
 
     public JPanel getPnlBtnUpDown() {
         return pnlBtnUpDown;
+    }
+
+    public Map<Integer, PlaceholderTextField[]> getTxtFields() {
+        return txtFields;
     }
 }

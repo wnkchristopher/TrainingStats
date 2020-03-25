@@ -3,7 +3,6 @@ package View;
 import Controller.ExercisePanelController;
 import Model.Constants;
 import Model.DataManger;
-import Model.ExerciseSet;
 import View.Extensions.PlaceholderTextField;
 
 import javax.swing.*;
@@ -14,9 +13,8 @@ import java.util.List;
 public class TrainingStatsPanel {
     private PlaceholderTextField txtDate;
     private DataManger dataManger;
-    private Map<ExerciseSet, PlaceholderTextField[]> txtFields = new HashMap<>();//1 for Reps, 2 for Weight
     private List<String> exerciseOrder; // = new ArrayList<>()
-    private Map<String, JPanel> exercisePanels = new HashMap<>();
+    private Map<String, ExercisePanel> exercisePanels = new HashMap<>();
     private int width = 0, height = 0;
 
     private JPanel pnlTrainingStats;
@@ -98,18 +96,13 @@ public class TrainingStatsPanel {
 
         sPExercises.setLocation(10, 90);
         sPExercises.setSize(960, 700);
+        sPExercises.getVerticalScrollBar().setUnitIncrement(Constants.ScrollSpeed);
         sPExercises.setVisible(true);
 
 
         for (String s : this.exerciseOrder) {
-            //add textFields to maps
-            ExerciseSet e1 = new ExerciseSet(s, 1);
-            this.txtFields.put(e1, new PlaceholderTextField[2]);
-            ExerciseSet e2 = new ExerciseSet(s, 2);
-            this.txtFields.put(e2, new PlaceholderTextField[2]);
-
             this.exercisePanels.put(s, this.getExercisePanel(s));
-            this.contentPanel.add(this.exercisePanels.get(s));   //need to change
+            this.contentPanel.add(this.exercisePanels.get(s).getPnlExercise());   //need to change
         }
 
         this.contentPanel.setBackground(Color.decode("#F0F8FF"));
@@ -118,11 +111,11 @@ public class TrainingStatsPanel {
         return sPExercises;
     }
 
-    private JPanel getExercisePanel(String exercise) {
-        ExercisePanel exercisePanel = new ExercisePanel(exercise, this);
+    private ExercisePanel getExercisePanel(String exercise) {
+        ExercisePanel exercisePanel = new ExercisePanel(exercise);
         ExercisePanelController exercisePanelController = new ExercisePanelController(this.dataManger, exercisePanel);
 
-        return exercisePanel.getPnlExercise();
+        return exercisePanel;
     }
 
     private JButton getSubmitButton() {
@@ -154,7 +147,7 @@ public class TrainingStatsPanel {
         this.exerciseOrder = this.dataManger.getExerciseList();
         this.contentPanel.removeAll();
         for (String e : this.exerciseOrder) {
-            this.contentPanel.add(this.exercisePanels.get(e));
+            this.contentPanel.add(this.exercisePanels.get(e).getPnlExercise());
         }
         this.contentPanel.validate();
         this.contentPanel.repaint();
@@ -168,11 +161,11 @@ public class TrainingStatsPanel {
         return btnSubmit;
     }
 
-    public Map<ExerciseSet, PlaceholderTextField[]> getTxtFields() {
-        return txtFields;
-    }
-
     public PlaceholderTextField getTxtDate() {
         return txtDate;
+    }
+
+    public Map<String, ExercisePanel> getExercisePanels() {
+        return exercisePanels;
     }
 }

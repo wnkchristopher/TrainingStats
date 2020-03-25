@@ -2,7 +2,7 @@ package Controller;
 
 import Model.Constants;
 import Model.DataManger;
-import Model.ExerciseSet;
+import View.ExercisePanel;
 import View.Extensions.PlaceholderTextField;
 import View.TrainingStatsPanel;
 
@@ -19,9 +19,6 @@ public class TrainingStatsController implements Observer {
         this.trainingStatsPanel = trainingStatsPanel;
 
         this.trainingStatsPanel.getBtnSubmit().addActionListener(e -> {
-
-            Map<ExerciseSet, PlaceholderTextField[]> txtFields = this.trainingStatsPanel.getTxtFields();
-
             Date dateOfTraining = dataManger.convertToDate(this.trainingStatsPanel.getTxtDate().getText());
             if (dateOfTraining == null) {
                 JOptionPane.showMessageDialog(null, "Format of date is wrong",
@@ -29,33 +26,42 @@ public class TrainingStatsController implements Observer {
                 return;
             }
 
-            Map<ExerciseSet, String[]> tmpMap = new HashMap<>();
-            for (ExerciseSet exerciseSet : txtFields.keySet()) {    //Get content of textFields
-                String reps = txtFields.get(exerciseSet.getExercise())[0].getText();
-                String weight = txtFields.get(exerciseSet.getExercise())[1].getText();
-                String[] s = new String[2];
-                s[0] = reps;
-                s[1] = weight;
-                if (!s[0].isEmpty()) {
-                    if (s[1].isEmpty() || s[1].contains("b")) {
-                        String digits = s[1].replaceAll("\\D+", "");
-                        if (s[1].contains("+")) {
-                            s[1] = "b+" + digits;
-                            tmpMap.put(exerciseSet, s);
-                        } else if (s[1].contains("-")) {
-                            s[1] = "b-" + digits;
-                            tmpMap.put(exerciseSet, s);
-                        }
-                    } else {
-                        tmpMap.put(exerciseSet, s);
-                    }
-                }
+            Map<String, ExercisePanel> exercisePanels = this.trainingStatsPanel.getExercisePanels();
 
-                //refresh for next entry
-                txtFields.get(exerciseSet)[0].setText("");
-                txtFields.get(exerciseSet)[1].setText("");
+            for (Map.Entry<String, ExercisePanel> entry : exercisePanels.entrySet()) {
+
+                String exercise = entry.getKey();
+                String newExerciseLine = this.dataManger.convertDateToString(dateOfTraining);
+
+                Map<Integer, PlaceholderTextField[]> txtFields = entry.getValue().getTxtFields();
+
+                for (int set = 1; set <= txtFields.size(); set++) {
+                    String reps = txtFields.get(set)[0].getText();
+                    String weight = txtFields.get(set)[1].getText();
+
+                    if (!reps.isEmpty()) {
+                        if (weight.isEmpty() || weight.contains("b")) {
+                            String digits = weight.replaceAll("\\D+", "");
+                            if (weight.contains("+")) {
+                                weight = "b+" + digits;
+                            } else if (weight.contains("-")) {
+                                weight = "b-" + digits;
+                            }
+                        }
+                        newExerciseLine += "|" + reps + "|" + weight;
+                    }else{
+                        break;
+                    }
+
+                    //reset text fields
+                    txtFields.get(set)[0].setText("");
+                    txtFields.get(set)[1].setText("");
+                }
+                //checks if text fields are used
+                if(newExerciseLine.contains("|")){
+                    this.dataManger.addWorkout(exercise, dateOfTraining, newExerciseLine);
+                }
             }
-            dataManger.addWorkout(tmpMap, dateOfTraining);
         });
     }
 

@@ -5,6 +5,7 @@ public class Constants {
     public final static double defaultWeight = 75.0;
     public final static String BackgroundColor = "#ffddc1";
     public final static String bodyWeight = "weight";
+    public final static int ScrollSpeed = 8;
 
     //Paths
     public final static String PathEditImage = "resources/img/edit_small.png";
