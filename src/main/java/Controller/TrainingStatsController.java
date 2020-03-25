@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Constants;
 import Model.DataManger;
 import Model.ExerciseSet;
 import View.Extensions.PlaceholderTextField;
@@ -14,9 +15,8 @@ public class TrainingStatsController implements Observer {
 
     public TrainingStatsController(DataManger dataManger, TrainingStatsPanel trainingStatsPanel) {
         this.dataManger = dataManger;
-        this.trainingStatsPanel = trainingStatsPanel;
-
         this.dataManger.addObserver(this);
+        this.trainingStatsPanel = trainingStatsPanel;
 
         this.trainingStatsPanel.getBtnSubmit().addActionListener(e -> {
 
@@ -31,8 +31,8 @@ public class TrainingStatsController implements Observer {
 
             Map<ExerciseSet, String[]> tmpMap = new HashMap<>();
             for (ExerciseSet exerciseSet : txtFields.keySet()) {    //Get content of textFields
-                String reps = txtFields.get(exerciseSet)[0].getText();
-                String weight = txtFields.get(exerciseSet)[1].getText();
+                String reps = txtFields.get(exerciseSet.getExercise())[0].getText();
+                String weight = txtFields.get(exerciseSet.getExercise())[1].getText();
                 String[] s = new String[2];
                 s[0] = reps;
                 s[1] = weight;
@@ -61,6 +61,8 @@ public class TrainingStatsController implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-
+        if (o == this.dataManger && arg.equals(Constants.changedExerciseOrder)) {
+            this.trainingStatsPanel.refresh();
+        }
     }
 }

@@ -1,6 +1,7 @@
 package Model;
 
 import Enum.ExerciseType;
+import com.sun.javafx.scene.traversal.Direction;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -66,6 +67,21 @@ public class DataManger extends Observable {
 
     public void writeExerciseTxt(List<String> exerciseOrder) {
 
+    }
+
+    public void changeExerciseOrder(String exercise, Direction direction) {
+        List<String> exercises = this.getExerciseList();
+        int index = exercises.indexOf(exercise);
+        if (direction == Direction.UP && index > 0) {
+            Collections.swap(exercises, index, index-1);
+        } else if (direction == Direction.DOWN && index+1 < exercises.size()) {
+            Collections.swap(exercises, index, index+1);
+        }
+
+        this.changeExerciseOrder(exercises);
+
+        this.setChanged();
+        this.notifyObservers(Constants.changedExerciseOrder);  //why is update 12 times (quantity of exercises) called?
     }
 
 

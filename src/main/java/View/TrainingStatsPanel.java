@@ -5,7 +5,6 @@ import Model.Constants;
 import Model.DataManger;
 import Model.ExerciseSet;
 import View.Extensions.PlaceholderTextField;
-import com.sun.javafx.scene.traversal.Direction;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +26,7 @@ public class TrainingStatsPanel {
     private InfoBox infoBox;
 
     public TrainingStatsPanel(DataManger dataManger) {
-        this.dataManger = new DataManger();
+        this.dataManger = dataManger;
         this.exerciseOrder = dataManger.getExerciseList();
 
         this.createPanel(1000, 1000);
@@ -51,7 +50,7 @@ public class TrainingStatsPanel {
         JPanel pnlDate = this.getInputDate();
         JScrollPane spContent = this.getContentScrollPane();
         JPanel pnlInfo = this.getInfoPanel();
-        this.btnSubmit = this.getAddButton();
+        this.btnSubmit = this.getSubmitButton();
 
         this.pnlTrainingStats.add(lblHeadline);
         this.pnlTrainingStats.add(pnlDate);
@@ -126,23 +125,7 @@ public class TrainingStatsPanel {
         return exercisePanel.getPnlExercise();
     }
 
-    private void swapExerciseOrder(String exercise, Direction direction) {
-        int position = this.exerciseOrder.indexOf(exercise);
-        int max = this.exerciseOrder.size() - 1;
-        if (direction == Direction.UP) {
-            if (position > 0) {
-                Collections.swap(this.exerciseOrder, position, position - 1);
-            }
-        } else if (direction == Direction.DOWN) {
-            if (position < max) {
-                Collections.swap(this.exerciseOrder, position, position + 1);
-            }
-        }
-        dataManger.changeExerciseOrder(this.exerciseOrder);
-        this.refresh();
-    }
-
-    private JButton getAddButton() {
+    private JButton getSubmitButton() {
         this.btnSubmit = new JButton();
         this.btnSubmit.setBounds(350, 850, 300, 50);
         this.btnSubmit.setText("Add to your training stats");
@@ -167,7 +150,8 @@ public class TrainingStatsPanel {
         return pnlInfo;
     }
 
-    private void refresh() {
+    public void refresh() {
+        this.exerciseOrder = this.dataManger.getExerciseList();
         this.contentPanel.removeAll();
         for (String e : this.exerciseOrder) {
             this.contentPanel.add(this.exercisePanels.get(e));

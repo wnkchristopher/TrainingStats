@@ -21,11 +21,14 @@ public class ExercisePanel {
     private JPanel pnlSpacer;
     private int set = 1;
 
+
     public ExercisePanel(String exercise, TrainingStatsPanel trainingStatsPanel) {
         txtFields = new HashMap<>();
         this.trainingStatsPanel = trainingStatsPanel;
         this.pnlExercise = this.createExercisePanel(exercise);
         this.exercise = exercise;
+        this.addNewSet();
+        this.addNewSet();
     }
 
     private JPanel createExercisePanel(String exercise) {
@@ -61,8 +64,6 @@ public class ExercisePanel {
         panel.add(this.btnPlus);
         panel.add(this.pnlSpacer);
         panel.add(this.pnlBtnUpDown);
-       // this.addNewSet();
-       // this.addNewSet();
 
         this.pnlSpacer.setBackground(Color.decode("#F0F8FF"));
         panel.setBackground(Color.decode("#F0F8FF"));
@@ -72,17 +73,19 @@ public class ExercisePanel {
         return panel;
     }
 
-    private void addNewSet() {
-       // this.pnlExercise.remove(btnPlus);
-       // this.pnlExercise.remove(pnlSpacer);
-       // this.pnlExercise.remove(this.pnlBtnUpDown);
+    public void addNewSet() {
+        this.pnlExercise.remove(btnPlus);
+        this.pnlExercise.remove(pnlSpacer);
+        this.pnlExercise.remove(this.pnlBtnUpDown);
 
         this.pnlExercise.add(this.getSetPanel(exercise, this.set));
         this.set++;
 
-      //  this.pnlExercise.add(btnPlus);
-      //  this.pnlExercise.add(pnlSpacer);
-      //  this.pnlExercise.add(pnlBtnUpDown);
+        this.pnlExercise.add(btnPlus);
+        this.pnlExercise.add(pnlSpacer);
+        this.pnlExercise.add(pnlBtnUpDown);
+
+        this.pnlExercise.updateUI();
     }
 
     private JPanel getUpDownButton(String exercise) {
