@@ -2,6 +2,8 @@ package View;
 
 import Model.Constants;
 import Model.DataManger;
+import View.Extensions.ButtonEditor;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Iterator;

@@ -1,8 +1,10 @@
 package View;
 
+import Controller.ExercisePanelController;
 import Model.Constants;
 import Model.DataManger;
 import Model.ExerciseSet;
+import View.Extensions.PlaceholderTextField;
 import com.sun.javafx.scene.traversal.Direction;
 
 import javax.swing.*;
@@ -108,7 +110,7 @@ public class TrainingStatsPanel {
             this.txtFields.put(e2, new PlaceholderTextField[2]);
 
             this.exercisePanels.put(s, this.getExercisePanel(s));
-            this.contentPanel.add(this.exercisePanels.get(s));
+            this.contentPanel.add(this.exercisePanels.get(s));   //need to change
         }
 
         this.contentPanel.setBackground(Color.decode("#F0F8FF"));
@@ -118,136 +120,10 @@ public class TrainingStatsPanel {
     }
 
     private JPanel getExercisePanel(String exercise) {
-        JPanel panel = new JPanel();
-        JTextField txtSaveSetNumber = new JTextField();
-        txtSaveSetNumber.setText("2");
-        panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        ExercisePanel exercisePanel = new ExercisePanel(exercise, this);
+        ExercisePanelController exercisePanelController = new ExercisePanelController(this.dataManger, exercisePanel);
 
-        BoxLayout boxLayout = new BoxLayout(panel, BoxLayout.X_AXIS);
-        panel.setLayout(boxLayout);
-        panel.setPreferredSize(new Dimension(930, 100));
-        panel.setMinimumSize(new Dimension(930, 100));
-        panel.setMaximumSize(new Dimension(930, 100));
-
-        JLabel lblExerciseTitle = new JLabel();
-        lblExerciseTitle.setText(exercise);
-        lblExerciseTitle.setFont(new Font("Helvetica", 1, 16));
-        lblExerciseTitle.setPreferredSize(new Dimension(200, 30));
-        lblExerciseTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-        JPanel pnlMove = new JPanel();
-        pnlMove.setPreferredSize(new Dimension(30, 30));
-        pnlMove.setMaximumSize(new Dimension(30, 30));
-        pnlMove.setBackground(Color.decode("#A4A4A4"));
-
-        JPanel pnlSpacer = new JPanel();
-
-        JPanel btnUpDown = this.getUpDownButton(exercise);
-        btnUpDown.setAlignmentX(Component.RIGHT_ALIGNMENT);
-
-        JButton btnPlus = new JButton("+");
-        btnPlus.setFont(new Font("Helvetica", 1, 60));
-        btnPlus.addActionListener(e -> {
-            panel.remove(btnPlus);
-            panel.remove(pnlSpacer);
-            panel.remove(btnUpDown);
-            int set = Integer.valueOf(txtSaveSetNumber.getText());
-            set++;
-            ExerciseSet e1 = new ExerciseSet(exercise, set);
-            txtFields.put(e1, new PlaceholderTextField[2]);
-            panel.add(getSetPanel(exercise, set));
-            txtSaveSetNumber.setText(String.valueOf(set));
-            panel.add(btnPlus);
-            panel.add(pnlSpacer);
-            panel.add(btnUpDown);
-            panel.updateUI();
-        });
-
-        //out commented because functionality is not implemented and without a function it is senseless
-        //panel.add(pnlMove);
-        panel.add(Box.createHorizontalStrut(10));
-        panel.add(lblExerciseTitle);
-        panel.add(this.getSetPanel(exercise, 1));
-        panel.add(this.getSetPanel(exercise, 2));
-        panel.add(btnPlus);
-        panel.add(pnlSpacer);
-        panel.add(btnUpDown);
-
-        pnlSpacer.setBackground(Color.decode("#F0F8FF"));
-        panel.setBackground(Color.decode("#F0F8FF"));
-
-        btnPlus.setFocusable(false);
-
-        return panel;
-    }
-
-    private JPanel getUpDownButton(String exercise) {
-        int img_width, img_height;
-        img_width = 30;
-        img_height = 30;
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(2, 1));
-        panel.setPreferredSize(new Dimension(30, 80));
-
-        JButton btnUp = new JButton();
-        btnUp = ButtonEditor.addImageToButton(btnUp, "resources/img/angle_up.png", img_width, img_height);
-
-        JButton btnDown = new JButton();
-        btnDown = ButtonEditor.addImageToButton(btnDown, "resources/img/angle_down.png", img_width, img_height);
-
-        btnDown.addActionListener(e -> {
-            swapExerciseOrder(exercise, Direction.DOWN);
-        });
-
-        btnUp.addActionListener(e -> {
-            swapExerciseOrder(exercise, Direction.UP);
-        });
-
-        panel.setPreferredSize(new Dimension(40, 80));
-        panel.setMaximumSize(new Dimension(40, 80));
-
-        panel.add(btnUp);
-        panel.add(btnDown);
-        panel.validate();
-
-        btnUp.setFocusable(false);
-        btnDown.setFocusable(false);
-
-        return panel;
-    }
-
-
-    private JPanel getSetPanel(String exercise, int set) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 1));
-        panel.setPreferredSize(new Dimension(90, 80));
-        panel.setMaximumSize(new Dimension(90, 80));
-
-        JLabel lblSet = new JLabel("set " + set);
-        lblSet.setPreferredSize(new Dimension(70, 30));
-        PlaceholderTextField txtReps = new PlaceholderTextField();
-        txtReps.setPreferredSize(new Dimension(70, 20));
-        txtReps.setPlaceholder("Reps");
-        PlaceholderTextField txtWeight = new PlaceholderTextField();
-        txtWeight.setPreferredSize(new Dimension(70, 20));
-        txtWeight.setPlaceholder("Weight in kg");
-
-
-        PlaceholderTextField[] pTF = new PlaceholderTextField[2];
-        pTF[0] = txtReps;
-        pTF[1] = txtWeight;
-
-        panel.add(lblSet);
-        for (ExerciseSet exerciseSet : this.txtFields.keySet()) {
-            if (exerciseSet.getExercise().equals(exercise) && exerciseSet.getSet() == set) {
-                this.txtFields.put(exerciseSet, pTF);
-                panel.add(this.txtFields.get(exerciseSet)[0]);
-                panel.add(this.txtFields.get(exerciseSet)[1]);
-                break;
-            }
-        }
-        return panel;
+        return exercisePanel.getPnlExercise();
     }
 
     private void swapExerciseOrder(String exercise, Direction direction) {

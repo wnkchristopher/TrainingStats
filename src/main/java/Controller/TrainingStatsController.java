@@ -2,7 +2,7 @@ package Controller;
 
 import Model.DataManger;
 import Model.ExerciseSet;
-import View.PlaceholderTextField;
+import View.Extensions.PlaceholderTextField;
 import View.TrainingStatsPanel;
 
 import javax.swing.*;
@@ -15,6 +15,8 @@ public class TrainingStatsController implements Observer {
     public TrainingStatsController(DataManger dataManger, TrainingStatsPanel trainingStatsPanel) {
         this.dataManger = dataManger;
         this.trainingStatsPanel = trainingStatsPanel;
+
+        this.dataManger.addObserver(this);
 
         this.trainingStatsPanel.getBtnSubmit().addActionListener(e -> {
 
