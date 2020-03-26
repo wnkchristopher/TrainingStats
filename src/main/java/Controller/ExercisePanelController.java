@@ -17,17 +17,17 @@ public class ExercisePanelController implements Observer {
         this.dataManger.addObserver(this);
         this.exercisePanel = exercisePanel;
 
-        this.exercisePanel.getBtnPlus().addActionListener(e -> {
-            this.exercisePanel.addNewSet();
-        });
+        this.exercisePanel.getBtnPlus().addActionListener(e ->
+                this.exercisePanel.addNewSet()
+        );
 
-        this.exercisePanel.getBtnUp().addActionListener(e -> {
-            dataManger.changeExerciseOrder(this.exercisePanel.getExercise(), Direction.UP);
-        });
+        this.exercisePanel.getBtnUp().addActionListener(e ->
+            dataManger.changeExerciseOrder(this.exercisePanel.getExercise(), Direction.UP)
+        );
 
-        this.exercisePanel.getBtnDown().addActionListener(e -> {
-            dataManger.changeExerciseOrder(this.exercisePanel.getExercise(), Direction.DOWN);
-        });
+        this.exercisePanel.getBtnDown().addActionListener(e ->
+            dataManger.changeExerciseOrder(this.exercisePanel.getExercise(), Direction.DOWN)
+        );
     }
 
     @Override

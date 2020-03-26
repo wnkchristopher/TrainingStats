@@ -20,7 +20,7 @@ public class TrainingStatsPanel {
     private JPanel pnlTrainingStats;
     private JPanel contentPanel;
     private JButton btnSubmit;
-    
+
     private InfoBox infoBox;
 
     public TrainingStatsPanel(DataManger dataManger) {
@@ -138,7 +138,7 @@ public class TrainingStatsPanel {
                 "support weight: b-support weight");
 
         JPanel pnlInfo = this.infoBox.getPnlInfo();
-        pnlInfo.setLocation(this.width - width-distanceRight, top - 38);
+        pnlInfo.setLocation(this.width - width - distanceRight, top - 38);
 
         return pnlInfo;
     }
