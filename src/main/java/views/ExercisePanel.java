@@ -1,7 +1,7 @@
-package View;
+package views;
 
-import View.Extensions.ButtonEditor;
-import View.Extensions.PlaceholderTextField;
+import views.extensions.ButtonEditor;
+import views.extensions.PlaceholderTextField;
 
 import javax.swing.*;
 import java.awt.*;

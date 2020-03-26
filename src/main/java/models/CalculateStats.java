@@ -1,4 +1,4 @@
-package Model;
+package models;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;

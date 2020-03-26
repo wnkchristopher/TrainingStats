@@ -1,12 +1,12 @@
-package Controller;
+package controller;
 
-import Model.Constants;
-import Model.DataManger;
-import View.PdfFrame;
-import View.StartPanel;
-import View.TrainingStatsFrame;
-import Enum.ExerciseType;
-import View.TrainingStatsPanel;
+import models.Constants;
+import models.DataManager;
+import views.PdfFrame;
+import views.StartPanel;
+import views.TrainingStatsFrame;
+import enums.ExerciseType;
+import views.TrainingStatsPanel;
 
 import javax.swing.*;
 import java.util.Date;
@@ -14,14 +14,14 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class StartPanelController implements Observer {
-    private DataManger dataManger;
+    private DataManager dataManager;
     private StartPanel startPanel;
     private TrainingStatsFrame trainingStatsFrame;
     private PdfFrame pdfFrame;
     private TrainingStatsPanel trainingStatsPanel;
 
-    public StartPanelController(DataManger dataManger, StartPanel startPanel, TrainingStatsPanel trainingStatsPanel) {  //dataManager = model, startPanel = view
-        this.dataManger = dataManger;
+    public StartPanelController(DataManager dataManager, StartPanel startPanel, TrainingStatsPanel trainingStatsPanel) {  //dataManager = model, startPanel = view
+        this.dataManager = dataManager;
         this.startPanel = startPanel;
         this.trainingStatsPanel = trainingStatsPanel;
         this.trainingStatsFrame = new TrainingStatsFrame();
@@ -32,17 +32,17 @@ public class StartPanelController implements Observer {
             if (inputExercise == null || inputExercise.equals("")) {
                 return;
             }
-            if (!dataManger.proveExerciseExists(inputExercise)) {
+            if (!dataManager.proveExerciseExists(inputExercise)) {
                 startPanel.getcBExercises().addItem(inputExercise);
             }
-            dataManger.addNewExercise(inputExercise);
+            dataManager.addNewExercise(inputExercise);
         });
 
         this.startPanel.getBtnEditExercise().addActionListener(e -> {
             String exercise = startPanel.getcBExercises().getSelectedItem().toString();
             String newName = JOptionPane.showInputDialog("Rename " + exercise + " to: ");
             if (newName != null) {
-                if (dataManger.changeExerciseName(exercise, newName)) {
+                if (dataManager.changeExerciseName(exercise, newName)) {
                     startPanel.getcBExercises().removeItem(exercise);
                     startPanel.getcBExercises().addItem(newName);
                     startPanel.getcBExercises().setSelectedItem(newName);
@@ -57,7 +57,7 @@ public class StartPanelController implements Observer {
             int dialogResult = JOptionPane.showConfirmDialog(null,
                     "Are you sure to delete " + exercise + "?", "Warning", JOptionPane.YES_NO_OPTION);
             if (dialogResult == JOptionPane.YES_OPTION) {
-                dataManger.deleteExercise(exercise);
+                dataManager.deleteExercise(exercise);
                 startPanel.getcBExercises().removeItem(exercise);
             }
         });
@@ -73,14 +73,14 @@ public class StartPanelController implements Observer {
         });
 
         this.startPanel.getBtnSubmitWeight().addActionListener(e -> {
-            Date date = dataManger.convertToDate(startPanel.getTxtDate().getText());
+            Date date = dataManager.convertToDate(startPanel.getTxtDate().getText());
             if (date == null) {
                 JOptionPane.showMessageDialog(null, "Format of date is wrong",
                         "Error: Date", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             String entry = startPanel.getTxtDate().getText() + "|0|" + startPanel.getTxtWeight().getText();
-            dataManger.writeExerciseStats(Constants.bodyWeight, date, entry, ExerciseType.BODYWEIGHT);
+            dataManager.writeExerciseStats(Constants.bodyWeight, date, entry, ExerciseType.BODYWEIGHT);
         });
     }
 

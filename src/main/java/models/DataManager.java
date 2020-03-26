@@ -1,6 +1,6 @@
-package Model;
+package models;
 
-import Enum.ExerciseType;
+import enums.ExerciseType;
 import com.sun.javafx.scene.traversal.Direction;
 
 import java.io.*;
@@ -16,10 +16,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-public class DataManger extends Observable {
+public class DataManager extends Observable {
     CalculateStats calculateStats;
 
-    public DataManger() {
+    public DataManager() {
         this.calculateStats = new CalculateStats();
     }
 

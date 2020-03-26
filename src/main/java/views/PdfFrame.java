@@ -1,9 +1,9 @@
-package View;
+package views;
 
-import Model.Constants;
-import Model.DataManger;
-import Model.GeneratePdf;
-import Enum.PdfType;
+import models.Constants;
+import models.DataManager;
+import models.GeneratePdf;
+import enums.PdfType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +18,7 @@ public class PdfFrame {
     private JRadioButton rbOnePdf;
     private JScrollPane sPExercises;
     private GeneratePdf generatePdf;
-    private DataManger dataManger;
+    private DataManager dataManager;
     private List<JCheckBox> cBExercises;
     private JButton btnGeneratePdf;
     private JPanel pnlExercises;
@@ -26,7 +26,7 @@ public class PdfFrame {
 
     public PdfFrame() {
         generatePdf = new GeneratePdf();
-        dataManger = new DataManger();
+        dataManager = new DataManager();
     }
 
     public void createFrame() {
@@ -76,7 +76,7 @@ public class PdfFrame {
         sPExercises.getViewport().revalidate();
 
         List<String> exercises;
-        exercises = dataManger.getExerciseList();
+        exercises = dataManager.getExerciseList();
         exercises.add(0, Constants.bodyWeight);
         pnlExercises.removeAll();
         for (String exercise : exercises) {
@@ -157,8 +157,8 @@ public class PdfFrame {
 
         btnGeneratePdf.addActionListener(e -> {
             ArrayList<String> exercises = new ArrayList<>();
-            Date from = dataManger.convertToDate(txtFrom.getText());
-            Date to = dataManger.convertToDate(txtTo.getText());
+            Date from = dataManager.convertToDate(txtFrom.getText());
+            Date to = dataManager.convertToDate(txtTo.getText());
             if (from == null || to == null) {
                 JOptionPane.showMessageDialog(null, "Format of date is wrong",
                         "Error: Date", JOptionPane.ERROR_MESSAGE);

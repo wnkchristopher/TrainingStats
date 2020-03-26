@@ -1,8 +1,8 @@
-package View;
+package views;
 
-import Model.Constants;
-import Model.DataManger;
-import View.Extensions.ButtonEditor;
+import models.Constants;
+import models.DataManager;
+import views.extensions.ButtonEditor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +10,7 @@ import java.util.Iterator;
 
 public class StartPanel {
     private JPanel pnlMain = new JPanel();
-    private DataManger dataManger;
+    private DataManager dataManager;
     private JButton btnEditExercise;
     private JButton btnDeleteExercise;
     private JButton btnAddExercise;
@@ -21,8 +21,8 @@ public class StartPanel {
     private JTextField txtWeight;
     private JTextField txtDate;
 
-    public StartPanel(DataManger dataManger) {
-        this.dataManger = dataManger;
+    public StartPanel(DataManager dataManager) {
+        this.dataManager = dataManager;
     }
 
     public JPanel createPanel(int width, int height) {
@@ -78,7 +78,7 @@ public class StartPanel {
         this.cBExercises.setFont(new Font("Helvetica", 3, 16));
         this.cBExercises.setBounds(0, 0, 230, 50);
         this.cBExercises.setVisible(true);
-        Iterator iterator = dataManger.getExerciseList().iterator();
+        Iterator iterator = dataManager.getExerciseList().iterator();
         while (iterator.hasNext()) {
             cBExercises.addItem(iterator.next());
         }
@@ -108,7 +108,7 @@ public class StartPanel {
     }
 
     private JPanel getWeightPanel() {
-        String dateToday = dataManger.getCurrentDate();
+        String dateToday = dataManager.getCurrentDate();
 
         JPanel pnlWeight = new JPanel();
         pnlWeight.setOpaque(false);
@@ -124,7 +124,7 @@ public class StartPanel {
         lblWeight.setText("Your Weight");
 
         this.txtWeight = new JTextField();
-        this.txtWeight.setText(String.valueOf(dataManger.getWeight(dataManger.convertToDate(dateToday))));
+        this.txtWeight.setText(String.valueOf(dataManager.getWeight(dataManager.convertToDate(dateToday))));
 
         JLabel lblKilo = new JLabel();
         lblKilo.setText("kg");

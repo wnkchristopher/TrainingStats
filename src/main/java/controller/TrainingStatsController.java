@@ -1,25 +1,25 @@
-package Controller;
+package controller;
 
-import Model.Constants;
-import Model.DataManger;
-import View.ExercisePanel;
-import View.Extensions.PlaceholderTextField;
-import View.TrainingStatsPanel;
+import models.Constants;
+import models.DataManager;
+import views.ExercisePanel;
+import views.extensions.PlaceholderTextField;
+import views.TrainingStatsPanel;
 
 import javax.swing.*;
 import java.util.*;
 
 public class TrainingStatsController implements Observer {
-    private DataManger dataManger;
+    private DataManager dataManager;
     private TrainingStatsPanel trainingStatsPanel;
 
-    public TrainingStatsController(DataManger dataManger, TrainingStatsPanel trainingStatsPanel) {
-        this.dataManger = dataManger;
-        this.dataManger.addObserver(this);
+    public TrainingStatsController(DataManager dataManager, TrainingStatsPanel trainingStatsPanel) {
+        this.dataManager = dataManager;
+        this.dataManager.addObserver(this);
         this.trainingStatsPanel = trainingStatsPanel;
 
         this.trainingStatsPanel.getBtnSubmit().addActionListener(e -> {
-            Date dateOfTraining = dataManger.convertToDate(this.trainingStatsPanel.getTxtDate().getText());
+            Date dateOfTraining = dataManager.convertToDate(this.trainingStatsPanel.getTxtDate().getText());
             if (dateOfTraining == null) {
                 JOptionPane.showMessageDialog(null, "Format of date is wrong",
                         "Error: Date", JOptionPane.ERROR_MESSAGE);
@@ -31,7 +31,7 @@ public class TrainingStatsController implements Observer {
             for (Map.Entry<String, ExercisePanel> entry : exercisePanels.entrySet()) {
 
                 String exercise = entry.getKey();
-                String newExerciseLine = this.dataManger.convertDateToString(dateOfTraining);
+                String newExerciseLine = this.dataManager.convertDateToString(dateOfTraining);
 
                 Map<Integer, PlaceholderTextField[]> txtFields = entry.getValue().getTxtFields();
 
@@ -59,7 +59,7 @@ public class TrainingStatsController implements Observer {
                 }
                 //checks if text fields are used
                 if(newExerciseLine.contains("|")){
-                    this.dataManger.addWorkout(exercise, dateOfTraining, newExerciseLine);
+                    this.dataManager.addWorkout(exercise, dateOfTraining, newExerciseLine);
                 }
             }
         });
@@ -67,7 +67,7 @@ public class TrainingStatsController implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o == this.dataManger && arg.equals(Constants.changedExerciseOrder)) {
+        if (o == this.dataManager && arg.equals(Constants.changedExerciseOrder)) {
             this.trainingStatsPanel.refresh();
         }
     }

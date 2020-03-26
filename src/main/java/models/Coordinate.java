@@ -1,4 +1,4 @@
-package Model;
+package models;
 
 public class Coordinate {
     private double x;

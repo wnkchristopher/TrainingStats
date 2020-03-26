@@ -1,6 +1,6 @@
-package View;
+package views;
 
-import Controller.InfoBoxController;
+import controller.InfoBoxController;
 
 import javax.swing.*;
 import javax.swing.border.Border;

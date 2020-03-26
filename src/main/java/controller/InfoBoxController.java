@@ -1,6 +1,6 @@
-package Controller;
+package controller;
 
-import View.InfoBox;
+import views.InfoBox;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

@@ -1,7 +1,7 @@
-package Model;
+package models;
 
-import Enum.GraphType;
-import Enum.ExerciseType;
+import enums.GraphType;
+import enums.ExerciseType;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.List;
 
 public class ImageCreator {
-    private DataManger dataManger;
+    private DataManager dataManager;
     private CalculateStats calculateStats;
     private int width = 1000;
     private int height = 500;
@@ -21,7 +21,7 @@ public class ImageCreator {
     public ImageCreator() {
         this.quantityOfSeparationsX = 10;
         this.quantityOfSeparationsY = 5;
-        this.dataManger = new DataManger();
+        this.dataManager = new DataManager();
         this.calculateStats = new CalculateStats();
     }
 
@@ -118,7 +118,7 @@ public class ImageCreator {
         if(exercise.equals(Constants.bodyWeight)){
             exerciseType = ExerciseType.BODYWEIGHT;
         }
-        int highestSet = this.dataManger.getHighestSet(from, to, exercise, exerciseType);
+        int highestSet = this.dataManager.getHighestSet(from, to, exercise, exerciseType);
 
         for (int i = 1; i <= highestSet; i++) {
             Coordinate tmp = null;
@@ -272,9 +272,9 @@ public class ImageCreator {
         }
         double min = 0, max = 0;
         boolean firstTime = true;
-        Map<Date, List<TrainingSet>> map = this.dataManger.getStatsBetweenDates(exercise, from, to, exerciseType);
+        Map<Date, List<TrainingSet>> map = this.dataManager.getStatsBetweenDates(exercise, from, to, exerciseType);
         for (Map.Entry<Date, List<TrainingSet>> m :
-                dataManger.getStatsBetweenDates(exercise, from, to, exerciseType).entrySet()) {
+                dataManager.getStatsBetweenDates(exercise, from, to, exerciseType).entrySet()) {
             for (TrainingSet t : m.getValue()) {
                 double value = 0;
                 if (graphType == GraphType.EFFECTIVE_GRAPH) {
@@ -315,7 +315,7 @@ public class ImageCreator {
         int differentMaxMinTraining = (int) (maxMin[1] - maxMin[0]);
         List<Coordinate> coordinates = new LinkedList<>();
         for (Map.Entry<Date, List<TrainingSet>> m :
-                dataManger.getStatsBetweenDates(exercise, from, to, exerciseType).entrySet()) {
+                dataManager.getStatsBetweenDates(exercise, from, to, exerciseType).entrySet()) {
             if (m.getValue().size() >= set) {
                 int tmpDays = calculateStats.calculateDaysBetweenDates(m.getKey(), from); //days between from date and date of training
                 double graphTypeValue = 0;

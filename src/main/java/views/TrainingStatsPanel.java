@@ -1,9 +1,9 @@
-package View;
+package views;
 
-import Controller.ExercisePanelController;
-import Model.Constants;
-import Model.DataManger;
-import View.Extensions.PlaceholderTextField;
+import controller.ExercisePanelController;
+import models.Constants;
+import models.DataManager;
+import views.extensions.PlaceholderTextField;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class TrainingStatsPanel {
     private PlaceholderTextField txtDate;
-    private DataManger dataManger;
+    private DataManager dataManager;
     private List<String> exerciseOrder; // = new ArrayList<>()
     private Map<String, ExercisePanel> exercisePanels = new HashMap<>();
     private int width = 0, height = 0;
@@ -23,9 +23,9 @@ public class TrainingStatsPanel {
 
     private InfoBox infoBox;
 
-    public TrainingStatsPanel(DataManger dataManger) {
-        this.dataManger = dataManger;
-        this.exerciseOrder = dataManger.getExerciseList();
+    public TrainingStatsPanel(DataManager dataManager) {
+        this.dataManager = dataManager;
+        this.exerciseOrder = dataManager.getExerciseList();
 
         this.createPanel(1000, 1000);
     }
@@ -113,7 +113,7 @@ public class TrainingStatsPanel {
 
     private ExercisePanel getExercisePanel(String exercise) {
         ExercisePanel exercisePanel = new ExercisePanel(exercise);
-        ExercisePanelController exercisePanelController = new ExercisePanelController(this.dataManger, exercisePanel);
+        ExercisePanelController exercisePanelController = new ExercisePanelController(this.dataManager, exercisePanel);
 
         return exercisePanel;
     }
@@ -144,7 +144,7 @@ public class TrainingStatsPanel {
     }
 
     public void refresh() {
-        this.exerciseOrder = this.dataManger.getExerciseList();
+        this.exerciseOrder = this.dataManager.getExerciseList();
         this.contentPanel.removeAll();
         for (String e : this.exerciseOrder) {
             this.contentPanel.add(this.exercisePanels.get(e).getPnlExercise());

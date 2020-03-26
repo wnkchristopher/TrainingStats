@@ -1,20 +1,19 @@
-package Controller;
+package controller;
 
-import Model.Constants;
-import Model.DataManger;
-import View.ExercisePanel;
+import models.DataManager;
+import views.ExercisePanel;
 import com.sun.javafx.scene.traversal.Direction;
 
 import java.util.Observable;
 import java.util.Observer;
 
 public class ExercisePanelController implements Observer {
-    private DataManger dataManger;
+    private DataManager dataManager;
     private ExercisePanel exercisePanel;
 
-    public ExercisePanelController(DataManger dataManger, ExercisePanel exercisePanel) {
-        this.dataManger = dataManger;
-        this.dataManger.addObserver(this);
+    public ExercisePanelController(DataManager dataManager, ExercisePanel exercisePanel) {
+        this.dataManager = dataManager;
+        this.dataManager.addObserver(this);
         this.exercisePanel = exercisePanel;
 
         this.exercisePanel.getBtnPlus().addActionListener(e ->
@@ -22,11 +21,11 @@ public class ExercisePanelController implements Observer {
         );
 
         this.exercisePanel.getBtnUp().addActionListener(e ->
-            dataManger.changeExerciseOrder(this.exercisePanel.getExercise(), Direction.UP)
+            dataManager.changeExerciseOrder(this.exercisePanel.getExercise(), Direction.UP)
         );
 
         this.exercisePanel.getBtnDown().addActionListener(e ->
-            dataManger.changeExerciseOrder(this.exercisePanel.getExercise(), Direction.DOWN)
+            dataManager.changeExerciseOrder(this.exercisePanel.getExercise(), Direction.DOWN)
         );
     }
 

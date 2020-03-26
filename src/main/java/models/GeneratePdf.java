@@ -1,4 +1,4 @@
-package Model;
+package models;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Font;
@@ -26,17 +26,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import Enum.PdfType;
-import Enum.GraphType;
+import enums.PdfType;
+import enums.GraphType;
 
 public class GeneratePdf {
-    private DataManger dataManger;
+    private DataManager dataManager;
     ImageCreator imageCreator;
     TableGenerator tableGenerator;
 
 
     public GeneratePdf() {
-        dataManger = new DataManger();
+        dataManager = new DataManager();
         this.imageCreator = new ImageCreator();
         this.tableGenerator = new TableGenerator();
     }
@@ -186,7 +186,7 @@ public class GeneratePdf {
         Paragraph paragraphFrequency = new Paragraph();
         DecimalFormat f = new DecimalFormat("#0.00");
         String frequency = "Frequency: " + String.valueOf(f.format
-                (this.dataManger.getFrequencyPerWeek(from, to, exercise))) + " workouts per week";
+                (this.dataManager.getFrequencyPerWeek(from, to, exercise))) + " workouts per week";
         paragraphFrequency.add(new Chunk(frequency, font));
         paragraphFrequency.setAlignment(Element.ALIGN_CENTER);
 

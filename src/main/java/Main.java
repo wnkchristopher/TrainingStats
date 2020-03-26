@@ -1,10 +1,10 @@
-import Controller.StartPanelController;
-import Controller.TrainingStatsController;
-import Model.DataManger;
-import View.StartFrame;
-import View.StartPanel;
-import Model.Constants;
-import View.TrainingStatsPanel;
+import controller.StartPanelController;
+import controller.TrainingStatsController;
+import models.DataManager;
+import views.StartFrame;
+import views.StartPanel;
+import models.Constants;
+import views.TrainingStatsPanel;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,16 +24,16 @@ public class Main {
 
         StartFrame frame = new StartFrame(); //View
 
-        DataManger dataManger = new DataManger(); //Model
-        StartPanel startPanel = new StartPanel(dataManger); //View
+        DataManager dataManager = new DataManager(); //Model
+        StartPanel startPanel = new StartPanel(dataManager); //View
         frame.createFrame(startPanel, "TrainStats", width, height);
 
 
-        TrainingStatsPanel trainingStatsPanel = new TrainingStatsPanel(dataManger);
+        TrainingStatsPanel trainingStatsPanel = new TrainingStatsPanel(dataManager);
 
-        StartPanelController startPanelController = new StartPanelController(dataManger, startPanel, trainingStatsPanel); //Controller
+        StartPanelController startPanelController = new StartPanelController(dataManager, startPanel, trainingStatsPanel); //Controller
 
-        TrainingStatsController trainingStatsController = new TrainingStatsController(dataManger, trainingStatsPanel);
+        TrainingStatsController trainingStatsController = new TrainingStatsController(dataManager, trainingStatsPanel);
 
     }
 

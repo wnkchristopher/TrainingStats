@@ -1,4 +1,4 @@
-import Model.GeneratePdf;
+import models.GeneratePdf;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

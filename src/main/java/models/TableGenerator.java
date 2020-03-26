@@ -1,6 +1,6 @@
-package Model;
+package models;
 
-import Enum.ExerciseType;
+import enums.ExerciseType;
 
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Phrase;
@@ -12,10 +12,10 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class TableGenerator {
-    DataManger dataManger;
+    DataManager dataManager;
 
     public TableGenerator() {
-        dataManger = new DataManger();
+        dataManager = new DataManager();
     }
 
     public PdfPTable generateWeightTable(Date from, Date to, String exercise) {
@@ -26,7 +26,7 @@ public class TableGenerator {
         table.setTotalWidth(445f);
 
         List<TrainingSet> statsOfSets =
-                this.dataManger.getListOfSet(1, from, to, exercise, ExerciseType.BODYWEIGHT);
+                this.dataManager.getListOfSet(1, from, to, exercise, ExerciseType.BODYWEIGHT);
 
         Format formatter = new SimpleDateFormat("dd.MM.yyyy");
         for (int i = 0; i < dates.size(); i++) {
@@ -52,7 +52,7 @@ public class TableGenerator {
             exerciseType = ExerciseType.BODYWEIGHT;
         }
         Font fontH1 = new Font(Font.getFamily("Currier"), 7, Font.NORMAL);
-        int highestSet = dataManger.getHighestSet(from, to, exercise,exerciseType);
+        int highestSet = dataManager.getHighestSet(from, to, exercise,exerciseType);
         List<Date> dates = getDates(from, to, exercise);
         PdfPTable table = new PdfPTable(1 + highestSet * 2);
         table.setLockedWidth(true);
@@ -69,7 +69,7 @@ public class TableGenerator {
         List<List<TrainingSet>> statsOfSets = new ArrayList<>();
 
         for (int i = 0; i < highestSet; i++) {
-            statsOfSets.add(this.dataManger.getListOfSet(i + 1, from, to, exercise, exerciseType));
+            statsOfSets.add(this.dataManager.getListOfSet(i + 1, from, to, exercise, exerciseType));
             table.addCell(new Phrase("Weight", fontH1));
             table.addCell(new Phrase("Reps", fontH1));
         }
@@ -105,7 +105,7 @@ public class TableGenerator {
         }
         List<Date> dates = new LinkedList<>();
         for (Map.Entry<Date, List<TrainingSet>> m :
-                dataManger.getStatsBetweenDates(exercise, from, to, exerciseType).entrySet()) {
+                dataManager.getStatsBetweenDates(exercise, from, to, exerciseType).entrySet()) {
             dates.add(m.getKey());
         }
         return dates;

@@ -1,7 +1,6 @@
-package View;
+package views;
 
-import Model.DataManger;
-import Model.Constants;
+import models.Constants;
 
 import javax.swing.*;
 import java.awt.*;

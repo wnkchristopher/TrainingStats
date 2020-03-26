@@ -1,6 +1,4 @@
-package View;
-
-import Model.DataManger;
+package views;
 
 import javax.swing.*;
 import java.awt.*;
