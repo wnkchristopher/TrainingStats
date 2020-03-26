@@ -25,7 +25,6 @@ public class StartPanelController implements Observer {
         this.startPanel = startPanel;
         this.trainingStatsPanel = trainingStatsPanel;
         this.trainingStatsFrame = new TrainingStatsFrame();
-        this.pdfFrame = new PdfFrame();
 
         this.startPanel.getBtnAddExercise().addActionListener(e -> {
             String inputExercise = JOptionPane.showInputDialog("New exercise:");
@@ -67,10 +66,9 @@ public class StartPanelController implements Observer {
             trainingStatsFrame.createFrame(this.trainingStatsPanel, 1000, 1000);
         });
 
-        this.startPanel.getBtnGeneratePdf().addActionListener(e -> {
-            pdfFrame = new PdfFrame();
-            pdfFrame.createFrame();
-        });
+        this.startPanel.getBtnGeneratePdf().addActionListener(e ->
+            pdfFrame = new PdfFrame()
+        );
 
         this.startPanel.getBtnSubmitWeight().addActionListener(e -> {
             Date date = dataManager.convertToDate(startPanel.getTxtDate().getText());

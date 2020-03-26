@@ -27,17 +27,17 @@ public class PdfFrame {
     public PdfFrame() {
         generatePdf = new GeneratePdf();
         dataManager = new DataManager();
+        this.createFrame();
     }
 
     public void createFrame() {
-        frame = new JFrame();
-        cBExercises = new ArrayList<>();
-        this.pnlExercises = new JPanel();
-        this.createFrame(500, 500);
-
+        this.frame = this.createFrame(500, 500);
+        PdfPanel pdfPanel = new PdfPanel();
+        this.frame.add(pdfPanel.getPnlPdfGeneration());
     }
 
-    public void createFrame(int width, int height) {
+    private JFrame createFrame(int width, int height) {
+        JFrame frame = new JFrame();
         frame.setSize(width, height);
         frame.getContentPane().setBackground(Color.decode(Constants.BackgroundColor));
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -47,150 +47,13 @@ public class PdfFrame {
         frame.setTitle("Generate PDF");
 
         ImageIcon imageIcon = new ImageIcon("resources/img/logo.png");
-        this.frame.setIconImage(imageIcon.getImage());
+        frame.setIconImage(imageIcon.getImage());
 
-        this.addPanel();
-        this.addToggleButtons();
-        this.addTextFields();
-        this.addSendButton();
+       // frame.getRootPane().setDefaultButton(this.btnGeneratePdf);
 
-
-        frame.getRootPane().setDefaultButton(this.btnGeneratePdf);
-
-        frame.repaint();
+       // frame.repaint();
         frame.setVisible(true);
+
+        return frame;
     }
-
-    private void addPanel() {
-        BoxLayout boxlayout = new BoxLayout(pnlExercises, BoxLayout.Y_AXIS);
-        pnlExercises.setLayout(boxlayout);
-
-        sPExercises = new JScrollPane(pnlExercises,
-                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-        sPExercises.setLocation(50, 50);
-        sPExercises.setSize(150, 300);
-        sPExercises.setVisible(true);
-
-        sPExercises.getViewport().revalidate();
-
-        List<String> exercises;
-        exercises = dataManager.getExerciseList();
-        exercises.add(0, Constants.bodyWeight);
-        pnlExercises.removeAll();
-        for (String exercise : exercises) {
-            JCheckBox cb = new JCheckBox();
-            cb.setText(exercise);
-            cb.setBackground(Color.white);
-            cb.setSize(150, 30);
-            this.cBExercises.add(cb);
-            pnlExercises.add(cb);
-        }
-        pnlExercises.validate();
-        pnlExercises.repaint();
-
-        pnlExercises.setBackground(Color.white);
-        pnlExercises.setVisible(true);
-
-
-        this.frame.add(sPExercises);
-
-        pnlExercises.setLocation(50, 50);
-        pnlExercises.setSize(150, 300);
-        pnlExercises.setVisible(true);
-        this.frame.add(sPExercises);
-
-    }
-
-    private void addToggleButtons() {
-        rbMorePdfs = new JRadioButton("One PDF for each selected exercise");
-        rbOnePdf = new JRadioButton("One PDF for all selected exercises");
-        ButtonGroup bgPdf = new ButtonGroup();
-        rbMorePdfs.setBounds(50, 370, 240, 20);
-        rbOnePdf.setBounds(50, 390, 240, 20);
-        bgPdf.add(rbMorePdfs);
-        bgPdf.add(rbOnePdf);
-        rbMorePdfs.setSelected(true);
-
-        rbMorePdfs.setBackground(Color.decode(Constants.BackgroundColor));
-        rbMorePdfs.setVisible(true);
-        rbOnePdf.setBackground(Color.decode(Constants.BackgroundColor));
-        rbOnePdf.setVisible(true);
-        this.frame.add(rbMorePdfs);
-        this.frame.add(rbOnePdf);
-    }
-
-    private void addTextFields() {
-        JPanel pnlGroupFromTo = new JPanel();
-
-        JLabel lblFrom = new JLabel("From: (dd.mm.yyyy)");
-        txtFrom = new JTextField();
-
-        JLabel lblTo = new JLabel("To: (dd.mm.yyyy)");
-        txtTo = new JTextField();
-
-        pnlGroupFromTo.setLayout(null);
-
-        lblFrom.setBounds(0, 0, 200, 30);
-        txtFrom.setBounds(0, 50, 200, 30);
-
-        lblTo.setBounds(0, 90, 200, 30);
-        txtTo.setBounds(0, 130, 200, 30);
-
-        pnlGroupFromTo.setBounds(250, 50, 200, 200);
-
-        pnlGroupFromTo.setBackground(Color.decode(Constants.BackgroundColor));
-
-        pnlGroupFromTo.add(lblFrom);
-        pnlGroupFromTo.add(txtFrom);
-        pnlGroupFromTo.add(lblTo);
-        pnlGroupFromTo.add(txtTo);
-        pnlGroupFromTo.setVisible(true);
-        this.frame.add(pnlGroupFromTo);
-    }
-
-    private void addSendButton() {
-        this.btnGeneratePdf = new JButton("Generate PDF");
-
-        btnGeneratePdf.setBounds(275, 250, 150, 40);
-
-        btnGeneratePdf.addActionListener(e -> {
-            ArrayList<String> exercises = new ArrayList<>();
-            Date from = dataManager.convertToDate(txtFrom.getText());
-            Date to = dataManager.convertToDate(txtTo.getText());
-            if (from == null || to == null) {
-                JOptionPane.showMessageDialog(null, "Format of date is wrong",
-                        "Error: Date", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(from);
-            txtFrom.setText(calendar.get(Calendar.DAY_OF_MONTH) + "." +
-                    (calendar.get(Calendar.MONTH) + 1) + "." + calendar.get(Calendar.YEAR));
-            calendar.setTime(to);
-            txtTo.setText(calendar.get(Calendar.DAY_OF_MONTH) + "." +
-                    (calendar.get(Calendar.MONTH) + 1) + "." + calendar.get(Calendar.YEAR));
-
-            if (from.after(to)) {
-                JOptionPane.showMessageDialog(null, "Your last date has to be after " +
-                        "your first");
-            } else {
-                for (JCheckBox cb : cBExercises) {
-                    if (cb.isSelected()) {
-                        exercises.add(cb.getText());
-                    }
-                }
-                if (rbOnePdf.isSelected()) {
-                    generatePdf.generatePdf(from, to, exercises, PdfType.ONE_PDF_FOR_ALL_EXERCISES);
-                } else if (rbMorePdfs.isSelected()) {
-                    generatePdf.generatePdf(from, to, exercises, PdfType.ONE_PDF_FOR_EACH_EXERCISE);
-                }
-            }
-        });
-
-        btnGeneratePdf.setVisible(true);
-        this.frame.add(btnGeneratePdf);
-    }
-
 }
