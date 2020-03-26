@@ -144,10 +144,19 @@ public class TrainingStatsPanel {
         return pnlInfo;
     }
 
+    public void addExercisePanel(String exercise) {
+        ExercisePanel exercisePanel = new ExercisePanel(exercise);
+        this.exercisePanels.put(exercise, exercisePanel);
+    }
+
     public void refresh() {
         this.exerciseOrder = this.dataManager.getExercises();
         this.contentPanel.removeAll();
+        this.exerciseOrder = this.dataManager.getExercises();
         for (String e : this.exerciseOrder) {
+            if(!this.exercisePanels.containsKey(e)){
+                this.addExercisePanel(e);
+            }
             this.contentPanel.add(this.exercisePanels.get(e).getPnlExercise());
         }
         this.contentPanel.validate();

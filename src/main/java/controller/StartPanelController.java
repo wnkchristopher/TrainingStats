@@ -4,7 +4,6 @@ import models.Constants;
 import models.DataManager;
 import models.DateManager;
 import views.*;
-import enums.ExerciseType;
 
 import javax.swing.*;
 import java.util.Date;
@@ -26,14 +25,12 @@ public class StartPanelController implements Observer {
         this.trainingStatsPanel = trainingStatsPanel;
         this.trainingStatsFrame = new TrainingStatsFrame();
         this.pdfPanel = pdfPanel;
+        this.dataManager.addObserver(this);
 
         this.startPanel.getBtnAddExercise().addActionListener(e -> {
             String inputExercise = JOptionPane.showInputDialog("New exercise:");
             if (inputExercise == null || inputExercise.equals("")) {
                 return;
-            }
-            if (!this.dataManager.checkIfExerciseExists(inputExercise)) {
-                this.startPanel.getcBExercises().addItem(inputExercise);
             }
             this.dataManager.addExercise(inputExercise);
         });
@@ -43,9 +40,6 @@ public class StartPanelController implements Observer {
             String newName = JOptionPane.showInputDialog("Rename " + exercise + " to: ");
             if (newName != null) {
                 if (dataManager.changeExerciseName(exercise, newName)) {
-                    startPanel.getcBExercises().removeItem(exercise);
-                    startPanel.getcBExercises().addItem(newName);
-                    startPanel.getcBExercises().setSelectedItem(newName);
                 } else {
                     JOptionPane.showMessageDialog(null, newName + " already exists");
                 }
@@ -58,7 +52,6 @@ public class StartPanelController implements Observer {
                     "Are you sure to delete " + exercise + "?", "Warning", JOptionPane.YES_NO_OPTION);
             if (dialogResult == JOptionPane.YES_OPTION) {
                 dataManager.deleteExercise(exercise);
-                startPanel.getcBExercises().removeItem(exercise);
             }
         });
 
@@ -68,7 +61,7 @@ public class StartPanelController implements Observer {
         });
 
         this.startPanel.getBtnGeneratePdf().addActionListener(e ->
-            pdfFrame = new PdfFrame(this.pdfPanel)
+            this.pdfFrame = new PdfFrame(this.pdfPanel)
         );
 
         this.startPanel.getBtnSubmitWeight().addActionListener(e -> {
@@ -85,6 +78,8 @@ public class StartPanelController implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-
+        if(o.equals(dataManager) && arg.equals(Constants.ChangedExercises)){
+            this.startPanel.refresh();
+        }
     }
 }

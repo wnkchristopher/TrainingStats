@@ -50,7 +50,7 @@ public class TrainingStatsController implements Observer {
                             }
                         }
                         sets.add(new TrainingSet(reps, weight));
-                    }else{
+                    } else {
                         break;
                     }
 
@@ -59,7 +59,7 @@ public class TrainingStatsController implements Observer {
                     txtFields.get(set)[1].setText("");
                 }
                 //checks if text fields are used
-                if(!sets.isEmpty()){
+                if (!sets.isEmpty()) {
                     this.dataManager.addWorkout(exercise, dateOfTraining, sets);
                 }
             }
@@ -68,7 +68,7 @@ public class TrainingStatsController implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o == this.dataManager && arg.equals(Constants.changedExerciseOrder)) {
+        if (o == this.dataManager && arg.equals(Constants.ChangedExercises)) {
             this.trainingStatsPanel.refresh();
         }
     }

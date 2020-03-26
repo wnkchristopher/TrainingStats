@@ -36,7 +36,6 @@ public class StartPanel {
         return this.pnlMain;
     }
 
-
     private void addComponents() {
         JLabel lblHeadline = new JLabel();
         lblHeadline.setBounds(70, 20, 250, 30);
@@ -171,6 +170,17 @@ public class StartPanel {
         pnlWeight.setVisible(true);
 
         return pnlWeight;
+    }
+
+    public void refresh() {
+        int index = this.cBExercises.getSelectedIndex();
+        this.cBExercises.removeAllItems();
+        for(String exercise :  this.dataManager.getExercises()){
+            this.cBExercises.addItem(exercise);
+        }
+        if(index < this.cBExercises.getItemCount()){
+            this.cBExercises.setSelectedIndex(index);
+        }
     }
 
     public JButton getBtnEditExercise() {

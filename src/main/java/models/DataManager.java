@@ -2,8 +2,6 @@ package models;
 
 import enums.ExerciseType;
 import com.sun.javafx.scene.traversal.Direction;
-
-import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -23,6 +21,9 @@ public class DataManager extends Observable {
 
     public void addExercise(String exercise) {
         this.dataBaseManager.addNewExercise(exercise);
+
+        this.setChanged();
+        this.notifyObservers(Constants.ChangedExercises);
     }
 
     public void changeExerciseOrder(String exercise, Direction direction) {
@@ -37,7 +38,7 @@ public class DataManager extends Observable {
         this.dataBaseManager.writeExerciseList(exercises);
 
         this.setChanged();
-        this.notifyObservers(Constants.changedExerciseOrder);
+        this.notifyObservers(Constants.ChangedExercises);
     }
 
 
@@ -138,7 +139,12 @@ public class DataManager extends Observable {
     }
 
     public boolean deleteExercise(String exercise) {
-        return this.dataBaseManager.deleteExercise(exercise);
+        if(this.dataBaseManager.deleteExercise(exercise)){
+            this.setChanged();
+            this.notifyObservers(Constants.ChangedExercises);
+            return true;
+        }
+        return false;
     }
 
 
@@ -148,6 +154,11 @@ public class DataManager extends Observable {
 
 
     public boolean changeExerciseName(String exercise, String newName) {
-        return this.dataBaseManager.changeExerciseName(exercise, newName);
+        if(this.dataBaseManager.changeExerciseName(exercise, newName)){
+            this.setChanged();
+            this.notifyObservers(Constants.ChangedExercises);
+            return true;
+        }
+        return false;
     }
 }
