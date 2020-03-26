@@ -3,6 +3,7 @@ package controller;
 import models.Constants;
 import models.DataManager;
 import models.DateManager;
+import models.TrainingSet;
 import views.ExercisePanel;
 import views.extensions.PlaceholderTextField;
 import views.TrainingStatsPanel;
@@ -30,9 +31,8 @@ public class TrainingStatsController implements Observer {
             Map<String, ExercisePanel> exercisePanels = this.trainingStatsPanel.getExercisePanels();
 
             for (Map.Entry<String, ExercisePanel> entry : exercisePanels.entrySet()) {
-
                 String exercise = entry.getKey();
-                String newExerciseLine = DateManager.convertDateToString(dateOfTraining);
+                List<TrainingSet> sets = new ArrayList<>();
 
                 Map<Integer, PlaceholderTextField[]> txtFields = entry.getValue().getTxtFields();
 
@@ -49,7 +49,7 @@ public class TrainingStatsController implements Observer {
                                 weight = "b-" + digits;
                             }
                         }
-                        newExerciseLine += "|" + reps + "|" + weight;
+                        sets.add(new TrainingSet(reps, weight));
                     }else{
                         break;
                     }
@@ -59,8 +59,8 @@ public class TrainingStatsController implements Observer {
                     txtFields.get(set)[1].setText("");
                 }
                 //checks if text fields are used
-                if(newExerciseLine.contains("|")){
-                    this.dataManager.addWorkout(exercise, dateOfTraining, newExerciseLine);
+                if(!sets.isEmpty()){
+                    this.dataManager.addWorkout(exercise, dateOfTraining, sets);
                 }
             }
         });

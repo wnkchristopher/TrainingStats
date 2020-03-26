@@ -26,7 +26,7 @@ public class TrainingStatsPanel {
 
     public TrainingStatsPanel(DataManager dataManager) {
         this.dataManager = dataManager;
-        this.exerciseOrder = dataManager.getExerciseList();
+        this.exerciseOrder = dataManager.getExercises();
 
         this.createPanel(1000, 1000);
     }
@@ -145,7 +145,7 @@ public class TrainingStatsPanel {
     }
 
     public void refresh() {
-        this.exerciseOrder = this.dataManager.getExerciseList();
+        this.exerciseOrder = this.dataManager.getExercises();
         this.contentPanel.removeAll();
         for (String e : this.exerciseOrder) {
             this.contentPanel.add(this.exercisePanels.get(e).getPnlExercise());

@@ -32,10 +32,10 @@ public class StartPanelController implements Observer {
             if (inputExercise == null || inputExercise.equals("")) {
                 return;
             }
-            if (!dataManager.proveExerciseExists(inputExercise)) {
-                startPanel.getcBExercises().addItem(inputExercise);
+            if (!this.dataManager.checkIfExerciseExists(inputExercise)) {
+                this.startPanel.getcBExercises().addItem(inputExercise);
             }
-            dataManager.addNewExercise(inputExercise);
+            this.dataManager.addExercise(inputExercise);
         });
 
         this.startPanel.getBtnEditExercise().addActionListener(e -> {
@@ -78,8 +78,8 @@ public class StartPanelController implements Observer {
                         "Error: Date", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            String entry = startPanel.getTxtDate().getText() + "|0|" + startPanel.getTxtWeight().getText();
-            dataManager.writeExerciseStats(Constants.bodyWeight, date, entry, ExerciseType.BODYWEIGHT);
+            String entry = this.startPanel.getTxtDate().getText() + "|0|" + startPanel.getTxtWeight().getText();
+            this.dataManager.addWeight(date, Double.valueOf(startPanel.getTxtWeight().getText()));
         });
     }
 

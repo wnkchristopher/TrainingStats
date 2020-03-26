@@ -79,7 +79,7 @@ public class StartPanel {
         this.cBExercises.setFont(new Font("Helvetica", 3, 16));
         this.cBExercises.setBounds(0, 0, 230, 50);
         this.cBExercises.setVisible(true);
-        Iterator iterator = dataManager.getExerciseList().iterator();
+        Iterator iterator = dataManager.getExercises().iterator();
         while (iterator.hasNext()) {
             cBExercises.addItem(iterator.next());
         }

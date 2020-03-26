@@ -4,220 +4,53 @@ import enums.ExerciseType;
 import com.sun.javafx.scene.traversal.Direction;
 
 import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class DataManager extends Observable {
-    CalculateStats calculateStats;
+    private CalculateStats calculateStats;
+    private DataBaseManager dataBaseManager;
+
 
     public DataManager() {
         this.calculateStats = new CalculateStats();
+        this.dataBaseManager = new DataBaseManager();
     }
 
-    public void addNewExercise(String name) { //DataBaseManager
-
-        if (proveExerciseExists(name)) {
-            return;
-        }
-        try {     //add exercise to list of exercises
-            FileWriter writer = new FileWriter(Constants.PathExerciseTxt, true);
-            writer.write(name);
-            writer.write("\r\n");
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        this.writeExerciseStats(name, null, "", ExerciseType.EXERCISE);
+    public List<String> getExercises() {
+        return this.dataBaseManager.getExerciseList();
     }
 
-    public boolean proveExerciseExists(String exercise_name) { //maybe
-        Iterator iterator = getExerciseList().iterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().equals(exercise_name)) {
-                return true;
-            }
-        }
-        return false;
+    public void addExercise(String exercise) {
+        this.dataBaseManager.addNewExercise(exercise);
     }
-
-    public List<String> getExerciseList() { // DataSaveManager
-        List<String> exerciseList = new ArrayList<>();
-        try {
-            String line;
-            BufferedReader bufferreader = new BufferedReader(new FileReader(Constants.PathExerciseTxt));
-            while ((line = bufferreader.readLine()) != null) {
-                exerciseList.add(line);
-            }
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        return exerciseList;
-    }
-
 
     public void changeExerciseOrder(String exercise, Direction direction) {
-        List<String> exercises = this.getExerciseList();
+        List<String> exercises = this.dataBaseManager.getExerciseList();
         int index = exercises.indexOf(exercise);
         if (direction == Direction.UP && index > 0) {
-            Collections.swap(exercises, index, index-1);
-        } else if (direction == Direction.DOWN && index+1 < exercises.size()) {
-            Collections.swap(exercises, index, index+1);
+            Collections.swap(exercises, index, index - 1);
+        } else if (direction == Direction.DOWN && index + 1 < exercises.size()) {
+            Collections.swap(exercises, index, index + 1);
         }
 
-        this.changeExerciseOrder(exercises);
+        this.dataBaseManager.writeExerciseList(exercises);
 
         this.setChanged();
-        this.notifyObservers(Constants.changedExerciseOrder);  //why is update 12 times (quantity of exercises) called?
+        this.notifyObservers(Constants.changedExerciseOrder);
     }
 
 
-    public void changeExerciseOrder(List<String> exerciseOrder) { //DataManagerOrder
-        try {
-            PrintWriter writer = new PrintWriter(Constants.PathExerciseTxt);
-            writer.print("");
-            writer.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        for (String s : exerciseOrder) {
-            this.addNewExercise(s);
+    public void addWorkout(String exercise, Date dateOfTraining, List<TrainingSet> sets) {
+        if (!sets.isEmpty()) {
+            this.dataBaseManager.writeExerciseStats(exercise, dateOfTraining, sets, ExerciseType.EXERCISE);
         }
     }
 
-
-    public void addWorkout(String exercise, Date dateOfTraining, String content) {
-        if (!content.isEmpty()) {
-            this.writeExerciseStats(exercise, dateOfTraining, content, ExerciseType.EXERCISE);
-        }
-    }
-
-
-    private boolean isFileEmpty(String exercise) { //dataSaveManager
-        File logFile = new File(Constants.PathExerciseTextFiles + exercise + ".txt");
-        if (logFile.length() == 0) {
-            return true;
-        }
-        return false;
-    }
-
-
-    public void writeExerciseStats(String exercise, Date dateOfTraining, String content, ExerciseType exerciseType) {  //DataBaseManager
-        int line = this.getLineToInsert(exercise, dateOfTraining, exerciseType);
-        String filepath = "";
-        if (exerciseType.equals(ExerciseType.EXERCISE)) {
-            filepath = Constants.PathExerciseTextFiles + exercise + ".txt";
-        } else if (exerciseType.equals(ExerciseType.BODYWEIGHT)) {
-            filepath = "./Data/" + exercise + ".txt";
-        }
-        try {
-            //create file
-            PrintWriter writer =
-                    new PrintWriter(new FileWriter(filepath, true));
-            //writer.write(content);
-            writer.close();
-            //new stats getting insert sorted
-            if (dateOfTraining != null) {
-                Path path = FileSystems.getDefault()
-                        .getPath(filepath);
-                List<String> lines = Files.readAllLines(path, Charset.forName("ISO-8859-1"));
-                lines.add(line, content);
-                Files.write(path, lines);
-            }
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private Date getDateOfLine(String line) { //Databasemanager
-        int i = line.indexOf("|");
-        if (i < 0) {
-            return null;  //may be Exception later
-        }
-        String stringDate = line.substring(0, i);
-        return DateManager.convertStringToDate(stringDate);
-    }
-
-    private int getLineToInsert(String exercise, Date date, ExerciseType exerciseType) {  //DataBaseManager
-        if (date == null) {
-            return 0;
-        }
-
-        String filePath = "";
-        if (exerciseType.equals(ExerciseType.EXERCISE)) {
-            filePath = Constants.PathExerciseTextFiles + exercise + ".txt";
-        } else if (exerciseType.equals(ExerciseType.BODYWEIGHT)) {
-            filePath = "./Data/" + exercise + ".txt";
-        }
-
-        int lineCounter = 0;
-        try {
-            String stringDate;
-            String line;
-            BufferedReader bufferedReader =
-                    new BufferedReader(new FileReader(filePath));
-            while ((line = bufferedReader.readLine()) != null) {
-
-                Date d = this.getDateOfLine(line);
-                if (d == null) {
-                    break;
-                }
-                if (d.before(date)) {
-                    lineCounter++;
-                } else {
-                    break;
-                }
-            }
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        if (lineCounter < 0) {
-            lineCounter = 0;
-        }
-
-        return lineCounter;
-    }
-
-    private int getLineOfDate(String exercise, Date date, ExerciseType exerciseType) { //DataSaveManager
-        String filePath = Constants.PathExerciseTextFiles + exercise + ".txt";
-        if (exerciseType.equals(ExerciseType.BODYWEIGHT)) {
-            filePath = "./Data/" + exercise + ".txt";
-        }
-        try {
-            int lineNumber = 0;
-            String line;
-            BufferedReader bufferedReader =
-                    new BufferedReader(new FileReader(filePath));
-            while ((line = bufferedReader.readLine()) != null) {
-                lineNumber++;
-                Date d = this.getDateOfLine(line);
-                if (d == null) {
-                    break;
-                }
-                if (d.equals(date)) {
-                    return lineNumber;
-                }
-            }
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
-        return -1;
+    public void addWeight(Date dateOfWeight, Double weight) {
+        List<TrainingSet> sets = new ArrayList<>();
+        sets.add(new TrainingSet("0", String.valueOf(weight)));
+        this.dataBaseManager.writeExerciseStats("", dateOfWeight, sets, ExerciseType.BODYWEIGHT);
     }
 
     public List<TrainingSet> getListOfSet(int set, Date from, Date to, String exercise, ExerciseType exerciseType) {
@@ -235,62 +68,44 @@ public class DataManager extends Observable {
     }
 
     private List<TrainingSet> getTrainingSets(String exercise, Date date, ExerciseType exerciseType) { //Should use getExerciseStats and search for specific date
-        String filePath = Constants.PathExerciseTextFiles + exercise + ".txt";
-        if (exerciseType.equals(ExerciseType.BODYWEIGHT)) {
-            filePath = "./Data/" + exercise + ".txt";
-        }
-        List<TrainingSet> list = new LinkedList<>();
-        String line = "";
-        int lineNumber = this.getLineOfDate(exercise, date, exerciseType);
-        try {
-            line = Files.readAllLines(Paths.get(filePath)).get(lineNumber - 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String[] split = line.split("\\|");
 
-        for (int i = 1; i < split.length; i += 2) {
-            if (split[i + 1].contains("b")) {
-                split[i + 1] = this.calculateActualWeight(date, split[i + 1]);
-            }
-            list.add(new TrainingSet(split[i], split[i + 1]));
+        List<TrainingSet> sets = new LinkedList<>(); //Contains bodyweight
+        if (exerciseType.equals(ExerciseType.EXERCISE)) {
+            sets = this.dataBaseManager.getExerciseStats(exercise).get(date);
         }
 
-        return list;
+        return sets;
 
+    }
+
+    public Map<Date, Double> getWeightsBetweenDates(Date from, Date to) {
+        Map<Date, Double> weights = this.dataBaseManager.getWeights();
+        weights.entrySet().stream().filter(m -> DateManager.isDateBetween(m.getKey(), from, to))
+                .collect(Collectors.toMap(k -> k.getKey(), v -> v.getValue()));
+
+        return (new TreeMap<>(weights));
     }
 
     public Map<Date, List<TrainingSet>> getStatsBetweenDates
             (String exercise, Date from, Date to, ExerciseType exerciseType) {  //Should use getExerciseStats
-        String filepath = "";
-        if (exerciseType.equals(ExerciseType.EXERCISE)) {
-            filepath = Constants.PathExerciseTextFiles + exercise + ".txt";
-        } else if (exerciseType.equals(ExerciseType.BODYWEIGHT)) {
-            filepath = "./Data/" + exercise + ".txt";
-        }
-
-        Map<Date, List<TrainingSet>> tmpMap = new HashMap<>();
-        try {
-            String line;
-            BufferedReader bufferedReader =
-                    new BufferedReader(new FileReader(filepath));
-            while ((line = bufferedReader.readLine()) != null) {
-                Date d = this.getDateOfLine(line);
-                if (d == null) {
-                    break;
-                }
-                if ((d.after(from) && d.before(to)) || d.equals(from) || d.equals(to)) {
-                    tmpMap.put(d, this.getTrainingSets(exercise, d, exerciseType));
-                }
-
+        if(exerciseType == ExerciseType.BODYWEIGHT) {
+            Map<Date, List<TrainingSet>> weights = new TreeMap<>();
+            for(Map.Entry<Date, Double> entry: this.getWeightsBetweenDates(from, to).entrySet()){
+                List<TrainingSet> list = new ArrayList<>();
+                list.add(new TrainingSet("0", String.valueOf(entry.getValue())));
+                weights.put(entry.getKey(), list);
             }
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+            return weights;
         }
 
-        return (new TreeMap<>(tmpMap));
+        Map<Date, List<TrainingSet>> sets = this.dataBaseManager.getExerciseStats(exercise);
+
+        //filters map
+        sets = sets.entrySet().stream().filter(m -> DateManager.isDateBetween(m.getKey(), from, to))
+                .collect(Collectors.toMap(k -> k.getKey(), v -> v.getValue()));
+
+        //sorts map
+        return (new TreeMap<>(sets));
     }
 
     public int getHighestSet(Date from, Date to, String exercise, ExerciseType exerciseType) {
@@ -318,108 +133,21 @@ public class DataManager extends Observable {
 
     }
 
-    public boolean deleteExercise(String exercise) {
-        String path = Constants.PathExerciseTextFiles + exercise + ".txt";
-        File file = new File(path);
-        if (file.exists()) {
-            file.delete();
-        } else {
-            return false;
-        }
-        List<String> exercises = this.getExerciseList();
-        exercises.remove(exercise);
-        this.changeExerciseOrder(exercises);
-
-        return true;
-    }
-
-    //includes bodyweight
-    private String calculateActualWeight(Date date, String weight) {
-        Double extraWeight = 0.0;
-        if (weight.contains("+")) {
-            String[] split = weight.split("\\+");
-            extraWeight = Double.valueOf(split[split.length - 1]);
-        } else if (weight.contains("-")) {
-            String[] split = weight.split("-");
-            extraWeight = -1.0 * Double.valueOf(split[split.length - 1]);
-        }
-
-        double actualWeight = this.getWeight(date) + extraWeight;
-
-        return String.valueOf(actualWeight);
-    }
-
     public double getWeight(Date date) {
-        Map<Date, Double> weights = this.getWeightMap();
-
-        long days = 0;
-        Date chosenDate = null;
-        boolean firstDay = true;
-
-
-        for (Map.Entry<Date, Double> entry : weights.entrySet()) {
-            long diff = date.getTime() - entry.getKey().getTime();
-            long daysBetweenDates = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-            if (daysBetweenDates == 0) {
-                return entry.getValue();
-            }
-            if (Math.abs(daysBetweenDates) < Math.abs(days) || firstDay) {
-                days = daysBetweenDates;
-                chosenDate = entry.getKey();
-                firstDay = false;
-            }
-        }
-        if (weights.isEmpty()) {//no entries in weight.txt
-            return Constants.defaultWeight;
-        } else {
-            return weights.get(chosenDate); // closest weight
-        }
+        return this.dataBaseManager.getWeight(date);
     }
 
-    private Map<Date, Double> getWeightMap() { //DataBaseManager
-        Map<Date, Double> weights = new HashMap<>();
-        String filepath = "./Data/" + Constants.bodyWeight + ".txt";
-
-        try {
-            String line;
-            BufferedReader bufferedReader =
-                    new BufferedReader(new FileReader(filepath));
-            while ((line = bufferedReader.readLine()) != null) {
-                Date d = this.getDateOfLine(line);
-                if (d == null) {
-                    break;
-                }
-                String[] split = line.split("\\|");
-                String weight = split[split.length - 1];
-                weights.put(d, Double.valueOf(weight));
-            }
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
-        return weights;
+    public boolean deleteExercise(String exercise) {
+        return this.dataBaseManager.deleteExercise(exercise);
     }
+
+
+    public boolean checkIfExerciseExists(String exercise) {
+        return this.getExercises().contains(exercise);
+    }
+
 
     public boolean changeExerciseName(String exercise, String newName) {
-
-        if (new File(Constants.PathExerciseTextFiles + newName + ".txt").exists()) {
-            return false;
-        }
-        try {
-            Files.move(Paths.get(Constants.PathExerciseTextFiles + exercise + ".txt"),
-                    Paths.get(Constants.PathExerciseTextFiles + newName + ".txt"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        List exercises = this.getExerciseList();
-        int index = exercises.indexOf(exercise);
-        exercises.remove(index);
-        exercises.add(index, newName);
-        this.changeExerciseOrder(exercises);
-
-        return true;
+        return this.dataBaseManager.changeExerciseName(exercise, newName);
     }
 }

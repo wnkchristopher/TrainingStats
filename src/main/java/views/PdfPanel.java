@@ -1,6 +1,5 @@
 package views;
 
-import enums.PdfType;
 import models.Constants;
 import models.DataManager;
 import models.GeneratePdf;
@@ -8,8 +7,6 @@ import models.GeneratePdf;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class PdfPanel {
@@ -73,7 +70,7 @@ public class PdfPanel {
         sPExercises.getViewport().revalidate();
 
         List<String> exercises;
-        exercises = this.dataManager.getExerciseList();
+        exercises = this.dataManager.getExercises();
         exercises.add(0, Constants.bodyWeight);
         pnlExercises.removeAll();
         for (String exercise : exercises) {
