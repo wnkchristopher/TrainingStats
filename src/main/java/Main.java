@@ -1,6 +1,8 @@
+import controller.PdfPanelController;
 import controller.StartPanelController;
 import controller.TrainingStatsController;
 import models.DataManager;
+import views.PdfPanel;
 import views.StartFrame;
 import views.StartPanel;
 import models.Constants;
@@ -30,10 +32,12 @@ public class Main {
 
 
         TrainingStatsPanel trainingStatsPanel = new TrainingStatsPanel(dataManager);
+        PdfPanel pdfPanel = new PdfPanel(dataManager);
 
-        StartPanelController startPanelController = new StartPanelController(dataManager, startPanel, trainingStatsPanel); //Controller
-
+        StartPanelController startPanelController = new StartPanelController(dataManager, startPanel,
+                trainingStatsPanel, pdfPanel); //Controller
         TrainingStatsController trainingStatsController = new TrainingStatsController(dataManager, trainingStatsPanel);
+        PdfPanelController pdfPanelController = new PdfPanelController(dataManager, pdfPanel);
 
     }
 

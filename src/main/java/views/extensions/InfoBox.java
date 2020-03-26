@@ -1,4 +1,4 @@
-package views;
+package views.extensions;
 
 import controller.InfoBoxController;
 

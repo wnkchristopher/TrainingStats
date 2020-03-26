@@ -3,6 +3,7 @@ package views;
 import controller.ExercisePanelController;
 import models.Constants;
 import models.DataManager;
+import views.extensions.InfoBox;
 import views.extensions.PlaceholderTextField;
 
 import javax.swing.*;

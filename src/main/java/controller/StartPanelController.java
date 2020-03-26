@@ -2,11 +2,8 @@ package controller;
 
 import models.Constants;
 import models.DataManager;
-import views.PdfFrame;
-import views.StartPanel;
-import views.TrainingStatsFrame;
+import views.*;
 import enums.ExerciseType;
-import views.TrainingStatsPanel;
 
 import javax.swing.*;
 import java.util.Date;
@@ -19,12 +16,15 @@ public class StartPanelController implements Observer {
     private TrainingStatsFrame trainingStatsFrame;
     private PdfFrame pdfFrame;
     private TrainingStatsPanel trainingStatsPanel;
+    private PdfPanel pdfPanel;
 
-    public StartPanelController(DataManager dataManager, StartPanel startPanel, TrainingStatsPanel trainingStatsPanel) {  //dataManager = model, startPanel = view
+    public StartPanelController(DataManager dataManager, StartPanel startPanel,
+                                TrainingStatsPanel trainingStatsPanel, PdfPanel pdfPanel) {  //dataManager = model, startPanel = view
         this.dataManager = dataManager;
         this.startPanel = startPanel;
         this.trainingStatsPanel = trainingStatsPanel;
         this.trainingStatsFrame = new TrainingStatsFrame();
+        this.pdfPanel = pdfPanel;
 
         this.startPanel.getBtnAddExercise().addActionListener(e -> {
             String inputExercise = JOptionPane.showInputDialog("New exercise:");
@@ -67,7 +67,7 @@ public class StartPanelController implements Observer {
         });
 
         this.startPanel.getBtnGeneratePdf().addActionListener(e ->
-            pdfFrame = new PdfFrame()
+            pdfFrame = new PdfFrame(this.pdfPanel)
         );
 
         this.startPanel.getBtnSubmitWeight().addActionListener(e -> {

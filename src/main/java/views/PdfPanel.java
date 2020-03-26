@@ -24,9 +24,9 @@ public class PdfPanel {
     private JButton btnSubmitButton;
 
 
-    public PdfPanel() {
+    public PdfPanel(DataManager dataManager) {
         generatePdf = new GeneratePdf();
-        dataManager = new DataManager();
+        this.dataManager = dataManager;
         this.cBExercises = new ArrayList<>();
         this.pnlPdfGeneration = this.createPanel(500, 500);
     }
@@ -156,40 +156,6 @@ public class PdfPanel {
         JButton btnSubmit = new JButton("Generate PDF");
 
         btnSubmit.setBounds(275, 250, 150, 40);
-
-        btnSubmit.addActionListener(e -> {
-            ArrayList<String> exercises = new ArrayList<>();
-            Date from = dataManager.convertToDate(txtFrom.getText());
-            Date to = dataManager.convertToDate(txtTo.getText());
-            if (from == null || to == null) {
-                JOptionPane.showMessageDialog(null, "Format of date is wrong",
-                        "Error: Date", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(from);
-            txtFrom.setText(calendar.get(Calendar.DAY_OF_MONTH) + "." +
-                    (calendar.get(Calendar.MONTH) + 1) + "." + calendar.get(Calendar.YEAR));
-            calendar.setTime(to);
-            txtTo.setText(calendar.get(Calendar.DAY_OF_MONTH) + "." +
-                    (calendar.get(Calendar.MONTH) + 1) + "." + calendar.get(Calendar.YEAR));
-
-            if (from.after(to)) {
-                JOptionPane.showMessageDialog(null, "Your last date has to be after " +
-                        "your first");
-            } else {
-                for (JCheckBox cb : cBExercises) {
-                    if (cb.isSelected()) {
-                        exercises.add(cb.getText());
-                    }
-                }
-                if (rbOnePdf.isSelected()) {
-                    generatePdf.generatePdf(from, to, exercises, PdfType.ONE_PDF_FOR_ALL_EXERCISES);
-                } else if (rbMorePdfs.isSelected()) {
-                    generatePdf.generatePdf(from, to, exercises, PdfType.ONE_PDF_FOR_EACH_EXERCISE);
-                }
-            }
-        });
 
         btnSubmit.setVisible(true);
 

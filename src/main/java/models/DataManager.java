@@ -65,9 +65,6 @@ public class DataManager extends Observable {
         return exerciseList;
     }
 
-    public void writeExerciseTxt(List<String> exerciseOrder) {
-
-    }
 
     public void changeExerciseOrder(String exercise, Direction direction) {
         List<String> exercises = this.getExerciseList();

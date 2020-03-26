@@ -7,32 +7,17 @@ import enums.PdfType;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
-import java.util.List;
 
 public class PdfFrame {
     private JFrame frame;
-    private JTextField txtFrom;
-    private JTextField txtTo;
-    private JRadioButton rbMorePdfs;
-    private JRadioButton rbOnePdf;
-    private JScrollPane sPExercises;
-    private GeneratePdf generatePdf;
-    private DataManager dataManager;
-    private List<JCheckBox> cBExercises;
-    private JButton btnGeneratePdf;
-    private JPanel pnlExercises;
 
 
-    public PdfFrame() {
-        generatePdf = new GeneratePdf();
-        dataManager = new DataManager();
-        this.createFrame();
+    public PdfFrame(PdfPanel pdfPanel) {
+        this.createFrame(pdfPanel);
     }
 
-    public void createFrame() {
+    private void createFrame(PdfPanel pdfPanel) {
         this.frame = this.createFrame(500, 500);
-        PdfPanel pdfPanel = new PdfPanel();
         this.frame.add(pdfPanel.getPnlPdfGeneration());
     }
 
