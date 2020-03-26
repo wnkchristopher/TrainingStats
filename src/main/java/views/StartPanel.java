@@ -2,6 +2,7 @@ package views;
 
 import models.Constants;
 import models.DataManager;
+import models.DateManager;
 import views.extensions.ButtonEditor;
 
 import javax.swing.*;
@@ -108,7 +109,7 @@ public class StartPanel {
     }
 
     private JPanel getWeightPanel() {
-        String dateToday = dataManager.getCurrentDate();
+        String dateToday = DateManager.getCurrentDate();
 
         JPanel pnlWeight = new JPanel();
         pnlWeight.setOpaque(false);
@@ -124,7 +125,7 @@ public class StartPanel {
         lblWeight.setText("Your Weight");
 
         this.txtWeight = new JTextField();
-        this.txtWeight.setText(String.valueOf(dataManager.getWeight(dataManager.convertToDate(dateToday))));
+        this.txtWeight.setText(String.valueOf(dataManager.getWeight(DateManager.convertStringToDate(dateToday))));
 
         JLabel lblKilo = new JLabel();
         lblKilo.setText("kg");

@@ -2,6 +2,7 @@ package controller;
 
 import models.Constants;
 import models.DataManager;
+import models.DateManager;
 import views.*;
 import enums.ExerciseType;
 
@@ -71,7 +72,7 @@ public class StartPanelController implements Observer {
         );
 
         this.startPanel.getBtnSubmitWeight().addActionListener(e -> {
-            Date date = dataManager.convertToDate(startPanel.getTxtDate().getText());
+            Date date = DateManager.convertStringToDate(startPanel.getTxtDate().getText());
             if (date == null) {
                 JOptionPane.showMessageDialog(null, "Format of date is wrong",
                         "Error: Date", JOptionPane.ERROR_MESSAGE);

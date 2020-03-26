@@ -9,10 +9,6 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -23,7 +19,7 @@ public class DataManager extends Observable {
         this.calculateStats = new CalculateStats();
     }
 
-    public void addNewExercise(String name) {
+    public void addNewExercise(String name) { //DataBaseManager
 
         if (proveExerciseExists(name)) {
             return;
@@ -39,7 +35,7 @@ public class DataManager extends Observable {
         this.writeExerciseStats(name, null, "", ExerciseType.EXERCISE);
     }
 
-    public boolean proveExerciseExists(String exercise_name) {
+    public boolean proveExerciseExists(String exercise_name) { //maybe
         Iterator iterator = getExerciseList().iterator();
         while (iterator.hasNext()) {
             if (iterator.next().equals(exercise_name)) {
@@ -49,7 +45,7 @@ public class DataManager extends Observable {
         return false;
     }
 
-    public List<String> getExerciseList() {
+    public List<String> getExerciseList() { // DataSaveManager
         List<String> exerciseList = new ArrayList<>();
         try {
             String line;
@@ -82,7 +78,7 @@ public class DataManager extends Observable {
     }
 
 
-    public void changeExerciseOrder(List<String> exerciseOrder) {
+    public void changeExerciseOrder(List<String> exerciseOrder) { //DataManagerOrder
         try {
             PrintWriter writer = new PrintWriter(Constants.PathExerciseTxt);
             writer.print("");
@@ -95,14 +91,6 @@ public class DataManager extends Observable {
         }
     }
 
-    public String convertDateToString(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        String stringDate = calendar.get(Calendar.DAY_OF_MONTH) + "." +
-                (calendar.get(Calendar.MONTH) + 1) + "." + calendar.get(Calendar.YEAR);
-
-        return stringDate;
-    }
 
     public void addWorkout(String exercise, Date dateOfTraining, String content) {
         if (!content.isEmpty()) {
@@ -110,18 +98,8 @@ public class DataManager extends Observable {
         }
     }
 
-    public Date convertToDate(String sDate) {
-        Date date;
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
-        try {
-            date = dateFormatter.parse(sDate);
-        } catch (ParseException e) {
-            return null;
-        }
-        return date;
-    }
 
-    private boolean isFileEmpty(String exercise) {
+    private boolean isFileEmpty(String exercise) { //dataSaveManager
         File logFile = new File(Constants.PathExerciseTextFiles + exercise + ".txt");
         if (logFile.length() == 0) {
             return true;
@@ -130,7 +108,7 @@ public class DataManager extends Observable {
     }
 
 
-    public void writeExerciseStats(String exercise, Date dateOfTraining, String content, ExerciseType exerciseType) {
+    public void writeExerciseStats(String exercise, Date dateOfTraining, String content, ExerciseType exerciseType) {  //DataBaseManager
         int line = this.getLineToInsert(exercise, dateOfTraining, exerciseType);
         String filepath = "";
         if (exerciseType.equals(ExerciseType.EXERCISE)) {
@@ -162,16 +140,16 @@ public class DataManager extends Observable {
         }
     }
 
-    private Date getDateOfLine(String line) {
+    private Date getDateOfLine(String line) { //Databasemanager
         int i = line.indexOf("|");
         if (i < 0) {
             return null;  //may be Exception later
         }
         String stringDate = line.substring(0, i);
-        return this.convertToDate(stringDate);
+        return DateManager.convertStringToDate(stringDate);
     }
 
-    private int getLineToInsert(String exercise, Date date, ExerciseType exerciseType) {
+    private int getLineToInsert(String exercise, Date date, ExerciseType exerciseType) {  //DataBaseManager
         if (date == null) {
             return 0;
         }
@@ -213,7 +191,7 @@ public class DataManager extends Observable {
         return lineCounter;
     }
 
-    private int getLineOfDate(String exercise, Date date, ExerciseType exerciseType) {
+    private int getLineOfDate(String exercise, Date date, ExerciseType exerciseType) { //DataSaveManager
         String filePath = Constants.PathExerciseTextFiles + exercise + ".txt";
         if (exerciseType.equals(ExerciseType.BODYWEIGHT)) {
             filePath = "./Data/" + exercise + ".txt";
@@ -242,7 +220,21 @@ public class DataManager extends Observable {
         return -1;
     }
 
-    private List<TrainingSet> getTrainingSets(String exercise, Date date, ExerciseType exerciseType) {
+    public List<TrainingSet> getListOfSet(int set, Date from, Date to, String exercise, ExerciseType exerciseType) {
+        List<TrainingSet> listStats = new LinkedList<>();
+        for (Map.Entry<Date, List<TrainingSet>> m :
+                this.getStatsBetweenDates(exercise, from, to, exerciseType).entrySet()) {
+            try {
+                listStats.add
+                        (new TrainingSet(m.getValue().get(set - 1).getReps(), m.getValue().get(set - 1).getWeight()));
+            } catch (IndexOutOfBoundsException e) {
+                listStats.add(null);
+            }
+        }
+        return listStats;
+    }
+
+    private List<TrainingSet> getTrainingSets(String exercise, Date date, ExerciseType exerciseType) { //Should use getExerciseStats and search for specific date
         String filePath = Constants.PathExerciseTextFiles + exercise + ".txt";
         if (exerciseType.equals(ExerciseType.BODYWEIGHT)) {
             filePath = "./Data/" + exercise + ".txt";
@@ -261,7 +253,7 @@ public class DataManager extends Observable {
             if (split[i + 1].contains("b")) {
                 split[i + 1] = this.calculateActualWeight(date, split[i + 1]);
             }
-            list.add(new TrainingSet(Double.valueOf(split[i]), Double.valueOf(split[i + 1])));
+            list.add(new TrainingSet(split[i], split[i + 1]));
         }
 
         return list;
@@ -269,7 +261,7 @@ public class DataManager extends Observable {
     }
 
     public Map<Date, List<TrainingSet>> getStatsBetweenDates
-            (String exercise, Date from, Date to, ExerciseType exerciseType) {
+            (String exercise, Date from, Date to, ExerciseType exerciseType) {  //Should use getExerciseStats
         String filepath = "";
         if (exerciseType.equals(ExerciseType.EXERCISE)) {
             filepath = Constants.PathExerciseTextFiles + exercise + ".txt";
@@ -318,24 +310,10 @@ public class DataManager extends Observable {
         return highestSet;
     }
 
-    public List<TrainingSet> getListOfSet(int set, Date from, Date to, String exercise, ExerciseType exerciseType) {
-        List<TrainingSet> listStats = new LinkedList<>();
-        for (Map.Entry<Date, List<TrainingSet>> m :
-                this.getStatsBetweenDates(exercise, from, to, exerciseType).entrySet()) {
-            try {
-                listStats.add
-                        (new TrainingSet(m.getValue().get(set - 1).getReps(), m.getValue().get(set - 1).getWeight()));
-            } catch (IndexOutOfBoundsException e) {
-                listStats.add(null);
-            }
-        }
-        return listStats;
-    }
-
     public float getFrequencyPerWeek(Date from, Date to, String exercise) {
         float days = (float) this.calculateStats.calculateDaysBetweenDates(to, from);
         float weeks = days / 7;
-        float quantityWorkouts = (float) this.getListOfSet(1, from, to, exercise, ExerciseType.EXERCISE).size();
+        float quantityWorkouts = (float) this.getStatsBetweenDates(exercise, from, to, ExerciseType.EXERCISE).size();
         return (quantityWorkouts / weeks);
 
     }
@@ -398,7 +376,7 @@ public class DataManager extends Observable {
         }
     }
 
-    private Map<Date, Double> getWeightMap() {
+    private Map<Date, Double> getWeightMap() { //DataBaseManager
         Map<Date, Double> weights = new HashMap<>();
         String filepath = "./Data/" + Constants.bodyWeight + ".txt";
 
@@ -443,12 +421,5 @@ public class DataManager extends Observable {
         this.changeExerciseOrder(exercises);
 
         return true;
-    }
-
-    public String getCurrentDate() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDateTime now = LocalDateTime.now();
-        String dateToday = dtf.format(now);
-        return dateToday;
     }
 }

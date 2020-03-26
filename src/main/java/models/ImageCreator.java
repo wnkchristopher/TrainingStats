@@ -277,12 +277,14 @@ public class ImageCreator {
                 dataManager.getStatsBetweenDates(exercise, from, to, exerciseType).entrySet()) {
             for (TrainingSet t : m.getValue()) {
                 double value = 0;
+                double reps = Double.valueOf(t.getReps());
+                double weight = Double.valueOf(t.getWeight());
                 if (graphType == GraphType.EFFECTIVE_GRAPH) {
-                    value = t.getReps() * t.getWeight();
+                    value = reps * weight;
                 } else if (graphType == GraphType.WEIGHT_GRAPH) {
-                    value = t.getWeight();
+                    value = weight;
                 } else if (graphType == GraphType.REPS_GRAPH) {
-                    value = t.getReps();
+                    value = reps;
                 }
                 if (firstTime) {
                     min = value;
@@ -321,11 +323,12 @@ public class ImageCreator {
                 double graphTypeValue = 0;
                 if (graphType == GraphType.EFFECTIVE_GRAPH) {
                     graphTypeValue =
-                            (double) (m.getValue().get(set - 1).getReps() * m.getValue().get(set - 1).getWeight());
+                             (Double.valueOf(m.getValue().get(set - 1).getReps()) *
+                                    Double.valueOf(m.getValue().get(set - 1).getWeight()));
                 } else if (graphType == GraphType.WEIGHT_GRAPH) {
-                    graphTypeValue = (double) m.getValue().get(set - 1).getWeight();
+                    graphTypeValue = Double.valueOf(m.getValue().get(set - 1).getWeight());
                 } else if (graphType == GraphType.REPS_GRAPH) {
-                    graphTypeValue = (double) (m.getValue().get(set - 1).getReps());
+                    graphTypeValue = Double.valueOf(m.getValue().get(set - 1).getReps());
                 }
                 double factorX = (double) tmpDays / (double) daysBetweenDates;
                 double differentMaxValue = maxMin[1] - graphTypeValue;

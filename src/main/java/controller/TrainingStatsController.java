@@ -2,6 +2,7 @@ package controller;
 
 import models.Constants;
 import models.DataManager;
+import models.DateManager;
 import views.ExercisePanel;
 import views.extensions.PlaceholderTextField;
 import views.TrainingStatsPanel;
@@ -19,7 +20,7 @@ public class TrainingStatsController implements Observer {
         this.trainingStatsPanel = trainingStatsPanel;
 
         this.trainingStatsPanel.getBtnSubmit().addActionListener(e -> {
-            Date dateOfTraining = dataManager.convertToDate(this.trainingStatsPanel.getTxtDate().getText());
+            Date dateOfTraining = DateManager.convertStringToDate(this.trainingStatsPanel.getTxtDate().getText());
             if (dateOfTraining == null) {
                 JOptionPane.showMessageDialog(null, "Format of date is wrong",
                         "Error: Date", JOptionPane.ERROR_MESSAGE);
@@ -31,7 +32,7 @@ public class TrainingStatsController implements Observer {
             for (Map.Entry<String, ExercisePanel> entry : exercisePanels.entrySet()) {
 
                 String exercise = entry.getKey();
-                String newExerciseLine = this.dataManager.convertDateToString(dateOfTraining);
+                String newExerciseLine = DateManager.convertDateToString(dateOfTraining);
 
                 Map<Integer, PlaceholderTextField[]> txtFields = entry.getValue().getTxtFields();
 

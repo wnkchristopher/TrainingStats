@@ -2,6 +2,7 @@ package controller;
 
 import enums.PdfType;
 import models.DataManager;
+import models.DateManager;
 import models.GeneratePdf;
 import views.PdfPanel;
 
@@ -16,16 +17,16 @@ public class PdfPanelController {
             String strFrom = pdfPanel.getTxtFrom().getText();
             String strTo = pdfPanel.getTxtTo().getText();
             ArrayList<String> exercises = new ArrayList<>();
-            Date from = dataManager.convertToDate(strFrom);
-            Date to = dataManager.convertToDate(strTo);
+            Date from = DateManager.convertStringToDate(strFrom);
+            Date to = DateManager.convertStringToDate(strTo);
             if (from == null || to == null) {
                 JOptionPane.showMessageDialog(null, "Format of date is wrong",
                         "Error: Date", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            pdfPanel.getTxtFrom().setText(dataManager.convertDateToString(from));
-            pdfPanel.getTxtTo().setText(dataManager.convertDateToString(to));
+            pdfPanel.getTxtFrom().setText(DateManager.convertDateToString(from));
+            pdfPanel.getTxtTo().setText(DateManager.convertDateToString(to));
 
             if (from.after(to)) {
                 JOptionPane.showMessageDialog(null, "Your last date has to be after " +
