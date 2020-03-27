@@ -7,11 +7,10 @@ import views.extensions.ButtonEditor;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Iterator;
+import java.util.List;
 
 public class StartPanel {
     private JPanel pnlMain = new JPanel();
-    private DataManager dataManager;
     private JButton btnEditExercise;
     private JButton btnDeleteExercise;
     private JButton btnAddExercise;
@@ -22,8 +21,8 @@ public class StartPanel {
     private JTextField txtWeight;
     private JTextField txtDate;
 
-    public StartPanel(DataManager dataManager) {
-        this.dataManager = dataManager;
+    public StartPanel() {
+
     }
 
     public JPanel createPanel(int width, int height) {
@@ -78,10 +77,6 @@ public class StartPanel {
         this.cBExercises.setFont(new Font("Helvetica", 3, 16));
         this.cBExercises.setBounds(0, 0, 230, 50);
         this.cBExercises.setVisible(true);
-        Iterator iterator = dataManager.getExercises().iterator();
-        while (iterator.hasNext()) {
-            cBExercises.addItem(iterator.next());
-        }
 
         this.btnEditExercise = new JButton();
         this.btnEditExercise.setBounds(233, 0, 37, 50);
@@ -124,7 +119,7 @@ public class StartPanel {
         lblWeight.setText("Your Weight");
 
         this.txtWeight = new JTextField();
-        this.txtWeight.setText(String.valueOf(dataManager.getWeight(DateManager.convertStringToDate(dateToday))));
+        //this.txtWeight.setText(String.valueOf(dataManager.getWeight(DateManager.convertStringToDate(dateToday))));
 
         JLabel lblKilo = new JLabel();
         lblKilo.setText("kg");
@@ -172,11 +167,14 @@ public class StartPanel {
         return pnlWeight;
     }
 
-    public void refresh() {
+    public void refresh(List<String> exercises) {
         int index = this.cBExercises.getSelectedIndex();
         this.cBExercises.removeAllItems();
-        for(String exercise :  this.dataManager.getExercises()){
+        for(String exercise :  exercises){
             this.cBExercises.addItem(exercise);
+        }
+        if(index < 0){
+            index = 0;
         }
         if(index < this.cBExercises.getItemCount()){
             this.cBExercises.setSelectedIndex(index);

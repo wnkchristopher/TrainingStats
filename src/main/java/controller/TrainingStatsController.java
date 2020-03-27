@@ -68,8 +68,8 @@ public class TrainingStatsController implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o == this.dataManager && arg.equals(Constants.ChangedExercises)) {
-            this.trainingStatsPanel.refresh();
+        if (o == this.dataManager && (arg.equals(Constants.ChangedExercises) || arg.equals(Constants.StartProgram))) {
+            this.trainingStatsPanel.refresh(this.dataManager.getExercises());
         }
     }
 }

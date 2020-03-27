@@ -15,6 +15,7 @@ public class Constants {
     public final static String PathExerciseTextFiles = "./Data/Exercises/";
 
     //Notifications Observer
+    public final static String StartProgram = "StartProgram";
     public final static String ChangedExercises = "ChangedExercises";
 
 

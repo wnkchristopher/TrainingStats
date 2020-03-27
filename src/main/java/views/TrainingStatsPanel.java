@@ -26,7 +26,6 @@ public class TrainingStatsPanel {
 
     public TrainingStatsPanel(DataManager dataManager) {
         this.dataManager = dataManager;
-        this.exerciseOrder = dataManager.getExercises();
 
         this.createPanel(1000, 1000);
     }
@@ -100,12 +99,6 @@ public class TrainingStatsPanel {
         sPExercises.getVerticalScrollBar().setUnitIncrement(Constants.ScrollSpeed);
         sPExercises.setVisible(true);
 
-
-        for (String s : this.exerciseOrder) {
-            this.exercisePanels.put(s, this.getExercisePanel(s));
-            this.contentPanel.add(this.exercisePanels.get(s).getPnlExercise());   //need to change
-        }
-
         this.contentPanel.setBackground(Color.decode("#F0F8FF"));
 
         this.contentPanel.add(Box.createVerticalGlue());
@@ -144,20 +137,15 @@ public class TrainingStatsPanel {
         return pnlInfo;
     }
 
-    public void addExercisePanel(String exercise) {
-        ExercisePanel exercisePanel = new ExercisePanel(exercise);
-        this.exercisePanels.put(exercise, exercisePanel);
-    }
 
-    public void refresh() {
-        this.exerciseOrder = this.dataManager.getExercises();
+    public void refresh(List<String> exercises) {
         this.contentPanel.removeAll();
-        this.exerciseOrder = this.dataManager.getExercises();
-        for (String e : this.exerciseOrder) {
-            if(!this.exercisePanels.containsKey(e)){
-                this.addExercisePanel(e);
+        this.exerciseOrder = exercises;
+        for (String exercise : this.exerciseOrder) {
+            if(!this.exercisePanels.containsKey(exercise)){
+                this.exercisePanels.put(exercise, this.getExercisePanel(exercise));
             }
-            this.contentPanel.add(this.exercisePanels.get(e).getPnlExercise());
+            this.contentPanel.add(this.exercisePanels.get(exercise).getPnlExercise());
         }
         this.contentPanel.validate();
         this.contentPanel.repaint();

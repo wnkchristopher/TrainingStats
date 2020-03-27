@@ -27,7 +27,7 @@ public class Main {
         StartFrame frame = new StartFrame(); //View
 
         DataManager dataManager = new DataManager(); //Model
-        StartPanel startPanel = new StartPanel(dataManager); //View
+        StartPanel startPanel = new StartPanel(); //View
         frame.createFrame(startPanel, "TrainStats", width, height);
 
 
@@ -38,6 +38,8 @@ public class Main {
                 trainingStatsPanel, pdfPanel); //Controller
         TrainingStatsController trainingStatsController = new TrainingStatsController(dataManager, trainingStatsPanel);
         PdfPanelController pdfPanelController = new PdfPanelController(dataManager, pdfPanel);
+
+        dataManager.notifyObservers(Constants.StartProgram);
 
     }
 

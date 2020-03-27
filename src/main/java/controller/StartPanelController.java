@@ -71,15 +71,19 @@ public class StartPanelController implements Observer {
                         "Error: Date", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            String entry = this.startPanel.getTxtDate().getText() + "|0|" + startPanel.getTxtWeight().getText();
             this.dataManager.addWeight(date, Double.valueOf(startPanel.getTxtWeight().getText()));
         });
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        if(o.equals(dataManager) && arg.equals(Constants.ChangedExercises)){
-            this.startPanel.refresh();
+        if(o.equals(dataManager) && (arg.equals(Constants.ChangedExercises) || arg.equals(Constants.StartProgram))){
+            this.startPanel.refresh(this.dataManager.getExercises());
+            if(arg.equals(Constants.StartProgram)){
+                Double lastWeight =
+                        this.dataManager.getWeight(DateManager.convertStringToDate(DateManager.getCurrentDate()));
+                this.startPanel.getTxtWeight().setText(String.valueOf(lastWeight));
+            }
         }
     }
 }

@@ -13,6 +13,7 @@ public class DataManager extends Observable {
     public DataManager() {
         this.calculateStats = new CalculateStats();
         this.dataBaseManager = new DataBaseManager();
+        this.setChanged();
     }
 
     public List<String> getExercises() {
