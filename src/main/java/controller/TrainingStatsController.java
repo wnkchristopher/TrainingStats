@@ -68,7 +68,23 @@ public class TrainingStatsController implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o == this.dataManager && (arg.equals(Constants.ChangedExercises) || arg.equals(Constants.StartProgram))) {
+        if (o == this.dataManager) {
+            if (arg.equals(Constants.StartProgram)) {
+                for (String exercise : this.dataManager.getExercises()) {
+                    ExercisePanel exercisePanel = new ExercisePanel(exercise);
+                    ExercisePanelController exercisePanelController =
+                            new ExercisePanelController(this.dataManager, exercisePanel);
+                    this.trainingStatsPanel.addExercisePanel(exercise, exercisePanel);
+                }
+            } else if (arg.equals(Constants.AddedExercise) || (arg.equals(Constants.RenamedExercise))) {
+                ExercisePanel exercisePanel = new ExercisePanel(this.dataManager.getNewExercise());
+                ExercisePanelController exercisePanelController =
+                        new ExercisePanelController(this.dataManager, exercisePanel);
+                this.trainingStatsPanel.addExercisePanel(this.dataManager.getNewExercise(), exercisePanel);
+            }
+            if (arg.equals(Constants.DeletedExercise)|| arg.equals(Constants.RenamedExercise)) {
+                this.trainingStatsPanel.getExercisePanels().remove(this.dataManager.getDeletedExercise());
+            }
             this.trainingStatsPanel.refresh(this.dataManager.getExercises());
         }
     }

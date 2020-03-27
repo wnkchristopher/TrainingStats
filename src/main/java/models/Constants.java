@@ -16,7 +16,9 @@ public class Constants {
 
     //Notifications Observer
     public final static String StartProgram = "StartProgram";
-    public final static String ChangedExercises = "ChangedExercises";
+    public final static String AddedExercise = "AddedExercise";
+    public final static String DeletedExercise = "DeletedExercise";
+    public final static String RenamedExercise = "RenamedExercise";
 
 
 

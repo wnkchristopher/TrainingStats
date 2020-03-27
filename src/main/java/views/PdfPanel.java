@@ -1,13 +1,12 @@
 package views;
 
 import models.Constants;
-import models.DataManager;
-import models.GeneratePdf;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PdfPanel {
     private JPanel pnlPdfGeneration;
@@ -15,15 +14,13 @@ public class PdfPanel {
     private JTextField txtTo;
     private JRadioButton rbMorePdfs;
     private JRadioButton rbOnePdf;
-    private GeneratePdf generatePdf;
-    private DataManager dataManager;
+   // private Map<String, JCheckBox> cBExercises;
     private List<JCheckBox> cBExercises;
     private JButton btnSubmitButton;
+    private JPanel pnlExercises;
 
 
-    public PdfPanel(DataManager dataManager) {
-        generatePdf = new GeneratePdf();
-        this.dataManager = dataManager;
+    public PdfPanel() {
         this.cBExercises = new ArrayList<>();
         this.pnlPdfGeneration = this.createPanel(500, 500);
     }
@@ -55,11 +52,11 @@ public class PdfPanel {
 
     private JScrollPane getExerciseScrollPane() {
 
-        JPanel pnlExercises = new JPanel();
-        BoxLayout boxlayout = new BoxLayout(pnlExercises, BoxLayout.Y_AXIS);
-        pnlExercises.setLayout(boxlayout);
+        this.pnlExercises = new JPanel();
+        BoxLayout boxlayout = new BoxLayout(this.pnlExercises, BoxLayout.Y_AXIS);
+        this.pnlExercises.setLayout(boxlayout);
 
-        JScrollPane sPExercises = new JScrollPane(pnlExercises,
+        JScrollPane sPExercises = new JScrollPane(this.pnlExercises,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
@@ -69,20 +66,7 @@ public class PdfPanel {
 
         sPExercises.getViewport().revalidate();
 
-        List<String> exercises;
-        exercises = this.dataManager.getExercises();
-        exercises.add(0, Constants.bodyWeight);
-        pnlExercises.removeAll();
-        for (String exercise : exercises) {
-            JCheckBox cb = new JCheckBox();
-            cb.setText(exercise);
-            cb.setBackground(Color.white);
-            cb.setSize(150, 30);
-            this.cBExercises.add(cb);
-            pnlExercises.add(cb);
-        }
-        pnlExercises.validate();
-        pnlExercises.repaint();
+        this.addExercise(Constants.bodyWeight);
 
         pnlExercises.setBackground(Color.white);
         pnlExercises.setVisible(true);
@@ -157,6 +141,24 @@ public class PdfPanel {
         btnSubmit.setVisible(true);
 
         return btnSubmit;
+    }
+
+    public void addExercise(String exercise) {
+        JCheckBox cb = new JCheckBox();
+        cb.setText(exercise);
+        cb.setBackground(Color.white);
+        cb.setSize(150, 30);
+        this.cBExercises.add(cb);
+        this.pnlExercises.add(cb);
+    }
+
+    public void refresh(List<String> exercises) {
+        this.pnlExercises.removeAll();
+        for(JCheckBox checkBox: this.cBExercises) {
+            this.pnlExercises.add(checkBox);
+        }
+        pnlExercises.validate();
+        pnlExercises.repaint();
     }
 
     public JPanel getPnlPdfGeneration() {

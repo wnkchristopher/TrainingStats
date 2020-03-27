@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 public class DataManager extends Observable {
     private CalculateStats calculateStats;
     private DataBaseManager dataBaseManager;
+    private String newExercise;
+    private String deletedExercise;
 
 
     public DataManager() {
@@ -22,9 +24,10 @@ public class DataManager extends Observable {
 
     public void addExercise(String exercise) {
         this.dataBaseManager.addNewExercise(exercise);
+        this.newExercise = exercise;
 
         this.setChanged();
-        this.notifyObservers(Constants.ChangedExercises);
+        this.notifyObservers(Constants.AddedExercise);
     }
 
     public void changeExerciseOrder(String exercise, Direction direction) {
@@ -39,7 +42,7 @@ public class DataManager extends Observable {
         this.dataBaseManager.writeExerciseList(exercises);
 
         this.setChanged();
-        this.notifyObservers(Constants.ChangedExercises);
+        this.notifyObservers(Constants.AddedExercise);
     }
 
 
@@ -141,25 +144,35 @@ public class DataManager extends Observable {
 
     public boolean deleteExercise(String exercise) {
         if(this.dataBaseManager.deleteExercise(exercise)){
+            this.deletedExercise = exercise;
             this.setChanged();
-            this.notifyObservers(Constants.ChangedExercises);
+            this.notifyObservers(Constants.DeletedExercise);
             return true;
         }
         return false;
     }
 
 
-    public boolean checkIfExerciseExists(String exercise) {
+    private boolean checkIfExerciseExists(String exercise) {
         return this.getExercises().contains(exercise);
     }
 
-
     public boolean changeExerciseName(String exercise, String newName) {
         if(this.dataBaseManager.changeExerciseName(exercise, newName)){
+            this.newExercise = newName;
+            this.deletedExercise = exercise;
             this.setChanged();
-            this.notifyObservers(Constants.ChangedExercises);
+            this.notifyObservers(Constants.RenamedExercise);
             return true;
         }
         return false;
+    }
+
+    public String getNewExercise() {
+        return newExercise;
+    }
+
+    public String getDeletedExercise() {
+        return deletedExercise;
     }
 }

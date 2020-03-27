@@ -1,8 +1,6 @@
 package views;
 
-import controller.ExercisePanelController;
 import models.Constants;
-import models.DataManager;
 import views.extensions.InfoBox;
 import views.extensions.PlaceholderTextField;
 
@@ -13,20 +11,17 @@ import java.util.List;
 
 public class TrainingStatsPanel {
     private PlaceholderTextField txtDate;
-    private DataManager dataManager;
-    private List<String> exerciseOrder; // = new ArrayList<>()
+    private List<String> exerciseOrder;
     private Map<String, ExercisePanel> exercisePanels = new HashMap<>();
     private int width = 0, height = 0;
 
     private JPanel pnlTrainingStats;
-    private JPanel contentPanel;
+    private JPanel pnlContent;
     private JButton btnSubmit;
 
     private InfoBox infoBox;
 
-    public TrainingStatsPanel(DataManager dataManager) {
-        this.dataManager = dataManager;
-
+    public TrainingStatsPanel() {
         this.createPanel(1000, 1000);
     }
 
@@ -86,11 +81,11 @@ public class TrainingStatsPanel {
     }
 
     private JScrollPane getContentScrollPane() {
-        this.contentPanel = new JPanel();
-        BoxLayout boxlayout = new BoxLayout(contentPanel, BoxLayout.Y_AXIS);
-        contentPanel.setLayout(boxlayout);
+        this.pnlContent = new JPanel();
+        BoxLayout boxlayout = new BoxLayout(pnlContent, BoxLayout.Y_AXIS);
+        pnlContent.setLayout(boxlayout);
 
-        JScrollPane sPExercises = new JScrollPane(contentPanel,
+        JScrollPane sPExercises = new JScrollPane(pnlContent,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
@@ -99,17 +94,10 @@ public class TrainingStatsPanel {
         sPExercises.getVerticalScrollBar().setUnitIncrement(Constants.ScrollSpeed);
         sPExercises.setVisible(true);
 
-        this.contentPanel.setBackground(Color.decode("#F0F8FF"));
+        this.pnlContent.setBackground(Color.decode("#F0F8FF"));
 
-        this.contentPanel.add(Box.createVerticalGlue());
+        this.pnlContent.add(Box.createVerticalGlue());
         return sPExercises;
-    }
-
-    private ExercisePanel getExercisePanel(String exercise) {
-        ExercisePanel exercisePanel = new ExercisePanel(exercise);
-        ExercisePanelController exercisePanelController = new ExercisePanelController(this.dataManager, exercisePanel);
-
-        return exercisePanel;
     }
 
     private JButton getSubmitButton() {
@@ -137,18 +125,20 @@ public class TrainingStatsPanel {
         return pnlInfo;
     }
 
+    public void addExercisePanel(String exercise, ExercisePanel exercisePanel) {
+        if(!this.exercisePanels.containsKey(exercise)){
+            this.exercisePanels.put(exercise, exercisePanel);
+        }
+    }
 
     public void refresh(List<String> exercises) {
-        this.contentPanel.removeAll();
+        this.pnlContent.removeAll();
         this.exerciseOrder = exercises;
         for (String exercise : this.exerciseOrder) {
-            if(!this.exercisePanels.containsKey(exercise)){
-                this.exercisePanels.put(exercise, this.getExercisePanel(exercise));
-            }
-            this.contentPanel.add(this.exercisePanels.get(exercise).getPnlExercise());
+            this.pnlContent.add(this.exercisePanels.get(exercise).getPnlExercise());
         }
-        this.contentPanel.validate();
-        this.contentPanel.repaint();
+        this.pnlContent.validate();
+        this.pnlContent.repaint();
     }
 
     public JPanel getPnlTrainingStats() {

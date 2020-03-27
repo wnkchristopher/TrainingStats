@@ -77,7 +77,7 @@ public class StartPanelController implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if(o.equals(dataManager) && (arg.equals(Constants.ChangedExercises) || arg.equals(Constants.StartProgram))){
+        if(o.equals(dataManager)){
             this.startPanel.refresh(this.dataManager.getExercises());
             if(arg.equals(Constants.StartProgram)){
                 Double lastWeight =

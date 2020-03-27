@@ -28,11 +28,11 @@ public class Main {
 
         DataManager dataManager = new DataManager(); //Model
         StartPanel startPanel = new StartPanel(); //View
+        TrainingStatsPanel trainingStatsPanel = new TrainingStatsPanel();
+        PdfPanel pdfPanel = new PdfPanel();
         frame.createFrame(startPanel, "TrainStats", width, height);
 
 
-        TrainingStatsPanel trainingStatsPanel = new TrainingStatsPanel(dataManager);
-        PdfPanel pdfPanel = new PdfPanel(dataManager);
 
         StartPanelController startPanelController = new StartPanelController(dataManager, startPanel,
                 trainingStatsPanel, pdfPanel); //Controller

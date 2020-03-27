@@ -1,17 +1,27 @@
 package controller;
 
 import enums.PdfType;
+import models.Constants;
 import models.DataManager;
 import models.DateManager;
 import models.GeneratePdf;
 import views.PdfPanel;
 
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
 
-public class PdfPanelController {
+public class PdfPanelController implements Observer {
+    private DataManager dataManager;
+    private PdfPanel pdfPanel;
+
     public PdfPanelController(DataManager dataManager, PdfPanel pdfPanel) {
+        this.dataManager = dataManager;
+        this.pdfPanel = pdfPanel;
+        this.dataManager.addObserver(this);
         GeneratePdf generatePdf = new GeneratePdf();
         pdfPanel.getBtnSubmitButton().addActionListener(e -> {
             String strFrom = pdfPanel.getTxtFrom().getText();
@@ -44,5 +54,25 @@ public class PdfPanelController {
                 }
             }
         });
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o.equals(this.dataManager)) {
+            if (arg.equals(Constants.StartProgram)) {
+                for (String exercise : this.dataManager.getExercises()) {
+                    this.pdfPanel.addExercise(exercise);
+                }
+            }
+            if (arg.equals(Constants.AddedExercise) || (arg.equals(Constants.RenamedExercise))) {
+                this.pdfPanel.addExercise(this.dataManager.getNewExercise());
+            }
+            if (arg.equals(Constants.DeletedExercise) || arg.equals(Constants.RenamedExercise)) {
+                 this.pdfPanel.getcBExercises().remove(this.dataManager.getDeletedExercise());
+                 this.pdfPanel.refresh(this.dataManager.getExercises());
+            }
+
+            //this.pdfPanel.refresh();
+        }
     }
 }
