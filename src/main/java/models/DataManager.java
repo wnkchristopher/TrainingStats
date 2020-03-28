@@ -45,7 +45,7 @@ public class DataManager extends Observable {
         this.dataBaseManager.writeExerciseList(exercises);
 
         this.setChanged();
-        this.notifyObservers(Constants.AddedExercise);
+        this.notifyObservers(Constants.ChangedOrder);
     }
 
 

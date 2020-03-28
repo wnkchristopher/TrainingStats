@@ -14,7 +14,6 @@ public class StartFrame {
         this.frame = new JFrame();
         this.frame.setLayout(null);
         this.frame.setTitle(title);
-        //this.frame.getContentPane().setBackground(Color.decode(Constants.BackgroundColor));
         this.frame.setSize(width, height);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.frame.setLocation

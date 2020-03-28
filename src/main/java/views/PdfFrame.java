@@ -32,9 +32,6 @@ public class PdfFrame {
         ImageIcon imageIcon = new ImageIcon("resources/img/logo.png");
         frame.setIconImage(imageIcon.getImage());
 
-       // frame.getRootPane().setDefaultButton(this.btnGeneratePdf);
-
-       // frame.repaint();
         frame.setVisible(true);
 
         return frame;

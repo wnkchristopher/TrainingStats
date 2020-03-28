@@ -19,6 +19,7 @@ public class Constants {
     public final static String AddedExercise = "AddedExercise";
     public final static String DeletedExercise = "DeletedExercise";
     public final static String RenamedExercise = "RenamedExercise";
+    public final static String ChangedOrder = "ChangedOrder";
 
 
 
