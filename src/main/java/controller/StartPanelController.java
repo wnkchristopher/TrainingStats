@@ -84,6 +84,9 @@ public class StartPanelController implements Observer {
                         this.dataManager.getWeight(DateManager.convertStringToDate(DateManager.getCurrentDate()));
                 this.startPanel.getTxtWeight().setText(String.valueOf(lastWeight));
             }
+            if(arg.equals(Constants.AddedExercise)) {
+                this.startPanel.getcBExercises().setSelectedItem(this.dataManager.getNewExercise());
+            }
         }
     }
 }

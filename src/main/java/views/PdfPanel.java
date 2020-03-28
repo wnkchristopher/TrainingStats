@@ -4,9 +4,8 @@ import models.Constants;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class PdfPanel {
     private JPanel pnlPdfGeneration;
@@ -14,14 +13,14 @@ public class PdfPanel {
     private JTextField txtTo;
     private JRadioButton rbMorePdfs;
     private JRadioButton rbOnePdf;
-   // private Map<String, JCheckBox> cBExercises;
-    private List<JCheckBox> cBExercises;
+    private Map<String, JCheckBox> cBExercises;
+    //private List<JCheckBox> cBExercises;
     private JButton btnSubmitButton;
     private JPanel pnlExercises;
 
 
     public PdfPanel() {
-        this.cBExercises = new ArrayList<>();
+        this.cBExercises = new TreeMap<>();
         this.pnlPdfGeneration = this.createPanel(500, 500);
     }
 
@@ -148,14 +147,15 @@ public class PdfPanel {
         cb.setText(exercise);
         cb.setBackground(Color.white);
         cb.setSize(150, 30);
-        this.cBExercises.add(cb);
+        this.cBExercises.put(exercise, cb);
         this.pnlExercises.add(cb);
     }
 
     public void refresh(List<String> exercises) {
         this.pnlExercises.removeAll();
-        for(JCheckBox checkBox: this.cBExercises) {
-            this.pnlExercises.add(checkBox);
+        this.addExercise(Constants.bodyWeight);
+        for(String exercise : exercises) {
+            this.pnlExercises.add(this.cBExercises.get(exercise));
         }
         pnlExercises.validate();
         pnlExercises.repaint();
@@ -181,7 +181,7 @@ public class PdfPanel {
         return rbOnePdf;
     }
 
-    public List<JCheckBox> getcBExercises() {
+    public Map<String, JCheckBox> getcBExercises() {
         return cBExercises;
     }
 

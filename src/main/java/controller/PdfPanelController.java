@@ -9,10 +9,7 @@ import views.PdfPanel;
 
 import javax.swing.*;
 import javax.xml.crypto.Data;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 public class PdfPanelController implements Observer {
     private DataManager dataManager;
@@ -42,11 +39,12 @@ public class PdfPanelController implements Observer {
                 JOptionPane.showMessageDialog(null, "Your last date has to be after " +
                         "your first");
             } else {
-                for (JCheckBox cb : pdfPanel.getcBExercises()) {
-                    if (cb.isSelected()) {
-                        exercises.add(cb.getText());
+                for(Map.Entry<String, JCheckBox> entry : this.pdfPanel.getcBExercises().entrySet()) {
+                    if (entry.getValue().isSelected()) {
+                        exercises.add(entry.getValue().getText());
                     }
                 }
+
                 if (pdfPanel.getRbOnePdf().isSelected()) {
                     generatePdf.generatePdf(from, to, exercises, PdfType.ONE_PDF_FOR_ALL_EXERCISES);
                 } else if (pdfPanel.getRbMorePdfs().isSelected()) {
@@ -69,10 +67,9 @@ public class PdfPanelController implements Observer {
             }
             if (arg.equals(Constants.DeletedExercise) || arg.equals(Constants.RenamedExercise)) {
                  this.pdfPanel.getcBExercises().remove(this.dataManager.getDeletedExercise());
-                 this.pdfPanel.refresh(this.dataManager.getExercises());
             }
 
-            //this.pdfPanel.refresh();
+            this.pdfPanel.refresh(this.dataManager.getExercises());
         }
     }
 }

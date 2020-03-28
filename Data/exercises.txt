@@ -1,5 +1,5 @@
-shoulder press
-lateral raise
+pull ups
+dips
 fly
 cable rowing
 hammer curls
@@ -9,4 +9,3 @@ half-roll-down
 triceps pull
 reverse crunch
 plank
-bla
