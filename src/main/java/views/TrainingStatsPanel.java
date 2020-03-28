@@ -42,13 +42,13 @@ public class TrainingStatsPanel {
         JLabel lblHeadline = this.getHeadline();
         JPanel pnlDate = this.getInputDate();
         JScrollPane spContent = this.getContentScrollPane();
-        JPanel pnlInfo = this.getInfoPanel();
+        this.addInfoPanel();
         this.btnSubmit = this.getSubmitButton();
 
         this.pnlTrainingStats.add(lblHeadline);
         this.pnlTrainingStats.add(pnlDate);
         this.pnlTrainingStats.add(spContent);
-        this.pnlTrainingStats.add(pnlInfo);
+        //this.pnlTrainingStats.add(pnlInfo);
         this.pnlTrainingStats.add(this.btnSubmit);
     }
 
@@ -109,8 +109,7 @@ public class TrainingStatsPanel {
         return this.btnSubmit;
     }
 
-    private JPanel getInfoPanel() {
-        int width = 300;
+    private void addInfoPanel() {
         int top = 50;
         int distanceRight = 40;
 
@@ -119,10 +118,13 @@ public class TrainingStatsPanel {
                 "extra weight: b+extra weight <br>" +
                 "support weight: b-support weight");
 
-        JPanel pnlInfo = this.infoBox.getPnlInfo();
-        pnlInfo.setLocation(this.width - width - distanceRight, top - 38);
+        JLabel lblInfoIcon = this.infoBox.getlblInfoIcon();
+        lblInfoIcon.setLocation(this.width - distanceRight - lblInfoIcon.getWidth(), top - 38);
+        JLabel lblText = this.infoBox.getLblText();
+        lblText.setLocation(this.width - distanceRight - lblInfoIcon.getWidth() - lblText.getWidth(), top - 38);
 
-        return pnlInfo;
+        this.pnlTrainingStats.add(lblInfoIcon);
+        this.pnlTrainingStats.add(lblText);
     }
 
     public void addExercisePanel(String exercise, ExercisePanel exercisePanel) {

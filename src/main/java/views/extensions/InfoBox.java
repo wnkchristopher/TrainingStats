@@ -9,32 +9,31 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class InfoBox {
-    private JPanel pnlInfo;
-    private JLabel lblInfo;
+    private JLabel lblInfoIcon;
     private JLabel lblText;
     private ImageIcon imageHelp;
     private ImageIcon imageHelpHover;
 
     public InfoBox(String text) {
-        this.pnlInfo = this.createInfoBox(text, 300,90);
+        this.createInfoBox(text, 300,90);
         InfoBoxController infoBoxController = new InfoBoxController(this);
     }
 
-    private JPanel createInfoBox(String text, int width, int height){
+    private void createInfoBox(String text, int width, int height){
         this.loadImages();
 
-        JPanel pnlInfo = new JPanel();
+        /*JPanel pnlInfo = new JPanel();
         pnlInfo.setLayout(null);
         pnlInfo.setSize(width, height);
-        pnlInfo.setOpaque(false);
+        pnlInfo.setOpaque(false);*/
 
         this.lblText = this.getTextLabel(text);
-        this.lblInfo = this.getImageLabel(width, lblText);
+        this.lblInfoIcon = this.getImageLabel();
 
-        pnlInfo.add(this.lblInfo);
-        pnlInfo.add(this.lblText);
+      //  pnlInfo.add(this.lblInfoIcon);
+       // pnlInfo.add(this.lblText);
 
-        return pnlInfo;
+      //  return pnlInfo;
     }
 
     private void loadImages() {
@@ -49,12 +48,12 @@ public class InfoBox {
         this.imageHelpHover = new ImageIcon(newImg);
     }
 
-    private JLabel getImageLabel(int width, JLabel lblText){
-        JLabel lblInfo = new JLabel();
-        lblInfo.setIcon(this.imageHelp);
-        lblInfo.setBounds(270, 10, width, 30);
+    private JLabel getImageLabel() {
+        JLabel lblInfoIcon = new JLabel();
+        lblInfoIcon.setIcon(this.imageHelp);
+        lblInfoIcon.setBounds(270, 10, 30, 30);
 
-        return lblInfo;
+        return lblInfoIcon;
     }
 
     private JLabel getTextLabel(String text){
@@ -72,12 +71,12 @@ public class InfoBox {
         return tmpLblText;
     }
 
-    public JPanel getPnlInfo() {
+    /*public JPanel getPnlInfo() {
         return pnlInfo;
-    }
+    }*/
 
-    public JLabel getLblInfo() {
-        return lblInfo;
+    public JLabel getlblInfoIcon() {
+        return lblInfoIcon;
     }
 
     public JLabel getLblText() {

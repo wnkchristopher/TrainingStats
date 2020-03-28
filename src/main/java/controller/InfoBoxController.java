@@ -7,7 +7,7 @@ import java.awt.event.MouseListener;
 
 public class InfoBoxController {
     public InfoBoxController(InfoBox infoBox) {
-        infoBox.getLblInfo().addMouseListener(new MouseListener() {
+        infoBox.getlblInfoIcon().addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {}
             @Override
@@ -17,13 +17,13 @@ public class InfoBoxController {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                infoBox.getLblInfo().setIcon(infoBox.getImageHelpHover());
+                infoBox.getlblInfoIcon().setIcon(infoBox.getImageHelpHover());
                 infoBox.getLblText().setVisible(true);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                infoBox.getLblInfo().setIcon(infoBox.getImageHelp());
+                infoBox.getlblInfoIcon().setIcon(infoBox.getImageHelp());
                 infoBox.getLblText().setVisible(false);
             }
         });
