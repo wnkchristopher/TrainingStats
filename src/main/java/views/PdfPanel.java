@@ -1,6 +1,6 @@
 package views;
 
-import models.Constants;
+import configuration.Constants;
 
 import javax.swing.*;
 import java.awt.*;

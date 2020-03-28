@@ -1,7 +1,10 @@
-package models;
+package pdfGeneration;
 
 import enums.GraphType;
 import enums.ExerciseType;
+import configuration.Constants;
+import models.DataManager;
+import models.TrainingSet;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

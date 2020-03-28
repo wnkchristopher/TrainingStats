@@ -1,6 +1,6 @@
 package views;
 
-import models.Constants;
+import configuration.Constants;
 import models.DateManager;
 import views.extensions.ButtonEditor;
 

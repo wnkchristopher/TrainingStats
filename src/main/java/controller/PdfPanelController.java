@@ -1,14 +1,13 @@
 package controller;
 
 import enums.PdfType;
-import models.Constants;
+import configuration.Constants;
 import models.DataManager;
 import models.DateManager;
-import models.GeneratePdf;
+import pdfGeneration.GeneratePdf;
 import views.PdfPanel;
 
 import javax.swing.*;
-import javax.xml.crypto.Data;
 import java.util.*;
 
 public class PdfPanelController implements Observer {
@@ -23,7 +22,7 @@ public class PdfPanelController implements Observer {
         pdfPanel.getBtnSubmitButton().addActionListener(e -> {
             String strFrom = pdfPanel.getTxtFrom().getText();
             String strTo = pdfPanel.getTxtTo().getText();
-            ArrayList<String> exercises = new ArrayList<>();
+            List<String> exercises = new LinkedList<>();
             Date from = DateManager.convertStringToDate(strFrom);
             Date to = DateManager.convertStringToDate(strTo);
             if (from == null || to == null) {
@@ -39,9 +38,13 @@ public class PdfPanelController implements Observer {
                 JOptionPane.showMessageDialog(null, "Your last date has to be after " +
                         "your first");
             } else {
-                for(Map.Entry<String, JCheckBox> entry : this.pdfPanel.getcBExercises().entrySet()) {
-                    if (entry.getValue().isSelected()) {
-                        exercises.add(entry.getValue().getText());
+
+                List<String> iterationList = this.dataManager.getExercises();
+                iterationList.add(0, Constants.bodyWeight);
+
+                for(String element: iterationList) {
+                    if(this.pdfPanel.getcBExercises().get(element).isSelected()) {
+                        exercises.add(element);
                     }
                 }
 

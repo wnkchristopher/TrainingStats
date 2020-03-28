@@ -1,4 +1,4 @@
-package models;
+package pdfGeneration;
 
 public class Coordinate {
     private double x;

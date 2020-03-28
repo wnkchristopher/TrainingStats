@@ -1,9 +1,6 @@
 package views;
 
-import models.Constants;
-import models.DataManager;
-import models.GeneratePdf;
-import enums.PdfType;
+import configuration.Constants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +16,7 @@ public class PdfFrame {
     private void createFrame(PdfPanel pdfPanel) {
         this.frame = this.createFrame(500, 500);
         this.frame.add(pdfPanel.getPnlPdfGeneration());
+        pdfPanel.getPnlPdfGeneration().getRootPane().setDefaultButton(pdfPanel.getBtnSubmitButton());
     }
 
     private JFrame createFrame(int width, int height) {

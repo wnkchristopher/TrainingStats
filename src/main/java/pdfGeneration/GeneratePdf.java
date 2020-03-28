@@ -1,4 +1,4 @@
-package models;
+package pdfGeneration;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Font;
@@ -22,12 +22,13 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import enums.PdfType;
 import enums.GraphType;
+import configuration.Constants;
+import models.DataManager;
 
 public class GeneratePdf {
     private DataManager dataManager;
@@ -41,7 +42,7 @@ public class GeneratePdf {
         this.tableGenerator = new TableGenerator();
     }
 
-    public void generatePdf(Date from, Date to, ArrayList<String> exercises, PdfType type) {
+    public void generatePdf(Date from, Date to, List<String> exercises, PdfType type) {
         if (type == PdfType.ONE_PDF_FOR_ALL_EXERCISES) {
             this.generatePdf(from, to, exercises);
         } else if (type == PdfType.ONE_PDF_FOR_EACH_EXERCISE) {

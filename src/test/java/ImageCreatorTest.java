@@ -1,5 +1,5 @@
-import models.Coordinate;
-import models.ImageCreator;
+import pdfGeneration.Coordinate;
+import pdfGeneration.ImageCreator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;

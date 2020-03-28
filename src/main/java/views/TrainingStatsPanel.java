@@ -1,6 +1,6 @@
 package views;
 
-import models.Constants;
+import configuration.Constants;
 import views.extensions.InfoBox;
 import views.extensions.PlaceholderTextField;
 

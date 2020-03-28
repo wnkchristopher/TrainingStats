@@ -1,5 +1,8 @@
 package models;
 
+import configuration.Constants;
+import database.DataBaseManager;
+import pdfGeneration.CalculateStats;
 import enums.ExerciseType;
 import com.sun.javafx.scene.traversal.Direction;
 import java.util.*;

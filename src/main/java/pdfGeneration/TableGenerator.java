@@ -1,4 +1,4 @@
-package models;
+package pdfGeneration;
 
 import enums.ExerciseType;
 
@@ -6,6 +6,9 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
+import configuration.Constants;
+import models.DataManager;
+import models.TrainingSet;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;

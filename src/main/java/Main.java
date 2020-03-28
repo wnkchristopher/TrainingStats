@@ -5,7 +5,7 @@ import models.DataManager;
 import views.PdfPanel;
 import views.StartFrame;
 import views.StartPanel;
-import models.Constants;
+import configuration.Constants;
 import views.TrainingStatsPanel;
 
 import java.io.IOException;
