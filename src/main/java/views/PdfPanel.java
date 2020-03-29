@@ -9,6 +9,7 @@ import java.util.List;
 
 public class PdfPanel {
     private JPanel pnlPdfGeneration;
+    private JLabel lblHeadline;
     private JTextField txtFrom;
     private JTextField txtTo;
     private JRadioButton rbMorePdfs;
@@ -16,6 +17,9 @@ public class PdfPanel {
     private Map<String, JCheckBox> cBExercises;
     private JButton btnSubmitButton;
     private JPanel pnlExercises;
+    private JPanel pnlDateTextFields;
+    private JPanel pnlToggleButtons;
+    private JScrollPane spExercises;
 
 
     public PdfPanel() {
@@ -24,28 +28,35 @@ public class PdfPanel {
     }
 
     private JPanel createPanel(int width, int height) {
-        JPanel pnlPdfGeneration = new JPanel();
-        pnlPdfGeneration.setLayout(null);
-        pnlPdfGeneration.setBackground(Color.decode(Constants.BackgroundColor));
-        pnlPdfGeneration.setSize(width, height);
+        this.pnlPdfGeneration = new JPanel();
+        this.pnlPdfGeneration.setBackground(Color.decode(Constants.BackgroundColor));
+        this.pnlPdfGeneration.setSize(width, height);
 
-        pnlPdfGeneration = this.addComponents(pnlPdfGeneration);
+        this.pnlPdfGeneration = this.addComponents(pnlPdfGeneration);
 
         return pnlPdfGeneration;
     }
 
     private JPanel addComponents(JPanel pnlPdfGeneration) {
-        JScrollPane sPExercises = this.getExerciseScrollPane();
-        JPanel pnlToggleButtons = this.getPnlToggleButtons();
-        JPanel pnlDateTextFields = this.getPnlDateTextFields();
+        this.lblHeadline = this.getHeadline();
+        this.spExercises = this.getExerciseScrollPane();
+        this.pnlDateTextFields = this.getPnlDateTextFields();
+        this.pnlToggleButtons = this.getPnlToggleButtons();
         this.btnSubmitButton = this.getSubmitButton();
 
-        pnlPdfGeneration.add(sPExercises);
-        pnlPdfGeneration.add(pnlToggleButtons);
-        pnlPdfGeneration.add(pnlDateTextFields);
-        pnlPdfGeneration.add(this.btnSubmitButton);
+        this.setupLayout();
 
         return pnlPdfGeneration;
+    }
+
+    private JLabel getHeadline() {
+        JLabel label = new JLabel();
+        label.setText("Generate pdf");
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setFont(new Font("ITALIC", 2, 27));
+        label.setVisible(true);
+
+        return label;
     }
 
     private JScrollPane getExerciseScrollPane() {
@@ -58,8 +69,8 @@ public class PdfPanel {
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        sPExercises.setLocation(50, 50);
-        sPExercises.setSize(150, 300);
+        //sPExercises.setLocation(50, 50);
+        //sPExercises.setSize(150, 300);
         sPExercises.setVisible(true);
 
         sPExercises.getViewport().revalidate();
@@ -77,69 +88,95 @@ public class PdfPanel {
         return sPExercises;
     }
 
-    private JPanel getPnlToggleButtons() {
-        JPanel pnlToggleButtons = new JPanel();
-        pnlToggleButtons.setLayout(null);
-        pnlToggleButtons.setBounds(50, 370, 240, 40);
-        pnlToggleButtons.setOpaque(false);
-
-        this.rbMorePdfs = new JRadioButton("One PDF for each selected exercise");
-        this.rbOnePdf = new JRadioButton("One PDF for all selected exercises");
-        ButtonGroup bgPdf = new ButtonGroup();
-        this.rbMorePdfs.setBounds(0, 0, 240, 20);
-        this.rbOnePdf.setBounds(0, 20, 240, 20);
-        bgPdf.add(this.rbMorePdfs);
-        bgPdf.add(this.rbOnePdf);
-        this.rbMorePdfs.setSelected(true);
-
-        this.rbMorePdfs.setOpaque(false);
-        rbMorePdfs.setVisible(true);
-        this.rbOnePdf.setOpaque(false);
-        rbOnePdf.setVisible(true);
-        pnlToggleButtons.add(rbMorePdfs);
-        pnlToggleButtons.add(rbOnePdf);
-        return pnlToggleButtons;
-    }
-
     private JPanel getPnlDateTextFields() {
         JPanel pnlGroupFromTo = new JPanel();
+        pnlGroupFromTo.setLayout(new GridBagLayout());
+        pnlGroupFromTo.setOpaque(false);
+
+        GridBagConstraints constraints;
+
 
         JLabel lblFrom = new JLabel("From: (dd.mm.yyyy)");
-        txtFrom = new JTextField();
+        constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.gridwidth = 1;
+        constraints.gridheight = 1;
+        constraints.anchor = GridBagConstraints.WEST;
+        constraints.insets = new Insets(0, 20, 10, 0);
+        pnlGroupFromTo.add(lblFrom, constraints);
+
+        this.txtFrom = new JTextField();
+        this.txtFrom.setPreferredSize(new Dimension(200,30));
+        this.txtFrom.setMinimumSize(this.txtFrom.getPreferredSize());
+        constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        constraints.gridwidth = 1;
+        constraints.gridheight = 1;
+        constraints.anchor = GridBagConstraints.WEST;
+        constraints.insets = new Insets(10, 20, 20, 0);
+        pnlGroupFromTo.add(this.txtFrom, constraints);
+
 
         JLabel lblTo = new JLabel("To: (dd.mm.yyyy)");
-        txtTo = new JTextField();
+        constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        constraints.gridwidth = 1;
+        constraints.gridheight = 1;
+        constraints.insets = new Insets(20, 20, 10, 0);
+        constraints.anchor = GridBagConstraints.WEST;
+        pnlGroupFromTo.add(lblTo, constraints);
 
-        pnlGroupFromTo.setLayout(null);
 
-        lblFrom.setBounds(0, 0, 200, 30);
-        txtFrom.setBounds(0, 50, 200, 30);
+        this.txtTo = new JTextField();
+        this.txtTo.setPreferredSize(new Dimension(200,30));
+        constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        constraints.gridwidth = 1;
+        constraints.gridheight = 1;
+        constraints.insets = new Insets(10, 20, 10, 0);
+        this.txtTo.setMinimumSize(this.txtTo.getPreferredSize());
+        pnlGroupFromTo.add(this.txtTo, constraints);
 
-        lblTo.setBounds(0, 90, 200, 30);
-        txtTo.setBounds(0, 130, 200, 30);
 
-        pnlGroupFromTo.setBounds(250, 50, 200, 200);
-
-        pnlGroupFromTo.setBackground(Color.decode(Constants.BackgroundColor));
-
-        pnlGroupFromTo.add(lblFrom);
-        pnlGroupFromTo.add(txtFrom);
-        pnlGroupFromTo.add(lblTo);
-        pnlGroupFromTo.add(txtTo);
         pnlGroupFromTo.setVisible(true);
-
         return pnlGroupFromTo;
     }
 
     private JButton getSubmitButton() {
         JButton btnSubmit = new JButton("Generate PDF");
-
-        btnSubmit.setBounds(275, 250, 150, 40);
-
         btnSubmit.setVisible(true);
 
         return btnSubmit;
     }
+
+
+    private JPanel getPnlToggleButtons() {
+        JPanel pnlToggleButtons = new JPanel();
+        pnlToggleButtons.setLayout(new BoxLayout(pnlToggleButtons, BoxLayout.Y_AXIS));
+        pnlToggleButtons.setOpaque(false);
+
+        this.rbMorePdfs = new JRadioButton("One PDF for each selected exercise");
+        this.rbMorePdfs.setOpaque(false);
+        this.rbMorePdfs.setVisible(true);
+        this.rbMorePdfs.setSelected(true);
+
+        this.rbOnePdf = new JRadioButton("One PDF for all selected exercises");
+        this.rbOnePdf.setOpaque(false);
+        this.rbOnePdf.setVisible(true);
+
+        ButtonGroup bgPdf = new ButtonGroup();
+        bgPdf.add(this.rbMorePdfs);
+        bgPdf.add(this.rbOnePdf);
+
+        pnlToggleButtons.add(rbMorePdfs);
+        pnlToggleButtons.add(rbOnePdf);
+        return pnlToggleButtons;
+    }
+
 
     public void addExercise(String exercise) {
         JCheckBox cb = new JCheckBox();
@@ -148,6 +185,57 @@ public class PdfPanel {
         cb.setSize(150, 30);
         this.cBExercises.put(exercise, cb);
         this.pnlExercises.add(cb);
+    }
+
+    private void setupLayout() {
+        this.pnlPdfGeneration.setLayout(new GridBagLayout());
+        GridBagConstraints constraints;
+
+        constraints = new GridBagConstraints();
+        constraints.gridwidth = 2;
+        constraints.gridheight = 1;
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.anchor = GridBagConstraints.NORTH;
+        constraints.insets = new Insets(10, 0, 20, 0);
+        this.pnlPdfGeneration.add(this.lblHeadline, constraints);
+
+        constraints = new GridBagConstraints();
+        constraints.gridwidth = 1;
+        constraints.gridheight = 2;
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+
+        //this.spExercises.setPreferredSize(new Dimension(220, 400));
+        this.spExercises.setMinimumSize(new Dimension(200, 200));
+        this.spExercises.setPreferredSize(new Dimension(200, 400));
+        this.pnlPdfGeneration.add(this.spExercises, constraints);
+
+        constraints = new GridBagConstraints();
+        constraints.gridwidth = 1;
+        constraints.gridheight = 1;
+        constraints.gridx = 1;
+        constraints.gridy = 1;
+        this.pnlPdfGeneration.add(this.pnlDateTextFields, constraints);
+
+        constraints = new GridBagConstraints();
+        constraints.gridwidth = 1;
+        constraints.gridheight = 1;
+        constraints.gridx = 1;
+        constraints.gridy = 2;
+        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.insets = new Insets(0,10,5,10);
+        this.pnlPdfGeneration.add(this.pnlToggleButtons, constraints);
+
+        constraints = new GridBagConstraints();
+        constraints.gridwidth = 2;
+        constraints.gridheight = 1;
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.insets = new Insets(20,0,20,0);
+        this.btnSubmitButton.setPreferredSize(new Dimension(140,40));
+        this.pnlPdfGeneration.add(this.btnSubmitButton, constraints);
     }
 
     public void refresh(List<String> exercises) {

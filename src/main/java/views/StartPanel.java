@@ -65,7 +65,6 @@ public class StartPanel {
         GridBagLayout gridBagLayout = new GridBagLayout();
 
         JPanel pnlExercises = new JPanel();
-        //  pnlExercises.setBounds(30, 80, 310, 110);
         pnlExercises.setLayout(gridBagLayout);
         pnlExercises.setBackground(Color.decode(Constants.BackgroundColor));
 
@@ -75,7 +74,6 @@ public class StartPanel {
 
         this.cBExercises = new JComboBox();
         this.cBExercises.setFont(new Font("Helvetica", 3, 16));
-        // this.cBExercises.setBounds(0, 0, 230, 50);
         this.cBExercises.setVisible(true);
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -91,7 +89,6 @@ public class StartPanel {
         pnlExercises.add(cBExercises, gridBagConstraints);
 
         this.btnEditExercise = new JButton();
-        //this.btnEditExercise.setBounds(233, 0, 37, 50);
         this.btnEditExercise =
                 ButtonEditor.addImageToButton(btnEditExercise, Constants.PathEditImage, 25, 25);
         this.btnEditExercise.setPreferredSize(new Dimension(37, 50));
@@ -103,7 +100,6 @@ public class StartPanel {
 
 
         this.btnDeleteExercise = new JButton();
-        //this.btnDeleteExercise.setBounds(273, 0, 37, 50);
         this.btnDeleteExercise =
                 ButtonEditor.addImageToButton(btnDeleteExercise, Constants.PathDeletionImage, 20, 20);
         this.btnDeleteExercise.setPreferredSize(new Dimension(37, 50));

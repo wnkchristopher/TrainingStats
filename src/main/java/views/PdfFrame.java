@@ -21,16 +21,16 @@ public class PdfFrame {
 
     private JFrame createFrame(int width, int height) {
         JFrame frame = new JFrame();
+        frame.setTitle("Generate PDF");
+        ImageIcon imageIcon = new ImageIcon("resources/img/logo.png");
+        frame.setIconImage(imageIcon.getImage());
         frame.setSize(width, height);
         frame.getContentPane().setBackground(Color.decode(Constants.BackgroundColor));
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
-        frame.setLayout(null);
+        frame.setLayout(new BorderLayout());
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setTitle("Generate PDF");
 
-        ImageIcon imageIcon = new ImageIcon("resources/img/logo.png");
-        frame.setIconImage(imageIcon.getImage());
 
         frame.setVisible(true);
 
