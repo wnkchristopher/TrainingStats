@@ -16,7 +16,7 @@ public class TrainingStatsFrame {
     public void createFrame(TrainingStatsPanel trainingStatsPanel, int width, int height) {
         this.trainingStatsPanel = trainingStatsPanel;
         frame = new JFrame();
-        frame.getContentPane().setBackground(Color.decode(Constants.BackgroundColor));
+      //  frame.getContentPane().setBackground(Color.decode(Constants.BackgroundColor));
         frame.setSize(width, height);
 
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -25,7 +25,7 @@ public class TrainingStatsFrame {
 
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        frame.setLayout(null);
+        frame.setLayout(new BorderLayout());
         frame.setTitle("Add your training stats");
 
         ImageIcon imageIcon = new ImageIcon("resources/img/logo.png");
@@ -35,8 +35,17 @@ public class TrainingStatsFrame {
 
         this.frame.add(pnlContent);
 
-        pnlContent.getRootPane().setDefaultButton(trainingStatsPanel.getBtnSubmit()); //if trainingstatsPanel is activve
-
         this.frame.setVisible(true);
+
+        Dimension diff = new Dimension();
+        diff.height = this.frame.getSize().height - this.frame.getContentPane().getSize().height;
+        diff.width = this.frame.getSize().width - this.frame.getContentPane().getSize().width;
+        Dimension size = new Dimension();
+        size.width = trainingStatsPanel.getMinSize().width + diff.width;
+        size.height = trainingStatsPanel.getMinSize().height + diff.height;
+        this.frame.setMinimumSize(size);
+
+        pnlContent.getRootPane().setDefaultButton(trainingStatsPanel.getBtnSubmit());
+
     }
 }

@@ -148,6 +148,19 @@ public class TrainingStatsLayout implements LayoutManager2 {
         }
     }
 
+    private int getInsetWidth() {
+        int inset = 0;
+        for (Map.Entry<Component, TrainingStatsConstraint> entry : this.container.entrySet()) {
+            if(!entry.getValue().fixed) {
+                int sum = entry.getValue().insets.left + entry.getValue().insets.right;
+                if(sum > inset) {
+                    inset = sum;
+                }
+            }
+        }
+        return inset;
+    }
+
     private int getInsetHeight() {
         int inset = 0;
         for (Map.Entry<Component, TrainingStatsConstraint> entry : this.container.entrySet()) {
@@ -228,5 +241,11 @@ public class TrainingStatsLayout implements LayoutManager2 {
         return freeHeight;
     }
 
+    public Dimension getMinSize() {
+        int width = this.getPreferredWidth() + this.getInsetWidth();
+        int height = this.getPreferredHeight() + this.getInsetHeight();
+
+        return new Dimension(width, height);
+    }
 
 }
