@@ -65,7 +65,7 @@ public class InfoBox {
         Border border = BorderFactory.createLineBorder(Color.BLACK, 3);
         Border margin = new EmptyBorder(10, 10, 10, 10);
         tmpLblText.setBorder(new CompoundBorder(border, margin));
-        tmpLblText.setBounds(0, 0, 270, 90);
+       // tmpLblText.setBounds(0, 0, 270, 90);
         tmpLblText.setVisible(false);
 
         return tmpLblText;

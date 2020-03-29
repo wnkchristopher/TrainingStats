@@ -1,6 +1,5 @@
 package views;
 
-import configuration.Constants;
 
 import javax.swing.*;
 import java.awt.*;

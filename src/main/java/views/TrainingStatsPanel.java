@@ -16,7 +16,6 @@ public class TrainingStatsPanel {
     private PlaceholderTextField txtDate;
     private List<String> exerciseOrder;
     private Map<String, ExercisePanel> exercisePanels = new HashMap<>();
-    private int width = 0, height = 0;
     private Dimension minSize;
 
     private JLabel lblHeadline;
@@ -31,15 +30,12 @@ public class TrainingStatsPanel {
     private InfoBox infoBox;
 
     public TrainingStatsPanel() {
-        this.createPanel(1000, 1000);
+        this.createPanel();
     }
 
-    private JPanel createPanel(int width, int height) {
-        this.width = width;
-        this.height = height;
+    private JPanel createPanel() {
         this.pnlTrainingStats = new JPanel();
         this.pnlTrainingStats.setBackground(Color.decode(Constants.BackgroundColor));
-        //this.pnlTrainingStats.setSize(width, height);
         TrainingStatsLayout trainingStatsLayout = new TrainingStatsLayout();
         this.pnlTrainingStats.setLayout(trainingStatsLayout);
 
@@ -58,17 +54,10 @@ public class TrainingStatsPanel {
         this.btnSubmit = this.getSubmitButton();
 
         this.setupLayout();
-
-      //  this.pnlTrainingStats.add(this.lblHeadline);
-      //  this.pnlTrainingStats.add(this.pnlDate);
-      //  this.pnlTrainingStats.add(this.spContent);
-        //this.pnlTrainingStats.add(pnlInfo);
-       // this.pnlTrainingStats.add(this.btnSubmit);
     }
 
     private JLabel getHeadline() {
         JLabel label = new JLabel();
-       // label.setBounds(350, 10, 300, 40);
         label.setText("Add your workout");
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setFont(new Font("ITALIC", 2, 27));
@@ -79,18 +68,17 @@ public class TrainingStatsPanel {
 
     private JPanel getInputDate() {
         JPanel pnl = new JPanel();
+        pnl.setLayout(new FlowLayout());
+        pnl.setOpaque(false);
         this.txtDate = new PlaceholderTextField();
         this.txtDate.setPlaceholder("dd.mm.yyyy");
         JLabel lbl = new JLabel();
-        lbl.setBounds(0, 0, 50, 30);
+        lbl.setPreferredSize(new Dimension(50,50));
         lbl.setText("Date: ");
         lbl.setFont(new Font("Helvetica", 3, 16));
-        this.txtDate.setBounds(50, 0, 200, 30);
-        pnl.setLayout(null);
+        this.txtDate.setPreferredSize(new Dimension(200,30));
         pnl.add(lbl);
         pnl.add(this.txtDate);
-        //pnl.setBounds(30, 50, 260, 40);
-        pnl.setBackground(Color.decode(Constants.BackgroundColor));
 
         return pnl;
     }
@@ -104,8 +92,6 @@ public class TrainingStatsPanel {
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-       // sPExercises.setLocation(10, 90);
-       // sPExercises.setSize(960, 700);
         sPExercises.getVerticalScrollBar().setUnitIncrement(Constants.ScrollSpeed);
         sPExercises.setVisible(true);
 
@@ -117,7 +103,6 @@ public class TrainingStatsPanel {
 
     private JButton getSubmitButton() {
         this.btnSubmit = new JButton();
-       // this.btnSubmit.setBounds(350, 850, 300, 50);
         this.btnSubmit.setText("Add to your training stats");
         this.btnSubmit.setFont(new Font("Helvetica", 3, 16));
 
@@ -125,21 +110,10 @@ public class TrainingStatsPanel {
     }
 
     private void addInfoPanel() {
-        int top = 50;
-        int distanceRight = 40;
-
-        this.infoBox = new InfoBox("<html><body>For body weight exercises " +
-                "enter a 'b' or leave it empty<br>" +
-                "extra weight: b+extra weight <br>" +
-                "support weight: b-support weight");
+        this.infoBox = new InfoBox(Constants.TrainingStatsInfoText);
 
         this.lblInfoIcon = this.infoBox.getlblInfoIcon();
-     //   lblInfoIcon.setLocation(this.width - distanceRight - lblInfoIcon.getWidth(), top - 38);
         this.lblText = this.infoBox.getLblText();
-     //   lblText.setLocation(this.width - distanceRight - lblInfoIcon.getWidth() - lblText.getWidth(), top - 38);
-
-       // this.pnlTrainingStats.add(lblInfoIcon);
-       // this.pnlTrainingStats.add(lblText);
     }
 
     public void addExercisePanel(String exercise, ExercisePanel exercisePanel) {
@@ -159,7 +133,7 @@ public class TrainingStatsPanel {
         constraint.fixed = true;
         this.pnlTrainingStats.add(this.lblInfoIcon, constraint);
 
-        this.lblText.setPreferredSize(new Dimension(270,90));
+        this.lblText.setPreferredSize(this.lblText.getPreferredSize());
         constraint = new TrainingStatsConstraint();
         constraint.insets = new Insets(10,0, 0, 45);
         constraint.alignment = Alignment.NORTHEAST;
@@ -172,7 +146,7 @@ public class TrainingStatsPanel {
         constraint.alignment = Alignment.CENTER;
         this.pnlTrainingStats.add(lblHeadline, constraint);
 
-        this.pnlDate.setPreferredSize(new Dimension(260,40));
+        this.pnlDate.setPreferredSize(new Dimension(260,43));
         constraint = new TrainingStatsConstraint();
         constraint.insets = new Insets(0, 15, 5, 0);
         constraint.alignment = Alignment.WEST;
@@ -180,7 +154,7 @@ public class TrainingStatsPanel {
 
         this.spContent.setMinimumSize(new Dimension(600,300));
         constraint = new TrainingStatsConstraint();
-        constraint.insets = new Insets(0, 10, 5, 10);
+        constraint.insets = new Insets(5, 10, 5, 10);
         constraint.alignment = Alignment.WEST;
         constraint.fillWidth = true;
         constraint.fillHeight = true;

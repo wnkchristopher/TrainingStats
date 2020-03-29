@@ -21,6 +21,10 @@ public class Constants {
     public final static String RenamedExercise = "RenamedExercise";
     public final static String ChangedOrder = "ChangedOrder";
 
-
-
+    //Texts
+    public final static String TrainingStatsInfoText =
+            "<html><body>For body weight exercises " +
+                    "enter a 'b' <br> or leave it empty<br>" +
+                    "- extra weight: b+extra weight <br>" +
+                    "- support weight: b-support weight";
 }
