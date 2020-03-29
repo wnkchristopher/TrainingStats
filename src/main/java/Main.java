@@ -21,16 +21,13 @@ public class Main {
         Main m = new Main();
         m.checkRequiredStructure();
 
-        int width = 400;
-        int height = 480;
-
         StartFrame frame = new StartFrame(); //View
 
         DataManager dataManager = new DataManager(); //Model
         StartPanel startPanel = new StartPanel(); //View
         TrainingStatsPanel trainingStatsPanel = new TrainingStatsPanel();
         PdfPanel pdfPanel = new PdfPanel();
-        frame.createFrame(startPanel, "TrainStats", width, height);
+        frame.createFrame(startPanel, "TrainStats");
 
 
 

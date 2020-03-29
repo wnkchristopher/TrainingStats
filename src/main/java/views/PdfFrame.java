@@ -13,27 +13,29 @@ public class PdfFrame {
         this.createFrame(pdfPanel);
     }
 
-    private void createFrame(PdfPanel pdfPanel) {
-        this.frame = this.createFrame(500, 500);
+    public void createFrame(PdfPanel pdfPanel) {
+        this.frame = new JFrame();
+        this.frame.setTitle("Generate PDF");
+        ImageIcon imageIcon = new ImageIcon("resources/img/logo.png");
+        this.frame.setIconImage(imageIcon.getImage());
+        this.frame.getContentPane().setBackground(Color.decode(Constants.BackgroundColor));
+        this.frame.setLayout(new BorderLayout());
+        this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+
+        this.frame.setVisible(true);
         this.frame.add(pdfPanel.getPnlPdfGeneration());
+
+        Dimension minSize = pdfPanel.getPnlPdfGeneration().getMinimumSize();
+        minSize.width += this.frame.getInsets().left + this.frame.getInsets().right;
+        minSize.height += this.frame.getInsets().top + this.frame.getInsets().bottom;
+        this.frame.setMinimumSize(minSize);
+        this.frame.pack();
+
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
+
         pdfPanel.getPnlPdfGeneration().getRootPane().setDefaultButton(pdfPanel.getBtnSubmitButton());
     }
 
-    private JFrame createFrame(int width, int height) {
-        JFrame frame = new JFrame();
-        frame.setTitle("Generate PDF");
-        ImageIcon imageIcon = new ImageIcon("resources/img/logo.png");
-        frame.setIconImage(imageIcon.getImage());
-        frame.setSize(width, height);
-        frame.getContentPane().setBackground(Color.decode(Constants.BackgroundColor));
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
-        frame.setLayout(new BorderLayout());
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-
-        frame.setVisible(true);
-
-        return frame;
-    }
 }

@@ -12,28 +12,32 @@ public class StartFrame {
     public StartFrame() {
     }
 
-    public JFrame createFrame(StartPanel startPanel, String title, int width, int height) {
+    public JFrame createFrame(StartPanel startPanel, String title) {
 
         this.frame = new JFrame();
         this.frame.setLayout(new BorderLayout());
         this.frame.setTitle(title);
-        this.frame.setMinimumSize(new Dimension(width, height));
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.frame.setLocation
-                (dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
-        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         ImageIcon imageIcon = new ImageIcon("resources/img/logo.png");
         this.frame.setIconImage(imageIcon.getImage());
 
         JPanel pnlMainContent = startPanel.createPanel();
-
         this.frame.getContentPane().setBackground(Color.decode(Constants.BackgroundColor));
 
         this.frame.add(pnlMainContent, BorderLayout.NORTH);
 
         this.frame.setVisible(true);
 
+        Dimension minSize = pnlMainContent.getMinimumSize();
+        minSize.width += this.frame.getInsets().left + this.frame.getInsets().right;
+        minSize.height += this.frame.getInsets().top + this.frame.getInsets().bottom;
+        this.frame.setMinimumSize(minSize);
+        this.frame.pack();
+
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.frame.setLocation
+                (dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
+        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         return this.frame;
     }

@@ -222,50 +222,64 @@ public class StartPanel {
         GridBagLayout gridBagLayout = new GridBagLayout();
         this.pnlMain.setLayout(gridBagLayout);
 
-        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        GridBagConstraints gridBagConstraints;
+
+       /* gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.anchor = GridBagConstraints.NORTHWEST;
         gridBagConstraints.fill = GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new Insets(30, 10, 25, 10);
+        gridBagConstraints.insets = new Insets(30, 10, 25, 10);*/
 
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 1;
         gridBagConstraints.gridheight = 1;
+        gridBagConstraints.insets = new Insets(30, 10, 25, 10);
 
         this.pnlMain.add(this.lblHeadline, gridBagConstraints);
 
-        gridBagConstraints.insets = new Insets(5, 10, 5, 10);
-
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 1;
         gridBagConstraints.gridheight = 1;
+        gridBagConstraints.fill = GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new Insets(5, 10, 5, 10);
         this.pnlMain.add(this.pnlExercise, gridBagConstraints);
 
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 1;
         gridBagConstraints.gridheight = 1;
+        gridBagConstraints.fill = GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new Insets(5, 10, 5, 10);
         dimension = this.btnAddTraining.getPreferredSize();
         dimension.height = 50;
         this.btnAddTraining.setMinimumSize(dimension);
         this.btnAddTraining.setPreferredSize(dimension);
         this.pnlMain.add(this.btnAddTraining, gridBagConstraints);
 
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 1;
         gridBagConstraints.gridheight = 1;
+        gridBagConstraints.fill = GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new Insets(5, 10, 5, 10);
         dimension = this.btnGeneratePdf.getPreferredSize();
         dimension.height = 50;
         this.btnGeneratePdf.setMinimumSize(dimension);
         this.btnGeneratePdf.setPreferredSize(dimension);
         this.pnlMain.add(this.btnGeneratePdf, gridBagConstraints);
 
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 1;
         gridBagConstraints.gridheight = 1;
+        gridBagConstraints.fill = GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new Insets(5, 10, 25, 10);
         this.pnlMain.add(this.pnlWeight, gridBagConstraints);
 
     }
@@ -283,6 +297,10 @@ public class StartPanel {
         if (index < this.cBExercises.getItemCount()) {
             this.cBExercises.setSelectedIndex(index);
         }
+    }
+
+    public JPanel getPnlMain() {
+        return pnlMain;
     }
 
     public JButton getBtnEditExercise() {

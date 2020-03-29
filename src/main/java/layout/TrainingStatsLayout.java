@@ -57,13 +57,24 @@ public class TrainingStatsLayout implements LayoutManager2 {
 
     @Override
     public Dimension preferredLayoutSize(Container parent) {
-
-        return null;
+        int width = 0;
+        int height = 0;
+        for (Map.Entry<Component, TrainingStatsConstraint> entry : this.container.entrySet()) {
+            if (entry.getKey().getPreferredSize().width > width) {
+                width = entry.getKey().getPreferredSize().width;
+            }
+            height += entry.getKey().getPreferredSize().height;
+        }
+        Dimension preferredSize = new Dimension(width + this.getInsetWidth(),
+                height + this.getInsetHeight());
+        return preferredSize;
     }
 
     @Override
     public Dimension minimumLayoutSize(Container parent) {
-        return null;
+        Dimension minimumSize = new Dimension(this.getMinimumWidth() + this.getInsetWidth(),
+                this.getMinimumHeight() + this.getInsetHeight());
+        return minimumSize;
     }
 
     @Override
@@ -106,7 +117,7 @@ public class TrainingStatsLayout implements LayoutManager2 {
             } else {
                 Dimension size = entry.getKey().getPreferredSize();
                 entry.getKey().setSize(size);
-                if(entry.getValue().alignment == Alignment.NORTHEAST) {
+                if (entry.getValue().alignment == Alignment.NORTHEAST) {
                     entry.getKey().
                             setLocation(entry.getKey().getX(), 0 + entry.getValue().insets.top);
                 }
@@ -140,7 +151,7 @@ public class TrainingStatsLayout implements LayoutManager2 {
             } else {
                 Dimension size = entry.getKey().getPreferredSize();
                 entry.getKey().setSize(size);
-                if(entry.getValue().alignment == Alignment.NORTHEAST) {
+                if (entry.getValue().alignment == Alignment.NORTHEAST) {
                     entry.getKey().
                             setLocation(width - size.width - entry.getValue().insets.right, entry.getKey().getY());
                 }
@@ -151,9 +162,9 @@ public class TrainingStatsLayout implements LayoutManager2 {
     private int getInsetWidth() {
         int inset = 0;
         for (Map.Entry<Component, TrainingStatsConstraint> entry : this.container.entrySet()) {
-            if(!entry.getValue().fixed) {
+            if (!entry.getValue().fixed) {
                 int sum = entry.getValue().insets.left + entry.getValue().insets.right;
-                if(sum > inset) {
+                if (sum > inset) {
                     inset = sum;
                 }
             }
@@ -172,7 +183,7 @@ public class TrainingStatsLayout implements LayoutManager2 {
     private int getMinimumHeight() {
         int minimumHeight = 0;
         for (Map.Entry<Component, TrainingStatsConstraint> entry : this.container.entrySet()) {
-            if(!entry.getValue().fixed) {
+            if (!entry.getValue().fixed) {
                 int min = entry.getKey().getMinimumSize().height;
                 minimumHeight += min;
             }
@@ -183,7 +194,7 @@ public class TrainingStatsLayout implements LayoutManager2 {
     private int getPreferredHeight() {
         int preferredHeight = 0;
         for (Map.Entry<Component, TrainingStatsConstraint> entry : this.container.entrySet()) {
-            if(!entry.getValue().fixed) {
+            if (!entry.getValue().fixed) {
                 int pref = 0;
                 if (entry.getValue().fillHeight) {
                     pref = entry.getKey().getMinimumSize().height;
@@ -199,7 +210,7 @@ public class TrainingStatsLayout implements LayoutManager2 {
     private int getMinimumWidth() {
         int minimumWidth = 0;
         for (Map.Entry<Component, TrainingStatsConstraint> entry : this.container.entrySet()) {
-            if(!entry.getValue().fixed) {
+            if (!entry.getValue().fixed) {
                 int width = entry.getKey().getMinimumSize().width;
                 if (width > minimumWidth) {
                     minimumWidth = width;
@@ -212,7 +223,7 @@ public class TrainingStatsLayout implements LayoutManager2 {
     private int getPreferredWidth() {
         int preferredWidth = 0;
         for (Map.Entry<Component, TrainingStatsConstraint> entry : this.container.entrySet()) {
-            if(!entry.getValue().fixed) {
+            if (!entry.getValue().fixed) {
                 int width = 0;
                 if (entry.getValue().fillWidth) {
                     width = entry.getKey().getMinimumSize().width;
@@ -230,7 +241,7 @@ public class TrainingStatsLayout implements LayoutManager2 {
     private int getFreeHeight(Dimension parentDimension) {
         int freeHeight = parentDimension.height - this.preferredHeight - this.insetHeight;
         for (Map.Entry<Component, TrainingStatsConstraint> entry : this.container.entrySet()) {
-            if(!entry.getValue().fixed) {
+            if (!entry.getValue().fixed) {
                 if (entry.getValue().fillHeight) {
                     freeHeight += entry.getKey().getMinimumSize().height;
                 }

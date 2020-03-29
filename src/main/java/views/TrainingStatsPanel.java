@@ -153,6 +153,7 @@ public class TrainingStatsPanel {
         this.pnlTrainingStats.add(this.pnlDate, constraint);
 
         this.spContent.setMinimumSize(new Dimension(600, 300));
+        this.spContent.setPreferredSize(new Dimension(960, 500));
         constraint = new TrainingStatsConstraint();
         constraint.insets = new Insets(5, 10, 5, 10);
         constraint.alignment = Alignment.WEST;

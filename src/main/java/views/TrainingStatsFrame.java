@@ -17,13 +17,10 @@ public class TrainingStatsFrame {
     public void createFrame(TrainingStatsPanel trainingStatsPanel, int width, int height) {
         this.trainingStatsPanel = trainingStatsPanel;
 
-        frame = new JFrame();
-        frame.setTitle(Constants.TrainingStatsTitle);
-        frame.setSize(width, height);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
+        this.frame = new JFrame();
+        this.frame.setTitle(Constants.TrainingStatsTitle);
+        this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.frame.setLayout(new BorderLayout());
 
         ImageIcon imageIcon = new ImageIcon("resources/img/logo.png");
         this.frame.setIconImage(imageIcon.getImage());
@@ -34,13 +31,16 @@ public class TrainingStatsFrame {
 
         this.frame.setVisible(true);
 
-        Dimension diff = new Dimension();
-        diff.height = this.frame.getSize().height - this.frame.getContentPane().getSize().height;
-        diff.width = this.frame.getSize().width - this.frame.getContentPane().getSize().width;
-        Dimension size = new Dimension();
-        size.width = trainingStatsPanel.getMinSize().width + diff.width;
-        size.height = trainingStatsPanel.getMinSize().height + diff.height;
-        this.frame.setMinimumSize(size);
+
+        Dimension minSize = pnlContent.getMinimumSize();
+        minSize.width += this.frame.getInsets().left + this.frame.getInsets().right;
+        minSize.height += this.frame.getInsets().top + this.frame.getInsets().bottom;
+        this.frame.setMinimumSize(minSize);
+        this.frame.pack();
+
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.frame.setLocation
+                (dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
 
         pnlContent.getRootPane().setDefaultButton(trainingStatsPanel.getBtnSubmit());
 

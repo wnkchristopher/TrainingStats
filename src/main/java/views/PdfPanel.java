@@ -21,16 +21,14 @@ public class PdfPanel {
     private JPanel pnlToggleButtons;
     private JScrollPane spExercises;
 
-
     public PdfPanel() {
         this.cBExercises = new TreeMap<>();
-        this.pnlPdfGeneration = this.createPanel(500, 500);
+        this.pnlPdfGeneration = this.createPanel();
     }
 
-    private JPanel createPanel(int width, int height) {
+    private JPanel createPanel() {
         this.pnlPdfGeneration = new JPanel();
         this.pnlPdfGeneration.setBackground(Color.decode(Constants.BackgroundColor));
-        this.pnlPdfGeneration.setSize(width, height);
 
         this.pnlPdfGeneration = this.addComponents(pnlPdfGeneration);
 
@@ -54,6 +52,7 @@ public class PdfPanel {
         label.setText("Generate pdf");
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setFont(new Font("ITALIC", 2, 27));
+        label.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
         label.setVisible(true);
 
         return label;
@@ -69,8 +68,6 @@ public class PdfPanel {
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        //sPExercises.setLocation(50, 50);
-        //sPExercises.setSize(150, 300);
         sPExercises.setVisible(true);
 
         sPExercises.getViewport().revalidate();
@@ -188,7 +185,8 @@ public class PdfPanel {
     }
 
     private void setupLayout() {
-        this.pnlPdfGeneration.setLayout(new GridBagLayout());
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        this.pnlPdfGeneration.setLayout(gridBagLayout);
         GridBagConstraints constraints;
 
         constraints = new GridBagConstraints();
@@ -205,8 +203,7 @@ public class PdfPanel {
         constraints.gridheight = 2;
         constraints.gridx = 0;
         constraints.gridy = 1;
-
-        //this.spExercises.setPreferredSize(new Dimension(220, 400));
+        constraints.insets = new Insets(0,60,0,10);
         this.spExercises.setMinimumSize(new Dimension(200, 200));
         this.spExercises.setPreferredSize(new Dimension(200, 400));
         this.pnlPdfGeneration.add(this.spExercises, constraints);
@@ -216,6 +213,7 @@ public class PdfPanel {
         constraints.gridheight = 1;
         constraints.gridx = 1;
         constraints.gridy = 1;
+        constraints.insets = new Insets(0,0,0,60);
         this.pnlPdfGeneration.add(this.pnlDateTextFields, constraints);
 
         constraints = new GridBagConstraints();
@@ -224,7 +222,7 @@ public class PdfPanel {
         constraints.gridx = 1;
         constraints.gridy = 2;
         constraints.anchor = GridBagConstraints.CENTER;
-        constraints.insets = new Insets(0,10,5,10);
+        constraints.insets = new Insets(0,10,5,20);
         this.pnlPdfGeneration.add(this.pnlToggleButtons, constraints);
 
         constraints = new GridBagConstraints();
@@ -233,7 +231,7 @@ public class PdfPanel {
         constraints.gridx = 0;
         constraints.gridy = 3;
         constraints.anchor = GridBagConstraints.CENTER;
-        constraints.insets = new Insets(20,0,20,0);
+        constraints.insets = new Insets(20,0,20,60);
         this.btnSubmitButton.setPreferredSize(new Dimension(140,40));
         this.pnlPdfGeneration.add(this.btnSubmitButton, constraints);
     }
@@ -275,4 +273,5 @@ public class PdfPanel {
     public JButton getBtnSubmitButton() {
         return btnSubmitButton;
     }
+
 }
