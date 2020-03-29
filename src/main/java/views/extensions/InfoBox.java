@@ -15,25 +15,14 @@ public class InfoBox {
     private ImageIcon imageHelpHover;
 
     public InfoBox(String text) {
-        this.createInfoBox(text, 300,90);
+        this.createInfoBox(text, 300, 90);
         InfoBoxController infoBoxController = new InfoBoxController(this);
     }
 
-    private void createInfoBox(String text, int width, int height){
+    private void createInfoBox(String text, int width, int height) {
         this.loadImages();
-
-        /*JPanel pnlInfo = new JPanel();
-        pnlInfo.setLayout(null);
-        pnlInfo.setSize(width, height);
-        pnlInfo.setOpaque(false);*/
-
         this.lblText = this.getTextLabel(text);
         this.lblInfoIcon = this.getImageLabel();
-
-      //  pnlInfo.add(this.lblInfoIcon);
-       // pnlInfo.add(this.lblText);
-
-      //  return pnlInfo;
     }
 
     private void loadImages() {
@@ -56,7 +45,7 @@ public class InfoBox {
         return lblInfoIcon;
     }
 
-    private JLabel getTextLabel(String text){
+    private JLabel getTextLabel(String text) {
         JLabel tmpLblText = new JLabel();
         tmpLblText.setOpaque(true);
         tmpLblText.setBackground(Color.white);
@@ -65,15 +54,10 @@ public class InfoBox {
         Border border = BorderFactory.createLineBorder(Color.BLACK, 3);
         Border margin = new EmptyBorder(10, 10, 10, 10);
         tmpLblText.setBorder(new CompoundBorder(border, margin));
-       // tmpLblText.setBounds(0, 0, 270, 90);
         tmpLblText.setVisible(false);
 
         return tmpLblText;
     }
-
-    /*public JPanel getPnlInfo() {
-        return pnlInfo;
-    }*/
 
     public JLabel getlblInfoIcon() {
         return lblInfoIcon;

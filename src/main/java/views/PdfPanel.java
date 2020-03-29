@@ -14,7 +14,6 @@ public class PdfPanel {
     private JRadioButton rbMorePdfs;
     private JRadioButton rbOnePdf;
     private Map<String, JCheckBox> cBExercises;
-    //private List<JCheckBox> cBExercises;
     private JButton btnSubmitButton;
     private JPanel pnlExercises;
 
@@ -154,7 +153,7 @@ public class PdfPanel {
     public void refresh(List<String> exercises) {
         this.pnlExercises.removeAll();
         this.addExercise(Constants.bodyWeight);
-        for(String exercise : exercises) {
+        for (String exercise : exercises) {
             this.pnlExercises.add(this.cBExercises.get(exercise));
         }
         pnlExercises.validate();

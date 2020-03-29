@@ -35,9 +35,6 @@ public class ExercisePanel {
 
         BoxLayout boxLayout = new BoxLayout(panel, BoxLayout.X_AXIS);
         panel.setLayout(boxLayout);
-       // panel.setPreferredSize(new Dimension(930, 100));
-        // panel.setMinimumSize(new Dimension(930, 100));
-        //panel.setMaximumSize(new Dimension(930, 100));
 
         JLabel lblExerciseTitle = new JLabel();
         lblExerciseTitle.setText(exercise);
@@ -55,8 +52,6 @@ public class ExercisePanel {
         btnPlus.setFont(new Font("Helvetica", 1, 60));
         this.btnPlus = btnPlus;
 
-        //out commented because functionality is not implemented and without a function it is senseless
-        //panel.add(pnlMove);
         panel.add(Box.createHorizontalStrut(10));
         panel.add(lblExerciseTitle);
         panel.add(this.btnPlus);

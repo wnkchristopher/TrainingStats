@@ -73,10 +73,10 @@ public class TrainingStatsPanel {
         this.txtDate = new PlaceholderTextField();
         this.txtDate.setPlaceholder("dd.mm.yyyy");
         JLabel lbl = new JLabel();
-        lbl.setPreferredSize(new Dimension(50,50));
+        lbl.setPreferredSize(new Dimension(50, 50));
         lbl.setText("Date: ");
         lbl.setFont(new Font("Helvetica", 3, 16));
-        this.txtDate.setPreferredSize(new Dimension(200,30));
+        this.txtDate.setPreferredSize(new Dimension(200, 30));
         pnl.add(lbl);
         pnl.add(this.txtDate);
 
@@ -117,7 +117,7 @@ public class TrainingStatsPanel {
     }
 
     public void addExercisePanel(String exercise, ExercisePanel exercisePanel) {
-        if(!this.exercisePanels.containsKey(exercise)){
+        if (!this.exercisePanels.containsKey(exercise)) {
             this.exercisePanels.put(exercise, exercisePanel);
         }
     }
@@ -126,16 +126,16 @@ public class TrainingStatsPanel {
     private void setupLayout() {
         TrainingStatsConstraint constraint;
 
-        this.lblInfoIcon.setPreferredSize(new Dimension(30,30));
+        this.lblInfoIcon.setPreferredSize(new Dimension(30, 30));
         constraint = new TrainingStatsConstraint();
-        constraint.insets = new Insets(10,0,0, 15);
+        constraint.insets = new Insets(10, 0, 0, 15);
         constraint.alignment = Alignment.NORTHEAST;
         constraint.fixed = true;
         this.pnlTrainingStats.add(this.lblInfoIcon, constraint);
 
         this.lblText.setPreferredSize(this.lblText.getPreferredSize());
         constraint = new TrainingStatsConstraint();
-        constraint.insets = new Insets(10,0, 0, 45);
+        constraint.insets = new Insets(10, 0, 0, 45);
         constraint.alignment = Alignment.NORTHEAST;
         constraint.fixed = true;
         this.pnlTrainingStats.add(this.lblText, constraint);
@@ -146,13 +146,13 @@ public class TrainingStatsPanel {
         constraint.alignment = Alignment.CENTER;
         this.pnlTrainingStats.add(lblHeadline, constraint);
 
-        this.pnlDate.setPreferredSize(new Dimension(260,43));
+        this.pnlDate.setPreferredSize(new Dimension(260, 43));
         constraint = new TrainingStatsConstraint();
         constraint.insets = new Insets(0, 15, 5, 0);
         constraint.alignment = Alignment.WEST;
         this.pnlTrainingStats.add(this.pnlDate, constraint);
 
-        this.spContent.setMinimumSize(new Dimension(600,300));
+        this.spContent.setMinimumSize(new Dimension(600, 300));
         constraint = new TrainingStatsConstraint();
         constraint.insets = new Insets(5, 10, 5, 10);
         constraint.alignment = Alignment.WEST;

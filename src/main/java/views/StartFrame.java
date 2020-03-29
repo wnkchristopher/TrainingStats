@@ -9,7 +9,8 @@ import java.awt.*;
 public class StartFrame {
     private JFrame frame;
 
-    public StartFrame() {}
+    public StartFrame() {
+    }
 
     public JFrame createFrame(StartPanel startPanel, String title, int width, int height) {
 
@@ -17,7 +18,6 @@ public class StartFrame {
         this.frame.setLayout(new BorderLayout());
         this.frame.setTitle(title);
         this.frame.setMinimumSize(new Dimension(width, height));
-        //this.frame.setSize(width, height);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.frame.setLocation
                 (dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
