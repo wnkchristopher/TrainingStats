@@ -22,7 +22,6 @@ public class StartFrame {
         this.frame.setIconImage(imageIcon.getImage());
 
         JPanel pnlMainContent = startPanel.createPanel();
-      //  this.frame.getContentPane().setBackground(Color.decode(Constants.BackgroundColor));
 
         this.frame.add(pnlMainContent, BorderLayout.CENTER);
 

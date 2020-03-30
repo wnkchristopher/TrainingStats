@@ -15,9 +15,9 @@ public class PdfPanel {
     private JRadioButton rbMorePdfs;
     private JRadioButton rbOnePdf;
     private Map<String, JCheckBox> cBExercises;
-    private JButton btnSubmitButton;
+    private JButton btnSubmit;
     private JPanel pnlExercises;
-    private JPanel pnlDateTextFields;
+    private JLabel lblFrom, lblTo;
     private JPanel pnlToggleButtons;
     private JScrollPane spExercises;
 
@@ -38,9 +38,9 @@ public class PdfPanel {
     private JPanel addComponents(JPanel pnlPdfGeneration) {
         this.lblHeadline = this.getHeadline();
         this.spExercises = this.getExerciseScrollPane();
-        this.pnlDateTextFields = this.getPnlDateTextFields();
+        this.setDateTextFields();
         this.pnlToggleButtons = this.getPnlToggleButtons();
-        this.btnSubmitButton = this.getSubmitButton();
+        this.btnSubmit = this.getSubmitButton();
 
         this.setupLayout();
 
@@ -75,73 +75,21 @@ public class PdfPanel {
         this.addExercise(Constants.bodyWeight);
 
         pnlExercises.setBackground(Color.white);
-        pnlExercises.setVisible(true);
 
-        pnlExercises.setLocation(50, 50);
-        pnlExercises.setSize(150, 300);
+      //  pnlExercises.setLocation(50, 50);
+      //  pnlExercises.setSize(150, 300);
         pnlExercises.setVisible(true);
 
 
         return sPExercises;
     }
 
-    private JPanel getPnlDateTextFields() {
-        JPanel pnlGroupFromTo = new JPanel();
-        pnlGroupFromTo.setLayout(new GridBagLayout());
-        pnlGroupFromTo.setOpaque(false);
-
-        GridBagConstraints constraints;
-
-
-        JLabel lblFrom = new JLabel("From: (dd.mm.yyyy)");
-        constraints = new GridBagConstraints();
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        constraints.gridwidth = 1;
-        constraints.gridheight = 1;
-        constraints.anchor = GridBagConstraints.WEST;
-        constraints.insets = new Insets(0, 20, 10, 0);
-        pnlGroupFromTo.add(lblFrom, constraints);
-
+    private void setDateTextFields() {
+        this.lblFrom = new JLabel("From: (dd.mm.yyyy)");
         this.txtFrom = new JTextField();
-        this.txtFrom.setPreferredSize(new Dimension(200,30));
-        this.txtFrom.setMinimumSize(this.txtFrom.getPreferredSize());
 
-        constraints = new GridBagConstraints();
-        constraints.gridx = 0;
-        constraints.gridy = 1;
-        constraints.gridwidth = 1;
-        constraints.gridheight = 1;
-        constraints.anchor = GridBagConstraints.WEST;
-        constraints.insets = new Insets(10, 20, 20, 0);
-        pnlGroupFromTo.add(this.txtFrom, constraints);
-
-
-        JLabel lblTo = new JLabel("To: (dd.mm.yyyy)");
-        constraints = new GridBagConstraints();
-        constraints.gridx = 0;
-        constraints.gridy = 2;
-        constraints.gridwidth = 1;
-        constraints.gridheight = 1;
-        constraints.insets = new Insets(20, 20, 10, 0);
-        constraints.anchor = GridBagConstraints.WEST;
-        pnlGroupFromTo.add(lblTo, constraints);
-
-
+        this.lblTo = new JLabel("To: (dd.mm.yyyy)");
         this.txtTo = new JTextField();
-        this.txtTo.setPreferredSize(new Dimension(200,30));
-        constraints = new GridBagConstraints();
-        constraints.gridx = 0;
-        constraints.gridy = 3;
-        constraints.gridwidth = 1;
-        constraints.gridheight = 1;
-        constraints.insets = new Insets(10, 20, 10, 0);
-        this.txtTo.setMinimumSize(this.txtTo.getPreferredSize());
-        pnlGroupFromTo.add(this.txtTo, constraints);
-
-
-        pnlGroupFromTo.setVisible(true);
-        return pnlGroupFromTo;
     }
 
     private JButton getSubmitButton() {
@@ -180,61 +128,114 @@ public class PdfPanel {
         JCheckBox cb = new JCheckBox();
         cb.setText(exercise);
         cb.setBackground(Color.white);
-        cb.setSize(150, 30);
         this.cBExercises.put(exercise, cb);
         this.pnlExercises.add(cb);
     }
 
     private void setupLayout() {
-        GridBagLayout gridBagLayout = new GridBagLayout();
-        this.pnlPdfGeneration.setLayout(gridBagLayout);
-        GridBagConstraints constraints;
 
-        constraints = new GridBagConstraints();
-        constraints.gridwidth = 2;
-        constraints.gridheight = 1;
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        constraints.anchor = GridBagConstraints.NORTH;
-        constraints.insets = new Insets(10, 0, 20, 0);
-        this.pnlPdfGeneration.add(this.lblHeadline, constraints);
+        this.pnlPdfGeneration.setLayout(new BoxLayout(this.pnlPdfGeneration, BoxLayout.Y_AXIS));
 
-        constraints = new GridBagConstraints();
-        constraints.gridwidth = 1;
-        constraints.gridheight = 2;
-        constraints.gridx = 0;
-        constraints.gridy = 1;
-        constraints.insets = new Insets(0,60,0,10);
-        this.spExercises.setMinimumSize(new Dimension(200, 200));
-        this.spExercises.setPreferredSize(new Dimension(200, 400));
-        this.pnlPdfGeneration.add(this.spExercises, constraints);
+        this.lblHeadline.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        constraints = new GridBagConstraints();
-        constraints.gridwidth = 1;
-        constraints.gridheight = 1;
-        constraints.gridx = 1;
-        constraints.gridy = 1;
-        constraints.insets = new Insets(0,0,0,60);
-        this.pnlPdfGeneration.add(this.pnlDateTextFields, constraints);
+        this.lblHeadline.setPreferredSize(new Dimension(300,100));
+        this.lblHeadline.setMaximumSize(new Dimension(300,200));
+        this.pnlPdfGeneration.add(this.lblHeadline);
 
-        constraints = new GridBagConstraints();
-        constraints.gridwidth = 1;
-        constraints.gridheight = 1;
-        constraints.gridx = 1;
-        constraints.gridy = 2;
-        constraints.anchor = GridBagConstraints.CENTER;
-        constraints.insets = new Insets(0,10,5,20);
-        this.pnlPdfGeneration.add(this.pnlToggleButtons, constraints);
 
-        constraints = new GridBagConstraints();
-        constraints.gridwidth = 2;
-        constraints.gridheight = 1;
-        constraints.gridx = 0;
-        constraints.gridy = 3;
-        constraints.anchor = GridBagConstraints.CENTER;
-        constraints.insets = new Insets(20,0,20,60);
-        this.btnSubmitButton.setPreferredSize(new Dimension(140,40));
-        this.pnlPdfGeneration.add(this.btnSubmitButton, constraints);
+        JPanel pnlCenter = new JPanel();
+        pnlCenter.setBackground(Color.red);
+        pnlCenter.setOpaque(false);
+        pnlCenter.setLayout(new BoxLayout(pnlCenter, BoxLayout.X_AXIS));
+
+        JPanel pnlSpacer1 = this.getSpacer
+                (new Dimension(0,0), new Dimension(50, 0), new Dimension(70,0));
+        pnlCenter.add(pnlSpacer1);
+
+        pnlCenter.add(pnlSpacer1);
+
+        this.spExercises.setMinimumSize(new Dimension(150,100));
+        this.spExercises.setPreferredSize(new Dimension(250,500));
+        this.spExercises.setMaximumSize(new Dimension(600,1000));
+        pnlCenter.add(this.spExercises);
+
+        JPanel pnlSpacer2 = this.getSpacer
+                (new Dimension(0,0), new Dimension(20, 0), new Dimension(30,0));
+        pnlCenter.add(pnlSpacer2);
+
+
+        JPanel pnlRight = new JPanel();
+        pnlRight.setOpaque(false);
+        pnlRight.setLayout(new BoxLayout(pnlRight, BoxLayout.Y_AXIS));
+
+        this.lblFrom.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pnlRight.add(this.lblFrom);
+
+        this.txtFrom.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.txtFrom.setMinimumSize(new Dimension(70,30));
+        this.txtFrom.setPreferredSize(new Dimension(300,40));
+        this.txtFrom.setMaximumSize(new Dimension(300,40));
+
+        pnlRight.add(this.txtFrom);
+
+        JPanel pnlSpacer3 = this.getSpacer
+                (new Dimension(0,0), new Dimension(0, 30), new Dimension(0, 50));
+        pnlRight.add(pnlSpacer3);
+
+        this.lblTo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pnlRight.add(this.lblTo);
+        this.txtTo.setMinimumSize(new Dimension(70,30));
+        this.txtTo.setPreferredSize(new Dimension(300,40));
+        this.txtTo.setMaximumSize(new Dimension(300,40));
+        this.txtTo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pnlRight.add(this.txtTo);
+
+        JPanel pnlSpacer4 = this.getSpacer
+                (new Dimension(0,0), new Dimension(0, 40), new Dimension(0, 40));
+        pnlRight.add(pnlSpacer4);
+
+        this.pnlToggleButtons.setMinimumSize(new Dimension(70, 60));
+        this.pnlToggleButtons.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pnlRight.add(this.pnlToggleButtons);
+
+        JPanel pnlSpacer5 = this.getSpacer
+                (new Dimension(0,0), new Dimension(0, 15), new Dimension(0, 30));
+        pnlRight.add(pnlSpacer5);
+
+        this.btnSubmit.setMinimumSize(new Dimension(60,20));
+        this.btnSubmit.setPreferredSize(new Dimension(180, 50));
+        this.btnSubmit.setMaximumSize(new Dimension(230, 80));
+        this.btnSubmit.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pnlRight.add(this.btnSubmit);
+
+      //  pnlRight.setMinimumSize(new Dimension(100,300));
+        pnlRight.setPreferredSize(new Dimension(400,500));
+        pnlRight.setMaximumSize(new Dimension(600,1000));
+
+        pnlRight.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pnlRight.setOpaque(false);
+        pnlCenter.add(pnlRight);
+
+        JPanel pnlSpacer6 = this.getSpacer
+                (new Dimension(0,0), new Dimension(50, 0), new Dimension(70,0));
+        pnlCenter.add(pnlSpacer6);
+
+
+        this.pnlPdfGeneration.add(pnlCenter);
+
+        JPanel pnlSpacerBottom = this.getSpacer
+                (new Dimension(0,0), new Dimension(0, 30), new Dimension(0, 70));
+        this.pnlPdfGeneration.add(pnlSpacerBottom);
+    }
+
+    private JPanel getSpacer(Dimension minSize, Dimension prefSize, Dimension maxSize) {
+        JPanel pnlSpacer = new JPanel();
+        pnlSpacer.setOpaque(false);
+        pnlSpacer.setMinimumSize(minSize);
+        pnlSpacer.setPreferredSize(prefSize);
+        pnlSpacer.setMaximumSize(maxSize);
+
+        return pnlSpacer;
     }
 
     public void refresh(List<String> exercises) {
@@ -271,8 +272,8 @@ public class PdfPanel {
         return cBExercises;
     }
 
-    public JButton getBtnSubmitButton() {
-        return btnSubmitButton;
+    public JButton getBtnSubmit() {
+        return btnSubmit;
     }
 
 

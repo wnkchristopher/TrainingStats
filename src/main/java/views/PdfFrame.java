@@ -21,15 +21,11 @@ public class PdfFrame {
         ImageIcon imageIcon = new ImageIcon("resources/img/logo.png");
         this.frame.setIconImage(imageIcon.getImage());
         this.frame.getContentPane().setBackground(Color.decode(Constants.BackgroundColor));
-        this.frame.setLayout(new GridBagLayout());
+        this.frame.setLayout(new BorderLayout());
         this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.frame.setVisible(true);
 
-        GridBagConstraints gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.anchor = GridBagConstraints.NORTH;
-        gridBagConstraints.weighty = 1;
-
-        this.frame.add(pdfPanel.getPnlPdfGeneration(), gridBagConstraints);
+        this.frame.add(pdfPanel.getPnlPdfGeneration(), BorderLayout.CENTER);
 
 
         Dimension minSize = pdfPanel.getPnlPdfGeneration().getMinimumSize();
@@ -41,6 +37,6 @@ public class PdfFrame {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
 
-        pdfPanel.getPnlPdfGeneration().getRootPane().setDefaultButton(pdfPanel.getBtnSubmitButton());
+        pdfPanel.getPnlPdfGeneration().getRootPane().setDefaultButton(pdfPanel.getBtnSubmit());
     }
 }

@@ -23,7 +23,7 @@ public class PdfPanelController implements Observer {
         this.pdfPanel = pdfPanel;
         this.dataManager.addObserver(this);
         GeneratePdf generatePdf = new GeneratePdf();
-        pdfPanel.getBtnSubmitButton().addActionListener(e -> {
+        pdfPanel.getBtnSubmit().addActionListener(e -> {
             String strFrom = pdfPanel.getTxtFrom().getText();
             String strTo = pdfPanel.getTxtTo().getText();
 
