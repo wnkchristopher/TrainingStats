@@ -7,9 +7,11 @@ import java.awt.*;
 
 public class PdfFrame {
     private JFrame frame;
+    private PdfPanel pdfPanel;
 
 
     public PdfFrame(PdfPanel pdfPanel) {
+        this.pdfPanel = pdfPanel;
         this.createFrame(pdfPanel);
     }
 
@@ -19,12 +21,16 @@ public class PdfFrame {
         ImageIcon imageIcon = new ImageIcon("resources/img/logo.png");
         this.frame.setIconImage(imageIcon.getImage());
         this.frame.getContentPane().setBackground(Color.decode(Constants.BackgroundColor));
-        this.frame.setLayout(new BorderLayout());
+        this.frame.setLayout(new GridBagLayout());
         this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-
         this.frame.setVisible(true);
-        this.frame.add(pdfPanel.getPnlPdfGeneration(), BorderLayout.NORTH);
+
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.anchor = GridBagConstraints.NORTH;
+        gridBagConstraints.weighty = 1;
+
+        this.frame.add(pdfPanel.getPnlPdfGeneration(), gridBagConstraints);
+
 
         Dimension minSize = pdfPanel.getPnlPdfGeneration().getMinimumSize();
         minSize.width += this.frame.getInsets().left + this.frame.getInsets().right;
@@ -37,5 +43,4 @@ public class PdfFrame {
 
         pdfPanel.getPnlPdfGeneration().getRootPane().setDefaultButton(pdfPanel.getBtnSubmitButton());
     }
-
 }
