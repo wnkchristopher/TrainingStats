@@ -22,9 +22,9 @@ public class StartFrame {
         this.frame.setIconImage(imageIcon.getImage());
 
         JPanel pnlMainContent = startPanel.createPanel();
-        this.frame.getContentPane().setBackground(Color.decode(Constants.BackgroundColor));
+      //  this.frame.getContentPane().setBackground(Color.decode(Constants.BackgroundColor));
 
-        this.frame.add(pnlMainContent, BorderLayout.NORTH);
+        this.frame.add(pnlMainContent, BorderLayout.CENTER);
 
         this.frame.setVisible(true);
 
@@ -32,6 +32,7 @@ public class StartFrame {
         minSize.width += this.frame.getInsets().left + this.frame.getInsets().right;
         minSize.height += this.frame.getInsets().top + this.frame.getInsets().bottom;
         this.frame.setMinimumSize(minSize);
+
         this.frame.pack();
 
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();

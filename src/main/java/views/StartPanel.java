@@ -23,8 +23,15 @@ public class StartPanel {
     private JTextField txtDate;
     private JPanel pnlWeight;
 
-    public StartPanel() {
+    //size of button;
+    int maxWidth, maxHeight;
+    int prefWidth, prefHeight;
 
+    public StartPanel() {
+        this.prefWidth = 500;
+        this.prefHeight = 75;
+        this.maxWidth = 800;
+        this.maxHeight = 110;
     }
 
     public JPanel createPanel() {
@@ -40,6 +47,8 @@ public class StartPanel {
         this.lblHeadline = this.createHeadline();
 
         this.pnlExercise = this.createExerciseComponent();
+
+        this.btnAddExercise = this.createAddExerciseButton();
 
         this.btnAddTraining = this.createAddWorkoutButton();
 
@@ -61,71 +70,40 @@ public class StartPanel {
     }
 
     private JPanel createExerciseComponent() {
-        GridBagLayout gridBagLayout = new GridBagLayout();
 
         JPanel pnlExercises = new JPanel();
-        pnlExercises.setLayout(gridBagLayout);
-        pnlExercises.setBackground(Color.decode(Constants.BackgroundColor));
+        pnlExercises.setLayout(new BoxLayout(pnlExercises, BoxLayout.X_AXIS));
+        pnlExercises.setBackground(Color.orange);
 
-        GridBagConstraints gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new Insets(0, 0, 10, 3);
 
         this.cBExercises = new JComboBox();
         this.cBExercises.setFont(new Font("Helvetica", 3, 16));
         this.cBExercises.setVisible(true);
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.gridheight = 1;
 
-        Dimension dimension = this.cBExercises.getPreferredSize();
-        dimension.height = 50;
-        dimension.width = 230;
-        this.cBExercises.setPreferredSize(dimension);
-        this.cBExercises.setMinimumSize(dimension);
 
-        pnlExercises.add(cBExercises, gridBagConstraints);
+        this.cBExercises.setPreferredSize(new Dimension(this.prefWidth - 50,this.prefHeight));
+        this.cBExercises.setMaximumSize(new Dimension(this.maxWidth - 50, this.maxHeight));
+
+        pnlExercises.add(this.cBExercises);
 
         this.btnEditExercise = new JButton();
         this.btnEditExercise =
                 ButtonEditor.addImageToButton(btnEditExercise, Constants.PathEditImage, 25, 25);
-        this.btnEditExercise.setPreferredSize(new Dimension(37, 50));
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.gridheight = 1;
-        pnlExercises.add(btnEditExercise, gridBagConstraints);
+       // this.btnEditExercise.setMinimumSize(new Dimension(37, this.prefHeight));
+        this.btnEditExercise.setPreferredSize(new Dimension(37, this.prefHeight));
+        this.btnEditExercise.setMaximumSize(new Dimension(50, this.maxHeight));
+        pnlExercises.add(btnEditExercise);
 
 
         this.btnDeleteExercise = new JButton();
         this.btnDeleteExercise =
                 ButtonEditor.addImageToButton(btnDeleteExercise, Constants.PathDeletionImage, 20, 20);
-        this.btnDeleteExercise.setPreferredSize(new Dimension(37, 50));
+      //  this.btnDeleteExercise.setMinimumSize(new Dimension(37, this.prefHeight));
+        this.btnDeleteExercise.setPreferredSize(new Dimension(37, this.prefHeight));
+        this.btnDeleteExercise.setMaximumSize(new Dimension(50, this.maxHeight));
 
-        gridBagConstraints.insets = new Insets(0, 0, 10, 0);
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.gridheight = 1;
-        pnlExercises.add(btnDeleteExercise, gridBagConstraints);
+        pnlExercises.add(btnDeleteExercise);
 
-        this.btnAddExercise = new JButton();
-        this.btnAddExercise.setText("Add exercise");
-        this.btnAddExercise.setFont(new Font("Helvetica", 1, 16));
-        gridBagConstraints.insets = new Insets(0, 0, 0, 0);
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.gridheight = 1;
-
-        dimension = this.btnAddExercise.getPreferredSize();
-        dimension.height = 50;
-        //dimension.width = 310;
-        this.btnAddExercise.setMinimumSize(dimension);
-        this.btnAddExercise.setPreferredSize(dimension);
-
-        pnlExercises.add(btnAddExercise, gridBagConstraints);
 
         return pnlExercises;
     }
@@ -137,6 +115,14 @@ public class StartPanel {
         btnAddTraining.setVisible(true);
 
         return btnAddTraining;
+    }
+
+    private JButton createAddExerciseButton() {
+        JButton btnAddExercise = new JButton();
+        btnAddExercise.setText("Add exercise");
+        btnAddExercise.setFont(new Font("Helvetica", 1, 16));
+
+        return btnAddExercise;
     }
 
     private JButton createGeneratePdfButton() {
@@ -157,27 +143,25 @@ public class StartPanel {
 
         GroupLayout groupLayout = new GroupLayout(pnlWeight);
         groupLayout.setAutoCreateGaps(true);
-        groupLayout.setAutoCreateContainerGaps(true);
+        //groupLayout.setAutoCreateContainerGaps(true);
         pnlWeight.setLayout(groupLayout);
 
         JLabel lblWeight = new JLabel();
         lblWeight.setText("Your Weight");
 
         this.txtWeight = new JTextField();
+        this.txtWeight.setMaximumSize(new Dimension(300,50));
 
         JLabel lblKilo = new JLabel();
         lblKilo.setText("kg");
 
         this.txtDate = new JTextField();
         this.txtDate.setText(dateToday);
+        this.txtDate.setMaximumSize(new Dimension(300, 50));
 
         this.btnSubmitWeight = new JButton();
         this.btnSubmitWeight.setText("update");
-        Dimension dimension = btnSubmitWeight.getPreferredSize();
-        dimension.height = 50;
-        this.btnSubmitWeight.setPreferredSize(dimension);
-        this.btnSubmitWeight.setMinimumSize(dimension);
-        this.btnSubmitWeight.setPreferredSize(dimension);
+        this.btnSubmitWeight.setMaximumSize(new Dimension(150, 75));
 
         groupLayout.setHorizontalGroup(
                 groupLayout.createSequentialGroup()
@@ -213,69 +197,69 @@ public class StartPanel {
     }
 
     private void setupLayout() {
-        Dimension dimension;
-        GridBagLayout gridBagLayout = new GridBagLayout();
-        this.pnlMain.setLayout(gridBagLayout);
+        this.pnlMain.setLayout(new BoxLayout(this.pnlMain, BoxLayout.PAGE_AXIS));
 
-        GridBagConstraints gridBagConstraints;
+        this.lblHeadline.setPreferredSize(new Dimension(640,90));
+        this.lblHeadline.setMaximumSize(new Dimension(500,120));
+        this.lblHeadline.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.pnlMain.add(this.lblHeadline);
 
-       /* gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.anchor = GridBagConstraints.NORTHWEST;
-        gridBagConstraints.fill = GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new Insets(30, 10, 25, 10);*/
 
-        gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.gridheight = 1;
-        gridBagConstraints.insets = new Insets(30, 10, 25, 10);
+        this.pnlExercise.setPreferredSize(new Dimension(this.prefWidth, this.prefHeight));
+        this.pnlExercise.setMaximumSize(new Dimension(this.maxWidth,this.maxHeight));
+        this.pnlExercise.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.pnlMain.add(this.pnlExercise);
 
-        this.pnlMain.add(this.lblHeadline, gridBagConstraints);
+        JPanel pnlSpacer1 = new JPanel();
+        pnlSpacer1.setMinimumSize(new Dimension(0, 0));
+        pnlSpacer1.setPreferredSize(new Dimension(0, 10));
+        pnlSpacer1.setMaximumSize(new Dimension(0, 13));
+        this.pnlMain.add(pnlSpacer1);
 
-        gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.gridheight = 1;
-        gridBagConstraints.fill = GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new Insets(5, 10, 5, 10);
-        this.pnlMain.add(this.pnlExercise, gridBagConstraints);
+        this.btnAddExercise.setPreferredSize(new Dimension(this.prefWidth, this.prefHeight));
+        this.btnAddExercise.setMaximumSize(new Dimension(this.maxWidth,this.maxHeight));
+        this.btnAddExercise.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.pnlMain.add(this.btnAddExercise);
 
-        gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.gridheight = 1;
-        gridBagConstraints.fill = GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new Insets(5, 10, 5, 10);
-        dimension = this.btnAddTraining.getPreferredSize();
-        dimension.height = 50;
-        this.btnAddTraining.setMinimumSize(dimension);
-        this.btnAddTraining.setPreferredSize(dimension);
-        this.pnlMain.add(this.btnAddTraining, gridBagConstraints);
+        JPanel pnlSpacer2 = new JPanel();
+        pnlSpacer2.setMinimumSize(new Dimension(0, 0));
+        pnlSpacer2.setPreferredSize(new Dimension(0, 10));
+        pnlSpacer2.setMaximumSize(new Dimension(0, 13));
+        this.pnlMain.add(pnlSpacer2);
 
-        gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.gridheight = 1;
-        gridBagConstraints.fill = GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new Insets(5, 10, 5, 10);
-        dimension = this.btnGeneratePdf.getPreferredSize();
-        dimension.height = 50;
-        this.btnGeneratePdf.setMinimumSize(dimension);
-        this.btnGeneratePdf.setPreferredSize(dimension);
-        this.pnlMain.add(this.btnGeneratePdf, gridBagConstraints);
 
-        gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.gridheight = 1;
-        gridBagConstraints.fill = GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new Insets(5, 10, 25, 10);
-        this.pnlMain.add(this.pnlWeight, gridBagConstraints);
+        this.btnAddTraining.setPreferredSize(new Dimension(this.prefWidth, this.prefHeight));
+        this.btnAddTraining.setMaximumSize(new Dimension(this.maxWidth,this.maxHeight));
+        this.btnAddTraining.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.pnlMain.add(this.btnAddTraining);
+
+        JPanel pnlSpacer3 = new JPanel();
+        pnlSpacer3.setMinimumSize(new Dimension(0, 0));
+        pnlSpacer3.setPreferredSize(new Dimension(0, 10));
+        pnlSpacer3.setMaximumSize(new Dimension(0, 13));
+        this.pnlMain.add(pnlSpacer3);
+
+        this.btnGeneratePdf.setPreferredSize(new Dimension(this.prefWidth, this.prefHeight));
+        this.btnGeneratePdf.setMaximumSize(new Dimension(this.maxWidth,this.maxHeight));
+        this.btnGeneratePdf.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.pnlMain.add(this.btnGeneratePdf);
+
+        JPanel pnlSpacer4 = new JPanel();
+        pnlSpacer4.setMinimumSize(new Dimension(0, 0));
+        pnlSpacer4.setPreferredSize(new Dimension(0, 10));
+        pnlSpacer4.setMaximumSize(new Dimension(0, 13));
+        this.pnlMain.add(pnlSpacer4);
+
+        this.pnlWeight.setPreferredSize(new Dimension(this.prefWidth, this.prefHeight));
+        this.pnlWeight.setMaximumSize(new Dimension(this.maxWidth,145));
+        this.pnlWeight.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.pnlMain.add(this.pnlWeight);
+
+        JPanel pnlSpacer5 = new JPanel();
+        pnlSpacer5.setMinimumSize(new Dimension(0, 0));
+        pnlSpacer5.setPreferredSize(new Dimension(0, 50));
+        pnlSpacer5.setMaximumSize(new Dimension(0, 75));
+        this.pnlMain.add(pnlSpacer5);
 
     }
 
