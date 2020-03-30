@@ -28,7 +28,7 @@ public class TrainingStatsController implements Observer {
             String date = this.trainingStatsPanel.getTxtDate().getText();
             DateValidator dateValidator = new DateValidator();
 
-            if(!dateValidator.verify(date)){
+            if (!dateValidator.verify(date)) {
                 this.trainingStatsPanel.getTxtDate().setBorder(new LineBorder(Color.red));
                 return;
             }
@@ -38,33 +38,29 @@ public class TrainingStatsController implements Observer {
 
             Map<String, ExercisePanel> exercisePanels = this.trainingStatsPanel.getExercisePanels();
 
+            if (!this.validateSets(new ArrayList<>(exercisePanels.values()))) {
+                return;
+            }
+
             for (Map.Entry<String, ExercisePanel> entry : exercisePanels.entrySet()) {
                 String exercise = entry.getKey();
                 List<TrainingSet> sets = new ArrayList<>();
-
                 Map<Integer, PlaceholderTextField[]> txtFields = entry.getValue().getTxtFields();
 
                 for (int set = 1; set <= txtFields.size(); set++) {
                     String reps = txtFields.get(set)[0].getText();
                     String weight = txtFields.get(set)[1].getText();
 
-                    if (!reps.isEmpty()) {
-                        if (weight.isEmpty() || weight.contains("b")) {
-                            String digits = weight.replaceAll("\\D+", "");
-                            if (weight.contains("+")) {
-                                weight = "b+" + digits;
-                            } else if (weight.contains("-")) {
-                                weight = "b-" + digits;
-                            }
-                        }
+                    if(!reps.isEmpty()){
                         sets.add(new TrainingSet(reps, weight));
-                    } else {
-                        break;
                     }
-
                     //reset text fields
                     txtFields.get(set)[0].setText("");
+                    txtFields.get(set)[0]
+                            .setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));;
                     txtFields.get(set)[1].setText("");
+                    txtFields.get(set)[1]
+                            .setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));;
                 }
                 //checks if text fields are used
                 if (!sets.isEmpty()) {
@@ -74,6 +70,38 @@ public class TrainingStatsController implements Observer {
                         .setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
             }
         });
+    }
+
+    private boolean validateSets(List<ExercisePanel> exercisePanels) {
+        boolean valid = true;
+        for (ExercisePanel exercisePanel : exercisePanels) {
+            for (int set = 1; set <= exercisePanel.getTxtFields().size(); set++) {
+                JTextField txtReps = exercisePanel.getTxtFields().get(set)[0];
+                JTextField txtWeight = exercisePanel.getTxtFields().get(set)[1];
+                String reps = txtReps.getText();
+                String weight = txtWeight.getText();
+                if (!(reps.isEmpty() && weight.isEmpty())) {
+                    if (!reps.matches("^[0-9]+$")) {
+                        txtReps.setBorder(new LineBorder(Color.red));
+                        valid = false;
+                    }
+                    if (!weight.isEmpty() && !weight.matches("^[0-9]*$") && !weight.equals("b")
+                            && !weight.matches("^( )*b( )*(\\+|-)( )*[0-9]+( )*$")) {
+                        txtWeight.setBorder(new LineBorder(Color.red));
+                        valid = false;
+                    } else{
+                        if(weight.isEmpty()){
+                            weight = "b";
+                        }else{
+                            weight = weight.replaceAll(" ", "");
+                        }
+                        txtWeight.setText(weight);
+                    }
+
+                }
+            }
+        }
+        return valid;
     }
 
     @Override
@@ -92,7 +120,7 @@ public class TrainingStatsController implements Observer {
                         new ExercisePanelController(this.dataManager, exercisePanel);
                 this.trainingStatsPanel.addExercisePanel(this.dataManager.getNewExercise(), exercisePanel);
             }
-            if (arg.equals(Constants.DeletedExercise)|| arg.equals(Constants.RenamedExercise)) {
+            if (arg.equals(Constants.DeletedExercise) || arg.equals(Constants.RenamedExercise)) {
                 this.trainingStatsPanel.getExercisePanels().remove(this.dataManager.getDeletedExercise());
             }
             this.trainingStatsPanel.refresh(this.dataManager.getExercises());
