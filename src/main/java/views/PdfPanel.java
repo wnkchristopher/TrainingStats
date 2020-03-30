@@ -106,6 +106,7 @@ public class PdfPanel {
         this.txtFrom = new JTextField();
         this.txtFrom.setPreferredSize(new Dimension(200,30));
         this.txtFrom.setMinimumSize(this.txtFrom.getPreferredSize());
+
         constraints = new GridBagConstraints();
         constraints.gridx = 0;
         constraints.gridy = 1;
@@ -273,5 +274,6 @@ public class PdfPanel {
     public JButton getBtnSubmitButton() {
         return btnSubmitButton;
     }
+
 
 }

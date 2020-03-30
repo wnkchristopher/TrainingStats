@@ -6,9 +6,13 @@ import models.DataManager;
 import models.DateManager;
 import pdfGeneration.GeneratePdf;
 import views.PdfPanel;
+import controller.validation.DateValidator;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class PdfPanelController implements Observer {
     private DataManager dataManager;
@@ -22,38 +26,49 @@ public class PdfPanelController implements Observer {
         pdfPanel.getBtnSubmitButton().addActionListener(e -> {
             String strFrom = pdfPanel.getTxtFrom().getText();
             String strTo = pdfPanel.getTxtTo().getText();
-            List<String> exercises = new LinkedList<>();
-            Date from = DateManager.convertStringToDate(strFrom);
-            Date to = DateManager.convertStringToDate(strTo);
-            if (from == null || to == null) {
-                JOptionPane.showMessageDialog(null, "Format of date is wrong",
-                        "Error: Date", JOptionPane.ERROR_MESSAGE);
+
+            DateValidator dateValidator = new DateValidator();
+
+            boolean verifyTxtFrom = dateValidator.verify(strFrom);
+            boolean verifyTxtTo = dateValidator.verify(strTo);
+
+            if(!verifyTxtFrom || !verifyTxtTo) {
+                if(!verifyTxtFrom ) {
+                    this.pdfPanel.getTxtFrom().setBorder(new LineBorder(Color.red));
+                }
+                if(!verifyTxtTo) {
+                    this.pdfPanel.getTxtTo().setBorder(new LineBorder(Color.red));
+                }
                 return;
             }
-
+            Date from = DateManager.convertStringToDate(strFrom);
+            Date to = DateManager.convertStringToDate(strTo);
             pdfPanel.getTxtFrom().setText(DateManager.convertDateToString(from));
             pdfPanel.getTxtTo().setText(DateManager.convertDateToString(to));
-
             if (from.after(to)) {
                 JOptionPane.showMessageDialog(null, "Your last date has to be after " +
                         "your first");
-            } else {
+                return;
+            }
 
-                List<String> iterationList = this.dataManager.getExercises();
-                iterationList.add(0, Constants.bodyWeight);
+            List<String> exercises = new LinkedList<>();
+            List<String> iterationList = this.dataManager.getExercises();
+            iterationList.add(0, Constants.bodyWeight);
 
-                for(String element: iterationList) {
-                    if(this.pdfPanel.getcBExercises().get(element).isSelected()) {
-                        exercises.add(element);
-                    }
-                }
-
-                if (pdfPanel.getRbOnePdf().isSelected()) {
-                    generatePdf.generatePdf(from, to, exercises, PdfType.ONE_PDF_FOR_ALL_EXERCISES);
-                } else if (pdfPanel.getRbMorePdfs().isSelected()) {
-                    generatePdf.generatePdf(from, to, exercises, PdfType.ONE_PDF_FOR_EACH_EXERCISE);
+            for(String element: iterationList) {
+                if(this.pdfPanel.getcBExercises().get(element).isSelected()) {
+                    exercises.add(element);
                 }
             }
+            if (pdfPanel.getRbOnePdf().isSelected()) {
+                generatePdf.generatePdf(from, to, exercises, PdfType.ONE_PDF_FOR_ALL_EXERCISES);
+            } else if (pdfPanel.getRbMorePdfs().isSelected()) {
+                generatePdf.generatePdf(from, to, exercises, PdfType.ONE_PDF_FOR_EACH_EXERCISE);
+            }
+
+            pdfPanel.getTxtFrom().setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
+            pdfPanel.getTxtTo().setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
+
         });
     }
 

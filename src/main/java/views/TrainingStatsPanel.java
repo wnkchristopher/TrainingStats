@@ -68,7 +68,7 @@ public class TrainingStatsPanel {
 
     private JPanel getInputDate() {
         JPanel pnl = new JPanel();
-        pnl.setLayout(new FlowLayout());
+        pnl.setLayout(new FlowLayout(FlowLayout.CENTER, 3,3));
         pnl.setOpaque(false);
         this.txtDate = new PlaceholderTextField();
         this.txtDate.setPlaceholder("dd.mm.yyyy");

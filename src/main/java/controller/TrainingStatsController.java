@@ -1,6 +1,7 @@
 package controller;
 
 import configuration.Constants;
+import controller.validation.DateValidator;
 import models.DataManager;
 import models.DateManager;
 import models.TrainingSet;
@@ -9,7 +10,10 @@ import views.extensions.PlaceholderTextField;
 import views.TrainingStatsPanel;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class TrainingStatsController implements Observer {
     private DataManager dataManager;
@@ -21,12 +25,16 @@ public class TrainingStatsController implements Observer {
         this.trainingStatsPanel = trainingStatsPanel;
 
         this.trainingStatsPanel.getBtnSubmit().addActionListener(e -> {
-            Date dateOfTraining = DateManager.convertStringToDate(this.trainingStatsPanel.getTxtDate().getText());
-            if (dateOfTraining == null) {
-                JOptionPane.showMessageDialog(null, "Format of date is wrong",
-                        "Error: Date", JOptionPane.ERROR_MESSAGE);
+            String date = this.trainingStatsPanel.getTxtDate().getText();
+            DateValidator dateValidator = new DateValidator();
+
+            if(!dateValidator.verify(date)){
+                this.trainingStatsPanel.getTxtDate().setBorder(new LineBorder(Color.red));
                 return;
             }
+
+            Date dateOfTraining = DateManager.convertStringToDate(this.trainingStatsPanel.getTxtDate().getText());
+            this.trainingStatsPanel.getTxtDate().setText(DateManager.convertDateToString(dateOfTraining));
 
             Map<String, ExercisePanel> exercisePanels = this.trainingStatsPanel.getExercisePanels();
 
@@ -62,6 +70,8 @@ public class TrainingStatsController implements Observer {
                 if (!sets.isEmpty()) {
                     this.dataManager.addWorkout(exercise, dateOfTraining, sets);
                 }
+                this.trainingStatsPanel.getTxtDate()
+                        .setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
             }
         });
     }

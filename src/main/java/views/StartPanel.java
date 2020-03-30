@@ -52,7 +52,6 @@ public class StartPanel {
 
     private JLabel createHeadline() {
         JLabel lblHeadline = new JLabel();
-        // lblHeadline.setBounds(70, 20, 250, 30);
         lblHeadline.setText("Your training manager");
         lblHeadline.setFont(new Font("ITALIC", 2, 25));
         lblHeadline.setHorizontalAlignment(SwingConstants.CENTER);
@@ -113,7 +112,6 @@ public class StartPanel {
 
         this.btnAddExercise = new JButton();
         this.btnAddExercise.setText("Add exercise");
-        //this.btnAddExercise.setBounds(0, 60, 310, 50);
         this.btnAddExercise.setFont(new Font("Helvetica", 1, 16));
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         gridBagConstraints.gridx = 0;
@@ -134,7 +132,6 @@ public class StartPanel {
 
     private JButton createAddWorkoutButton() {
         JButton btnAddTraining = new JButton();
-        //    btnAddTraining.setBounds(30, 200, 310, 50);
         btnAddTraining.setText("Add training stats");
         btnAddTraining.setFont(new Font("Helvetica", 1, 16));
         btnAddTraining.setVisible(true);
@@ -144,7 +141,6 @@ public class StartPanel {
 
     private JButton createGeneratePdfButton() {
         JButton btnGeneratePdf = new JButton();
-        //  btnGeneratePdf.setBounds(30, 260, 310, 50);
         btnGeneratePdf.setFont(new Font("Helvetica", 1, 16));
         btnGeneratePdf.setText("Generate PDFs");
         btnGeneratePdf.setVisible(true);
@@ -158,7 +154,6 @@ public class StartPanel {
         JPanel pnlWeight = new JPanel();
         pnlWeight.setOpaque(false);
         pnlWeight.setBorder(BorderFactory.createLineBorder(Color.black));
-        //   pnlWeight.setBounds(30, 320, 310, 80);
 
         GroupLayout groupLayout = new GroupLayout(pnlWeight);
         groupLayout.setAutoCreateGaps(true);

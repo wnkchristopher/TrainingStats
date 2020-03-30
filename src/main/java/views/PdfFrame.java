@@ -24,7 +24,7 @@ public class PdfFrame {
 
 
         this.frame.setVisible(true);
-        this.frame.add(pdfPanel.getPnlPdfGeneration());
+        this.frame.add(pdfPanel.getPnlPdfGeneration(), BorderLayout.NORTH);
 
         Dimension minSize = pdfPanel.getPnlPdfGeneration().getMinimumSize();
         minSize.width += this.frame.getInsets().left + this.frame.getInsets().right;
