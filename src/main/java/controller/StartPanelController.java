@@ -1,11 +1,13 @@
 package controller;
 
 import configuration.Constants;
+import controller.validation.DateValidator;
 import models.DataManager;
 import models.DateManager;
 import views.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
@@ -65,13 +67,35 @@ public class StartPanelController implements Observer {
         );
 
         this.startPanel.getBtnSubmitWeight().addActionListener(e -> {
-            Date date = DateManager.convertStringToDate(startPanel.getTxtDate().getText());
-            if (date == null) {
-                JOptionPane.showMessageDialog(null, "Format of date is wrong",
-                        "Error: Date", JOptionPane.ERROR_MESSAGE);
+            String strDate = startPanel.getTxtDate().getText();
+
+
+            boolean valid = true;
+            DateValidator dateValidator = new DateValidator();
+            if(!dateValidator.verify(strDate)) {
+                startPanel.getTxtDate().setBorder(BorderFactory.createLineBorder(Color.red));
+                valid = false;
+            }
+
+            Double weight = 0.0;
+            try{
+                weight = Double.valueOf(startPanel.getTxtWeight().getText());
+            }catch(NumberFormatException n) {
+                startPanel.getTxtWeight().setBorder(BorderFactory.createLineBorder(Color.red));
+                valid = false;
+            }
+            if(!valid) {
                 return;
             }
-            this.dataManager.addWeight(date, Double.valueOf(startPanel.getTxtWeight().getText()));
+
+            Date date = DateManager.convertStringToDate(startPanel.getTxtDate().getText());
+
+            this.dataManager.addWeight(date, weight);
+
+            startPanel.getTxtDate().
+                    setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
+            startPanel.getTxtWeight().
+                    setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
         });
     }
 

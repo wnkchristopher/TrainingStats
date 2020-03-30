@@ -34,6 +34,10 @@ public class StartFrame {
         this.frame.setMinimumSize(minSize);
 
         this.frame.pack();
+        Dimension dimension = startPanel.getPnlMain().getMaximumSize();
+        dimension.width = dimension.width + 100;
+
+        this.frame.setSize(dimension);
 
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.frame.setLocation

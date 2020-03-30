@@ -24,8 +24,8 @@ public class StartPanel {
     private JPanel pnlWeight;
 
     //size of button;
-    int maxWidth, maxHeight;
-    int prefWidth, prefHeight;
+    private int maxWidth, maxHeight;
+    private int prefWidth, prefHeight;
 
     public StartPanel() {
         this.prefWidth = 500;
