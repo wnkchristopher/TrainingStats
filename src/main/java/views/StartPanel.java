@@ -73,8 +73,6 @@ public class StartPanel {
 
         JPanel pnlExercises = new JPanel();
         pnlExercises.setLayout(new BoxLayout(pnlExercises, BoxLayout.X_AXIS));
-        pnlExercises.setBackground(Color.orange);
-
 
         this.cBExercises = new JComboBox();
         this.cBExercises.setFont(new Font("Helvetica", 3, 16));
@@ -89,7 +87,6 @@ public class StartPanel {
         this.btnEditExercise = new JButton();
         this.btnEditExercise =
                 ButtonEditor.addImageToButton(btnEditExercise, Constants.PathEditImage, 25, 25);
-       // this.btnEditExercise.setMinimumSize(new Dimension(37, this.prefHeight));
         this.btnEditExercise.setPreferredSize(new Dimension(37, this.prefHeight));
         this.btnEditExercise.setMaximumSize(new Dimension(50, this.maxHeight));
         pnlExercises.add(btnEditExercise);
@@ -98,7 +95,6 @@ public class StartPanel {
         this.btnDeleteExercise = new JButton();
         this.btnDeleteExercise =
                 ButtonEditor.addImageToButton(btnDeleteExercise, Constants.PathDeletionImage, 20, 20);
-      //  this.btnDeleteExercise.setMinimumSize(new Dimension(37, this.prefHeight));
         this.btnDeleteExercise.setPreferredSize(new Dimension(37, this.prefHeight));
         this.btnDeleteExercise.setMaximumSize(new Dimension(50, this.maxHeight));
 
@@ -139,11 +135,9 @@ public class StartPanel {
 
         JPanel pnlWeight = new JPanel();
         pnlWeight.setOpaque(false);
-        pnlWeight.setBorder(BorderFactory.createLineBorder(Color.black));
 
         GroupLayout groupLayout = new GroupLayout(pnlWeight);
         groupLayout.setAutoCreateGaps(true);
-        //groupLayout.setAutoCreateContainerGaps(true);
         pnlWeight.setLayout(groupLayout);
 
         JLabel lblWeight = new JLabel();
@@ -161,7 +155,7 @@ public class StartPanel {
 
         this.btnSubmitWeight = new JButton();
         this.btnSubmitWeight.setText("update");
-        this.btnSubmitWeight.setMaximumSize(new Dimension(150, 75));
+        this.btnSubmitWeight.setMaximumSize(new Dimension(130, 65));
 
         groupLayout.setHorizontalGroup(
                 groupLayout.createSequentialGroup()
@@ -190,10 +184,16 @@ public class StartPanel {
                         .addComponent(btnSubmitWeight)
         );
 
-
         pnlWeight.setVisible(true);
+        pnlWeight.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 
-        return pnlWeight;
+        JPanel pnlBorder = new JPanel();
+        pnlBorder.setOpaque(false);
+        pnlBorder.setLayout(new BoxLayout(pnlBorder, BoxLayout.PAGE_AXIS));
+        pnlBorder.setBorder(BorderFactory.createLineBorder(Color.black));
+        pnlBorder.add(pnlWeight, BorderLayout.CENTER);
+
+        return pnlBorder;
     }
 
     private void setupLayout() {
@@ -250,8 +250,9 @@ public class StartPanel {
         pnlSpacer4.setMaximumSize(new Dimension(0, 13));
         this.pnlMain.add(pnlSpacer4);
 
+
         this.pnlWeight.setPreferredSize(new Dimension(this.prefWidth, this.prefHeight));
-        this.pnlWeight.setMaximumSize(new Dimension(this.maxWidth,145));
+        this.pnlWeight.setMaximumSize(new Dimension(this.maxWidth, this.pnlWeight.getMaximumSize().height));
         this.pnlWeight.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.pnlMain.add(this.pnlWeight);
 
