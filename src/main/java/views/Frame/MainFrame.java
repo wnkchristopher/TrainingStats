@@ -44,8 +44,8 @@ public class MainFrame implements FrameContentChanger{
         this.changeGui(PanelType.START_PANEL);
 
         this.frame.setVisible(true);
-        this.setMinimumSize();
         this.pack();
+        this.setMinimumSize();
         this.centerFrame();
     }
 
@@ -102,7 +102,11 @@ public class MainFrame implements FrameContentChanger{
         if(dimension.height < dimPdf.height) {
             dimension.height = dimPdf.height;
         }
-        this.frame.setMinimumSize(dimension);
+
+        Dimension minSize = dimension;
+        minSize.width += this.frame.getInsets().left + this.frame.getInsets().right;
+        minSize.height += this.frame.getInsets().top + this.frame.getInsets().bottom;
+        this.frame.setMinimumSize(minSize);
     }
 
     @Override
