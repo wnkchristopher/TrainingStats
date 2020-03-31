@@ -2,9 +2,11 @@ package controller;
 
 import configuration.Constants;
 import controller.validation.DateValidator;
+import enums.PanelType;
 import models.DataManager;
 import models.DateManager;
 import views.*;
+import views.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,17 +17,14 @@ import java.util.Observer;
 public class StartPanelController implements Observer {
     private DataManager dataManager;
     private StartPanel startPanel;
-    private TrainingStatsFrame trainingStatsFrame;
-    private PdfFrame pdfFrame;
-    private TrainingStatsPanel trainingStatsPanel;
+    private MainFrame frame;
     private PdfPanel pdfPanel;
 
     public StartPanelController(DataManager dataManager, StartPanel startPanel,
-                                TrainingStatsPanel trainingStatsPanel, PdfPanel pdfPanel) {  //dataManager = model, startPanel = view
+                                MainFrame frame) {
         this.dataManager = dataManager;
         this.startPanel = startPanel;
-        this.trainingStatsPanel = trainingStatsPanel;
-        this.trainingStatsFrame = new TrainingStatsFrame();
+        this.frame = frame;
         this.pdfPanel = pdfPanel;
         this.dataManager.addObserver(this);
 
@@ -57,13 +56,12 @@ public class StartPanelController implements Observer {
             }
         });
 
-        this.startPanel.getBtnAddTraining().addActionListener(e -> {
-            trainingStatsFrame = new TrainingStatsFrame();
-            trainingStatsFrame.createFrame(this.trainingStatsPanel, 1000, 1000);
-        });
+        this.startPanel.getBtnAddTraining().addActionListener(e ->
+            this.frame.changePanel(PanelType.TRAINING_STATS_PANEL)
+        );
 
         this.startPanel.getBtnGeneratePdf().addActionListener(e ->
-            this.pdfFrame = new PdfFrame(this.pdfPanel)
+            this.frame.changePanel(PanelType.PDF_PANEL)
         );
 
         this.startPanel.getBtnSubmitWeight().addActionListener(e -> {

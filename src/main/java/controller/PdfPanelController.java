@@ -1,10 +1,12 @@
 package controller;
 
+import enums.PanelType;
 import enums.PdfType;
 import configuration.Constants;
 import models.DataManager;
 import models.DateManager;
 import pdfGeneration.GeneratePdf;
+import views.MainFrame;
 import views.PdfPanel;
 import controller.validation.DateValidator;
 
@@ -17,10 +19,12 @@ import java.util.List;
 public class PdfPanelController implements Observer {
     private DataManager dataManager;
     private PdfPanel pdfPanel;
+    private MainFrame frame;
 
-    public PdfPanelController(DataManager dataManager, PdfPanel pdfPanel) {
+    public PdfPanelController(DataManager dataManager, PdfPanel pdfPanel, MainFrame frame) {
         this.dataManager = dataManager;
         this.pdfPanel = pdfPanel;
+        this.frame = frame;
         this.dataManager.addObserver(this);
         GeneratePdf generatePdf = new GeneratePdf();
         pdfPanel.getBtnSubmit().addActionListener(e -> {
@@ -70,6 +74,10 @@ public class PdfPanelController implements Observer {
             pdfPanel.getTxtTo().setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
 
         });
+
+        pdfPanel.getBtnBack().addActionListener(e ->
+            frame.changePanel(PanelType.START_PANEL)
+        );
     }
 
     @Override

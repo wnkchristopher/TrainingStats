@@ -2,10 +2,12 @@ package controller;
 
 import configuration.Constants;
 import controller.validation.DateValidator;
+import enums.PanelType;
 import models.DataManager;
 import models.DateManager;
 import models.TrainingSet;
 import views.ExercisePanel;
+import views.MainFrame;
 import views.extensions.PlaceholderTextField;
 import views.TrainingStatsPanel;
 
@@ -18,9 +20,11 @@ import java.util.List;
 public class TrainingStatsController implements Observer {
     private DataManager dataManager;
     private TrainingStatsPanel trainingStatsPanel;
+    private MainFrame frame;
 
-    public TrainingStatsController(DataManager dataManager, TrainingStatsPanel trainingStatsPanel) {
+    public TrainingStatsController(DataManager dataManager, TrainingStatsPanel trainingStatsPanel, MainFrame frame) {
         this.dataManager = dataManager;
+        this.frame = frame;
         this.dataManager.addObserver(this);
         this.trainingStatsPanel = trainingStatsPanel;
 
@@ -70,6 +74,10 @@ public class TrainingStatsController implements Observer {
                         .setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
             }
         });
+
+        trainingStatsPanel.getBtnBack().addActionListener(e ->
+            this.frame.changePanel(PanelType.START_PANEL)
+        );
     }
 
     private boolean validateSets(List<ExercisePanel> exercisePanels) {

@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.List;
 
 public class StartPanel {
-    private JPanel pnlMain = new JPanel();
+    private JPanel pnlMain;
     private JLabel lblHeadline;
     private JPanel pnlExercise;
     private JButton btnEditExercise;
@@ -32,9 +32,12 @@ public class StartPanel {
         this.prefHeight = 75;
         this.maxWidth = 800;
         this.maxHeight = 110;
+
+        this.pnlMain = this.createPanel();
     }
 
-    public JPanel createPanel() {
+    private JPanel createPanel() {
+        this.pnlMain = new JPanel();
         this.pnlMain.setBackground(Color.decode(Constants.BackgroundColor));
 
 

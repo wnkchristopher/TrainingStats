@@ -2,11 +2,8 @@ import controller.PdfPanelController;
 import controller.StartPanelController;
 import controller.TrainingStatsController;
 import models.DataManager;
-import views.PdfPanel;
-import views.StartFrame;
-import views.StartPanel;
+import views.*;
 import configuration.Constants;
-import views.TrainingStatsPanel;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,20 +18,23 @@ public class Main {
         Main m = new Main();
         m.checkRequiredStructure();
 
-        StartFrame frame = new StartFrame(); //View
+       // StartFrame frame = new StartFrame(); //View
 
         DataManager dataManager = new DataManager(); //Model
         StartPanel startPanel = new StartPanel(); //View
         TrainingStatsPanel trainingStatsPanel = new TrainingStatsPanel();
         PdfPanel pdfPanel = new PdfPanel();
-        frame.createFrame(startPanel, "TrainStats");
+       // frame.createFrame(startPanel, "TrainStats");
 
+        MainFrame frame = new MainFrame(startPanel, trainingStatsPanel, pdfPanel);
 
 
         StartPanelController startPanelController = new StartPanelController(dataManager, startPanel,
-                trainingStatsPanel, pdfPanel); //Controller
-        TrainingStatsController trainingStatsController = new TrainingStatsController(dataManager, trainingStatsPanel);
-        PdfPanelController pdfPanelController = new PdfPanelController(dataManager, pdfPanel);
+                frame); //Controller
+        TrainingStatsController trainingStatsController = new TrainingStatsController(dataManager, trainingStatsPanel,
+                frame);
+        PdfPanelController pdfPanelController = new PdfPanelController(dataManager, pdfPanel,
+                frame);
 
         dataManager.notifyObservers(Constants.StartProgram);
 

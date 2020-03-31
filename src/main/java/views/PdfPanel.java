@@ -85,9 +85,6 @@ public class PdfPanel {
         this.addExercise(Constants.bodyWeight);
 
         pnlExercises.setBackground(Color.white);
-
-      //  pnlExercises.setLocation(50, 50);
-      //  pnlExercises.setSize(150, 300);
         pnlExercises.setVisible(true);
 
 
@@ -316,5 +313,7 @@ public class PdfPanel {
         return btnSubmit;
     }
 
-
+    public JButton getBtnBack() {
+        return btnBack;
+    }
 }
