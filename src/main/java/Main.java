@@ -4,6 +4,8 @@ import controller.TrainingStatsController;
 import models.DataManager;
 import views.*;
 import configuration.Constants;
+import views.Frame.FrameContentChanger;
+import views.Frame.MainFrame;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,16 +20,13 @@ public class Main {
         Main m = new Main();
         m.checkRequiredStructure();
 
-       // StartFrame frame = new StartFrame(); //View
 
         DataManager dataManager = new DataManager(); //Model
         StartPanel startPanel = new StartPanel(); //View
         TrainingStatsPanel trainingStatsPanel = new TrainingStatsPanel();
         PdfPanel pdfPanel = new PdfPanel();
-       // frame.createFrame(startPanel, "TrainStats");
 
-        MainFrame frame = new MainFrame(startPanel, trainingStatsPanel, pdfPanel);
-
+        FrameContentChanger frame = new MainFrame(startPanel, trainingStatsPanel, pdfPanel);
 
         StartPanelController startPanelController = new StartPanelController(dataManager, startPanel,
                 frame); //Controller

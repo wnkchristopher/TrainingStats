@@ -7,7 +7,8 @@ import models.DataManager;
 import models.DateManager;
 import models.TrainingSet;
 import views.ExercisePanel;
-import views.MainFrame;
+import views.Frame.FrameContentChanger;
+import views.Frame.MainFrame;
 import views.extensions.PlaceholderTextField;
 import views.TrainingStatsPanel;
 
@@ -20,9 +21,10 @@ import java.util.List;
 public class TrainingStatsController implements Observer {
     private DataManager dataManager;
     private TrainingStatsPanel trainingStatsPanel;
-    private MainFrame frame;
+    private FrameContentChanger frame;
 
-    public TrainingStatsController(DataManager dataManager, TrainingStatsPanel trainingStatsPanel, MainFrame frame) {
+    public TrainingStatsController(DataManager dataManager, TrainingStatsPanel trainingStatsPanel,
+                                   FrameContentChanger frame) {
         this.dataManager = dataManager;
         this.frame = frame;
         this.dataManager.addObserver(this);
@@ -76,7 +78,7 @@ public class TrainingStatsController implements Observer {
         });
 
         trainingStatsPanel.getBtnBack().addActionListener(e ->
-            this.frame.changePanel(PanelType.START_PANEL)
+            this.frame.changeGui(PanelType.START_PANEL)
         );
     }
 

@@ -1,12 +1,15 @@
-package views;
+package views.Frame;
 
 import configuration.Constants;
 import enums.PanelType;
+import views.PdfPanel;
+import views.StartPanel;
+import views.TrainingStatsPanel;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class MainFrame {
+public class MainFrame implements FrameContentChanger{
 
     private JFrame frame;
     private StartPanel startPanel;
@@ -38,7 +41,7 @@ public class MainFrame {
         ImageIcon imageIcon = new ImageIcon("resources/img/logo.png");
         this.frame.setIconImage(imageIcon.getImage());
 
-        this.changePanel(PanelType.START_PANEL);
+        this.changeGui(PanelType.START_PANEL);
 
         this.frame.setVisible(true);
         this.setMinimumSize();
@@ -102,7 +105,8 @@ public class MainFrame {
         this.frame.setMinimumSize(dimension);
     }
 
-    public void changePanel(PanelType panelType) {
+    @Override
+    public void changeGui(PanelType panelType) {
         this.frame.getContentPane().removeAll();
         if(panelType == PanelType.START_PANEL){
             this.frame.add(this.pnlStart, BorderLayout.CENTER);
@@ -117,4 +121,5 @@ public class MainFrame {
         this.frame.getContentPane().revalidate();
         this.frame.getContentPane().repaint();
     }
+
 }

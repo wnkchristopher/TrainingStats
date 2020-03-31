@@ -6,7 +6,8 @@ import configuration.Constants;
 import models.DataManager;
 import models.DateManager;
 import pdfGeneration.GeneratePdf;
-import views.MainFrame;
+import views.Frame.FrameContentChanger;
+import views.Frame.MainFrame;
 import views.PdfPanel;
 import controller.validation.DateValidator;
 
@@ -19,9 +20,9 @@ import java.util.List;
 public class PdfPanelController implements Observer {
     private DataManager dataManager;
     private PdfPanel pdfPanel;
-    private MainFrame frame;
+    private FrameContentChanger frame;
 
-    public PdfPanelController(DataManager dataManager, PdfPanel pdfPanel, MainFrame frame) {
+    public PdfPanelController(DataManager dataManager, PdfPanel pdfPanel, FrameContentChanger frame) {
         this.dataManager = dataManager;
         this.pdfPanel = pdfPanel;
         this.frame = frame;
@@ -76,7 +77,7 @@ public class PdfPanelController implements Observer {
         });
 
         pdfPanel.getBtnBack().addActionListener(e ->
-            frame.changePanel(PanelType.START_PANEL)
+            frame.changeGui(PanelType.START_PANEL)
         );
     }
 

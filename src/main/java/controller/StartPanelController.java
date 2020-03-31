@@ -6,7 +6,8 @@ import enums.PanelType;
 import models.DataManager;
 import models.DateManager;
 import views.*;
-import views.MainFrame;
+import views.Frame.FrameContentChanger;
+import views.Frame.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,11 +18,11 @@ import java.util.Observer;
 public class StartPanelController implements Observer {
     private DataManager dataManager;
     private StartPanel startPanel;
-    private MainFrame frame;
+    private FrameContentChanger frame;
     private PdfPanel pdfPanel;
 
     public StartPanelController(DataManager dataManager, StartPanel startPanel,
-                                MainFrame frame) {
+                                FrameContentChanger frame) {
         this.dataManager = dataManager;
         this.startPanel = startPanel;
         this.frame = frame;
@@ -57,11 +58,11 @@ public class StartPanelController implements Observer {
         });
 
         this.startPanel.getBtnAddTraining().addActionListener(e ->
-            this.frame.changePanel(PanelType.TRAINING_STATS_PANEL)
+            this.frame.changeGui(PanelType.TRAINING_STATS_PANEL)
         );
 
         this.startPanel.getBtnGeneratePdf().addActionListener(e ->
-            this.frame.changePanel(PanelType.PDF_PANEL)
+            this.frame.changeGui(PanelType.PDF_PANEL)
         );
 
         this.startPanel.getBtnSubmitWeight().addActionListener(e -> {
