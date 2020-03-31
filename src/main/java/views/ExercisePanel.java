@@ -1,5 +1,6 @@
 package views;
 
+import configuration.Constants;
 import views.extensions.ButtonEditor;
 import views.extensions.PlaceholderTextField;
 
@@ -91,11 +92,17 @@ public class ExercisePanel {
      //   panel.setPreferredSize(new Dimension(30, 80));
 
         JButton btnUp = new JButton();
-        btnUp = ButtonEditor.addImageToButton(btnUp, "resources/img/angle_up.png", img_width, img_height);
+
+
+
+        btnUp = ButtonEditor.addImageToButton
+                (btnUp, this.getClass().getResource(Constants.PathUpImage), img_width, img_height);
         this.btnUp = btnUp;
 
         JButton btnDown = new JButton();
-        btnDown = ButtonEditor.addImageToButton(btnDown, "resources/img/angle_down.png", img_width, img_height);
+        btnDown = ButtonEditor.addImageToButton
+                (btnDown, this.getClass().getResource(Constants.PathDownImage), img_width, img_height);
+
         this.btnDown = btnDown;
 
         panel.setPreferredSize(new Dimension(40, 80));

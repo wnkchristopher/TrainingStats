@@ -21,9 +21,7 @@ public class Main {
         Main m = new Main();
         m.checkRequiredStructure();
 
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
+        EventQueue.invokeLater( () ->{
                 DataManager dataManager = new DataManager(); //Model
                 StartPanel startPanel = new StartPanel(); //View
                 TrainingStatsPanel trainingStatsPanel = new TrainingStatsPanel();
@@ -40,7 +38,6 @@ public class Main {
 
                 dataManager.notifyObservers(Constants.StartProgram);
 
-            }
         });
 
 

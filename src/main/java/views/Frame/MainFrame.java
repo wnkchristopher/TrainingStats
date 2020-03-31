@@ -38,7 +38,7 @@ public class MainFrame implements FrameContentChanger{
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setLayout(new BorderLayout());
 
-        ImageIcon imageIcon = new ImageIcon("resources/img/logo.png");
+        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource(Constants.PathLogoImage));
         this.frame.setIconImage(imageIcon.getImage());
 
         this.changeGui(PanelType.START_PANEL);

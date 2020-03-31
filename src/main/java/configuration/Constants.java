@@ -8,12 +8,15 @@ public class Constants {
     public final static int ScrollSpeed = 8;
 
     //Paths
-    public final static String PathEditImage = "resources/img/edit_small.png";
-    public final static String PathDeletionImage = "resources/img/delete_small.png";
+    public final static String PathLogoImage = "/icons/logo.png";
+    public final static String PathEditImage = "/icons/edit_small.png";
+    public final static String PathDeletionImage = "/icons/delete_small.png";
+    public final static String PathBackImage = "/icons/angle_left.png";
+    public final static String PathUpImage = "/icons/angle_up.png";
+    public final static String PathDownImage = "/icons/angle_down.png";
     public final static String PathExerciseTxt = "./Data/exercises.txt";
     public final static String PathWeightTxt = "./Data/weight.txt";
     public final static String PathExerciseTextFiles = "./Data/Exercises/";
-    public final static String PathBackImage = "resources/img/angle_left.png";
 
     //Notifications Observer
     public final static String StartProgram = "StartProgram";

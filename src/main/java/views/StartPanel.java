@@ -88,16 +88,17 @@ public class StartPanel {
         pnlExercises.add(this.cBExercises);
 
         this.btnEditExercise = new JButton();
-        this.btnEditExercise =
-                ButtonEditor.addImageToButton(btnEditExercise, Constants.PathEditImage, 25, 25);
+
+        this.btnEditExercise = ButtonEditor.addImageToButton
+                        (btnEditExercise, this.getClass().getResource(Constants.PathEditImage), 25, 25);
         this.btnEditExercise.setPreferredSize(new Dimension(37, this.prefHeight));
         this.btnEditExercise.setMaximumSize(new Dimension(50, this.maxHeight));
         pnlExercises.add(btnEditExercise);
 
 
         this.btnDeleteExercise = new JButton();
-        this.btnDeleteExercise =
-                ButtonEditor.addImageToButton(btnDeleteExercise, Constants.PathDeletionImage, 20, 20);
+        this.btnDeleteExercise = ButtonEditor.addImageToButton
+                        (btnDeleteExercise, this.getClass().getResource(Constants.PathDeletionImage), 20, 20);
         this.btnDeleteExercise.setPreferredSize(new Dimension(37, this.prefHeight));
         this.btnDeleteExercise.setMaximumSize(new Dimension(50, this.maxHeight));
 

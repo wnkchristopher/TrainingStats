@@ -53,7 +53,8 @@ public class PdfPanel {
     private JButton getBackButton() {
         JButton btnBack = new JButton();
         btnBack =
-                ButtonEditor.addImageToButton(btnBack, Constants.PathBackImage, 25, 25);
+                ButtonEditor.addImageToButton
+                        (btnBack, this.getClass().getResource(Constants.PathBackImage), 25, 25);
         return btnBack;
     }
 

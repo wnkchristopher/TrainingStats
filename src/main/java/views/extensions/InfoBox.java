@@ -26,12 +26,12 @@ public class InfoBox {
     }
 
     private void loadImages() {
-        ImageIcon tmpImageHelp = new ImageIcon("resources/img/help_small.png");
+        ImageIcon tmpImageHelp = new ImageIcon("resources/icons/help_small.png");
         Image image = tmpImageHelp.getImage(); // transform it
         Image newImg = image.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
         this.imageHelp = new ImageIcon(newImg);
 
-        ImageIcon tmpImageHelpHover = new ImageIcon("resources/img/help_hover_small.png");
+        ImageIcon tmpImageHelpHover = new ImageIcon("resources/icons/help_hover_small.png");
         image = tmpImageHelpHover.getImage(); // transform it
         newImg = image.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         this.imageHelpHover = new ImageIcon(newImg);

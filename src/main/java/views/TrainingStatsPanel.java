@@ -62,7 +62,8 @@ public class TrainingStatsPanel {
     private JButton getBackButton() {
         JButton btnBack = new JButton();
         btnBack =
-                ButtonEditor.addImageToButton(btnBack, Constants.PathBackImage, 25, 25);
+                ButtonEditor.addImageToButton
+                        (btnBack, this.getClass().getResource(Constants.PathBackImage), 25, 25);
         return btnBack;
     }
 
@@ -128,6 +129,8 @@ public class TrainingStatsPanel {
 
     public void addExercisePanel(String exercise, ExercisePanel exercisePanel) {
         if (!this.exercisePanels.containsKey(exercise)) {
+            Dimension max = exercisePanel.getPnlExercise().getMaximumSize();
+            exercisePanel.getPnlExercise().setMaximumSize(new Dimension(max.width, 110));
             this.exercisePanels.put(exercise, exercisePanel);
         }
     }
