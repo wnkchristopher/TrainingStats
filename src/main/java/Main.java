@@ -7,6 +7,7 @@ import configuration.Constants;
 import views.Frame.FrameContentChanger;
 import views.Frame.MainFrame;
 
+import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,22 +21,28 @@ public class Main {
         Main m = new Main();
         m.checkRequiredStructure();
 
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                DataManager dataManager = new DataManager(); //Model
+                StartPanel startPanel = new StartPanel(); //View
+                TrainingStatsPanel trainingStatsPanel = new TrainingStatsPanel();
+                PdfPanel pdfPanel = new PdfPanel();
 
-        DataManager dataManager = new DataManager(); //Model
-        StartPanel startPanel = new StartPanel(); //View
-        TrainingStatsPanel trainingStatsPanel = new TrainingStatsPanel();
-        PdfPanel pdfPanel = new PdfPanel();
+                FrameContentChanger frame = new MainFrame(startPanel, trainingStatsPanel, pdfPanel);
 
-        FrameContentChanger frame = new MainFrame(startPanel, trainingStatsPanel, pdfPanel);
+                StartPanelController startPanelController = new StartPanelController(dataManager, startPanel,
+                        frame); //Controller
+                TrainingStatsController trainingStatsController = new TrainingStatsController(dataManager, trainingStatsPanel,
+                        frame);
+                PdfPanelController pdfPanelController = new PdfPanelController(dataManager, pdfPanel,
+                        frame);
 
-        StartPanelController startPanelController = new StartPanelController(dataManager, startPanel,
-                frame); //Controller
-        TrainingStatsController trainingStatsController = new TrainingStatsController(dataManager, trainingStatsPanel,
-                frame);
-        PdfPanelController pdfPanelController = new PdfPanelController(dataManager, pdfPanel,
-                frame);
+                dataManager.notifyObservers(Constants.StartProgram);
 
-        dataManager.notifyObservers(Constants.StartProgram);
+            }
+        });
+
 
     }
 

@@ -3,7 +3,7 @@ package configuration;
 public class Constants {
     //Configurations
     public final static double defaultWeight = 75.0;
-    public final static String BackgroundColor = "#ffddc1";
+    public final static String BackgroundColor = "#E2E2E2";
     public final static String bodyWeight = "weight";
     public final static int ScrollSpeed = 8;
 
