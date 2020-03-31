@@ -1,6 +1,7 @@
 package views;
 
 import configuration.Constants;
+import views.extensions.ButtonEditor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,6 +21,7 @@ public class PdfPanel {
     private JLabel lblFrom, lblTo;
     private JPanel pnlToggleButtons;
     private JScrollPane spExercises;
+    private JButton btnBack;
 
     public PdfPanel() {
         this.cBExercises = new TreeMap<>();
@@ -36,6 +38,7 @@ public class PdfPanel {
     }
 
     private JPanel addComponents(JPanel pnlPdfGeneration) {
+        this.btnBack = this.getBackButton();
         this.lblHeadline = this.getHeadline();
         this.spExercises = this.getExerciseScrollPane();
         this.setDateTextFields();
@@ -45,6 +48,13 @@ public class PdfPanel {
         this.setupLayout();
 
         return pnlPdfGeneration;
+    }
+
+    private JButton getBackButton() {
+        JButton btnBack = new JButton();
+        btnBack =
+                ButtonEditor.addImageToButton(btnBack, Constants.PathBackImage, 25, 25);
+        return btnBack;
     }
 
     private JLabel getHeadline() {
@@ -136,12 +146,41 @@ public class PdfPanel {
 
         this.pnlPdfGeneration.setLayout(new BoxLayout(this.pnlPdfGeneration, BoxLayout.Y_AXIS));
 
-        this.lblHeadline.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JPanel pnlTop = new JPanel();
+        pnlTop.setLayout(new BoxLayout(pnlTop, BoxLayout.X_AXIS));
+        pnlTop.setOpaque(false);
+
+        JPanel pnlBack = new JPanel();
+        pnlBack.setLayout(new BoxLayout(pnlBack, BoxLayout.Y_AXIS));
+        pnlBack.setPreferredSize(new Dimension(40, 100));
+        pnlBack.setMaximumSize(new Dimension(40, 100));
+        pnlBack.setOpaque(false);
+
+        this.btnBack.setMinimumSize(new Dimension(40,30));
+        this.btnBack.setPreferredSize(new Dimension(40,30));
+        this.btnBack.setMaximumSize(new Dimension(40,30));
+
+        pnlBack.add(Box.createVerticalStrut(10));
+        pnlBack.add(this.btnBack);
+        pnlBack.add(Box.createVerticalGlue());
+        pnlBack.setAlignmentX(Component.LEFT_ALIGNMENT);
+
 
         this.lblHeadline.setPreferredSize(new Dimension(300,100));
-        this.lblHeadline.setMaximumSize(new Dimension(300,200));
-        this.pnlPdfGeneration.add(this.lblHeadline);
+        this.lblHeadline.setMaximumSize(new Dimension(300,100));
+        this.lblHeadline.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+
+        pnlTop.add(Box.createHorizontalStrut(10));
+        pnlTop.add(pnlBack);
+        pnlTop.add(Box.createHorizontalGlue());
+        pnlTop.add(this.lblHeadline);
+        pnlTop.add(Box.createHorizontalGlue());
+        pnlTop.add(Box.createHorizontalStrut(10));
+
+        pnlTop.setMaximumSize(new Dimension(pnlTop.getMaximumSize().width, 100));
+
+        this.pnlPdfGeneration.add(pnlTop);
 
         JPanel pnlCenter = new JPanel();
         pnlCenter.setBackground(Color.red);
@@ -226,6 +265,7 @@ public class PdfPanel {
         JPanel pnlSpacerBottom = this.getSpacer
                 (new Dimension(0,0), new Dimension(0, 30), new Dimension(0, 70));
         this.pnlPdfGeneration.add(pnlSpacerBottom);
+
     }
 
     private JPanel getSpacer(Dimension minSize, Dimension prefSize, Dimension maxSize) {

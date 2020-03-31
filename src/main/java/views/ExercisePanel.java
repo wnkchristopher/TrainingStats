@@ -88,7 +88,7 @@ public class ExercisePanel {
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(2, 1));
-        panel.setPreferredSize(new Dimension(30, 80));
+     //   panel.setPreferredSize(new Dimension(30, 80));
 
         JButton btnUp = new JButton();
         btnUp = ButtonEditor.addImageToButton(btnUp, "resources/img/angle_up.png", img_width, img_height);

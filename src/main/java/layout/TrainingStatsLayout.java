@@ -89,7 +89,6 @@ public class TrainingStatsLayout implements LayoutManager2 {
     }
 
 
-    //es muss noch die größe von den fix einberechnet werden
     private void setHeights(Dimension parentDimension) {
         int top = 0;
         int height = parentDimension.height;
@@ -120,6 +119,10 @@ public class TrainingStatsLayout implements LayoutManager2 {
                 if (entry.getValue().alignment == Alignment.NORTHEAST) {
                     entry.getKey().
                             setLocation(entry.getKey().getX(), 0 + entry.getValue().insets.top);
+                }
+                if (entry.getValue().alignment == Alignment.NORTHWEST) {
+                    entry.getKey()
+                            .setLocation(entry.getValue().insets.left, entry.getValue().insets.top);
                 }
             }
         }

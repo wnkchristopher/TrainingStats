@@ -13,6 +13,7 @@ public class Constants {
     public final static String PathExerciseTxt = "./Data/exercises.txt";
     public final static String PathWeightTxt = "./Data/weight.txt";
     public final static String PathExerciseTextFiles = "./Data/Exercises/";
+    public final static String PathBackImage = "resources/img/angle_left.png";
 
     //Notifications Observer
     public final static String StartProgram = "StartProgram";

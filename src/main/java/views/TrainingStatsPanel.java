@@ -4,6 +4,7 @@ import configuration.Constants;
 import layout.Alignment;
 import layout.TrainingStatsConstraint;
 import layout.TrainingStatsLayout;
+import views.extensions.ButtonEditor;
 import views.extensions.InfoBox;
 import views.extensions.PlaceholderTextField;
 
@@ -27,6 +28,7 @@ public class TrainingStatsPanel {
     private JLabel lblInfoIcon;
     private JLabel lblText;
 
+    private JButton btnBack;
     private InfoBox infoBox;
 
     public TrainingStatsPanel() {
@@ -47,6 +49,7 @@ public class TrainingStatsPanel {
     }
 
     private void addComponents() {
+        this.btnBack = this.getBackButton();
         this.lblHeadline = this.getHeadline();
         this.pnlDate = this.getInputDate();
         this.spContent = this.getContentScrollPane();
@@ -54,6 +57,13 @@ public class TrainingStatsPanel {
         this.btnSubmit = this.getSubmitButton();
 
         this.setupLayout();
+    }
+
+    private JButton getBackButton() {
+        JButton btnBack = new JButton();
+        btnBack =
+                ButtonEditor.addImageToButton(btnBack, Constants.PathBackImage, 25, 25);
+        return btnBack;
     }
 
     private JLabel getHeadline() {
@@ -126,6 +136,13 @@ public class TrainingStatsPanel {
     private void setupLayout() {
         TrainingStatsConstraint constraint;
 
+        this.btnBack.setPreferredSize(new Dimension(40,30));
+        constraint = new TrainingStatsConstraint();
+        constraint.insets = new Insets(10,10, 0, 0);
+        constraint.alignment = Alignment.NORTHWEST;
+        constraint.fixed = true;
+        this.pnlTrainingStats.add(this.btnBack, constraint);
+
         this.lblInfoIcon.setPreferredSize(new Dimension(30, 30));
         constraint = new TrainingStatsConstraint();
         constraint.insets = new Insets(10, 0, 0, 15);
@@ -188,6 +205,10 @@ public class TrainingStatsPanel {
 
     public JButton getBtnSubmit() {
         return btnSubmit;
+    }
+
+    public JButton getBtnBack() {
+        return btnBack;
     }
 
     public PlaceholderTextField getTxtDate() {
