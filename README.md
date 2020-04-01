@@ -7,6 +7,7 @@ a desire period of time. The PDF contains three scales to see your progress and 
 ## Installation
 It is no installation necessary. You can just download the TrainingStats.jar from the root folder of the git repository.
 I recommend to create a folder and safe the jar in there, because it will create some text files to safe your training data. 
+I also recommend to use java 8 for the application.
 
 ## Example
 If you are interested in how a generated PDF can look like there is an example in the root folder of the git repository. It is called TrainingsData.pdf.
