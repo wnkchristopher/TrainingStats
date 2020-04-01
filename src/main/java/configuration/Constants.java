@@ -14,6 +14,8 @@ public class Constants {
     public final static String PathBackImage = "/icons/angle_left.png";
     public final static String PathUpImage = "/icons/angle_up.png";
     public final static String PathDownImage = "/icons/angle_down.png";
+    public final static String PathInfoImage = "/icons/help.png";
+    public final static String PathInfoHoverImage = "/icons/help_hover.png";
     public final static String PathExerciseTxt = "./Data/exercises.txt";
     public final static String PathWeightTxt = "./Data/weight.txt";
     public final static String PathExerciseTextFiles = "./Data/Exercises/";
