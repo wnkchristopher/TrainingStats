@@ -28,10 +28,10 @@ public class StartPanel {
     private int prefWidth, prefHeight;
 
     public StartPanel() {
-        this.prefWidth = 500;
-        this.prefHeight = 75;
-        this.maxWidth = 800;
-        this.maxHeight = 110;
+        this.prefWidth = 400;
+        this.prefHeight = 55;
+        this.maxWidth = 600;
+        this.maxHeight = 90;
 
         this.pnlMain = this.createPanel();
     }
@@ -203,7 +203,7 @@ public class StartPanel {
     private void setupLayout() {
         this.pnlMain.setLayout(new BoxLayout(this.pnlMain, BoxLayout.PAGE_AXIS));
 
-        this.lblHeadline.setPreferredSize(new Dimension(640,90));
+        this.lblHeadline.setPreferredSize(new Dimension(500,90));
         this.lblHeadline.setMaximumSize(new Dimension(500,120));
         this.lblHeadline.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.pnlMain.add(this.lblHeadline);

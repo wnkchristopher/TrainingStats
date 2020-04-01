@@ -80,6 +80,7 @@ public class MainFrame implements FrameContentChanger{
         if(dimension.height < dimPdf.height) {
             dimension.height = dimPdf.height;
         }
+
         this.frame.setSize(dimension);
     }
 

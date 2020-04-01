@@ -39,7 +39,7 @@ public class ExercisePanel {
 
         JLabel lblExerciseTitle = new JLabel();
         lblExerciseTitle.setText(exercise);
-        lblExerciseTitle.setFont(new Font("Helvetica", 1, 16));
+        lblExerciseTitle.setFont(new Font("Helvetica", 1, 14));
         lblExerciseTitle.setPreferredSize(new Dimension(200, 30));
         lblExerciseTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
 
@@ -50,7 +50,7 @@ public class ExercisePanel {
         this.pnlSpacer = new JPanel();
 
         JButton btnPlus = new JButton("+");
-        btnPlus.setFont(new Font("Helvetica", 1, 60));
+        btnPlus.setFont(new Font("Helvetica", 1, 50));
         this.btnPlus = btnPlus;
 
         panel.add(Box.createHorizontalStrut(10));
@@ -84,8 +84,8 @@ public class ExercisePanel {
 
     private JPanel getUpDownButton(String exercise) {
         int img_width, img_height;
-        img_width = 30;
-        img_height = 30;
+        img_width = 25;
+        img_height = 25;
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(2, 1));
@@ -122,8 +122,8 @@ public class ExercisePanel {
     private JPanel getSetPanel(String exercise, int set) {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(3, 1));
-        panel.setPreferredSize(new Dimension(90, 80));
-        panel.setMaximumSize(new Dimension(90, 80));
+        panel.setPreferredSize(new Dimension(80, 70));
+        panel.setMaximumSize(new Dimension(90, 70));
 
         JLabel lblSet = new JLabel("set " + set);
         lblSet.setPreferredSize(new Dimension(70, 30));

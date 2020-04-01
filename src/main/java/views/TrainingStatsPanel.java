@@ -63,7 +63,7 @@ public class TrainingStatsPanel {
         JButton btnBack = new JButton();
         btnBack =
                 ButtonEditor.addImageToButton
-                        (btnBack, this.getClass().getResource(Constants.PathBackImage), 25, 25);
+                        (btnBack, this.getClass().getResource(Constants.PathBackImage), 20, 20);
         return btnBack;
     }
 
@@ -71,7 +71,7 @@ public class TrainingStatsPanel {
         JLabel label = new JLabel();
         label.setText("Add your workout");
         label.setHorizontalAlignment(JLabel.CENTER);
-        label.setFont(new Font("ITALIC", 2, 27));
+        label.setFont(new Font("ITALIC", 2, 24));
         label.setVisible(true);
 
         return label;
@@ -160,20 +160,20 @@ public class TrainingStatsPanel {
         constraint.fixed = true;
         this.pnlTrainingStats.add(this.lblText, constraint);
 
-        this.lblHeadline.setPreferredSize(new Dimension(300, 40));
+        this.lblHeadline.setPreferredSize(new Dimension(250, 30));
         constraint = new TrainingStatsConstraint();
         constraint.insets = new Insets(10, 0, 5, 0);
         constraint.alignment = Alignment.CENTER;
         this.pnlTrainingStats.add(lblHeadline, constraint);
 
-        this.pnlDate.setPreferredSize(new Dimension(260, 43));
+        this.pnlDate.setPreferredSize(new Dimension(300, 43));
         constraint = new TrainingStatsConstraint();
         constraint.insets = new Insets(0, 15, 5, 0);
         constraint.alignment = Alignment.WEST;
         this.pnlTrainingStats.add(this.pnlDate, constraint);
 
-        this.spContent.setMinimumSize(new Dimension(600, 300));
-        this.spContent.setPreferredSize(new Dimension(960, 500));
+        this.spContent.setMinimumSize(new Dimension(500, 230));
+        this.spContent.setPreferredSize(new Dimension(700, 400));
         constraint = new TrainingStatsConstraint();
         constraint.insets = new Insets(5, 10, 5, 10);
         constraint.alignment = Alignment.WEST;
@@ -181,7 +181,7 @@ public class TrainingStatsPanel {
         constraint.fillHeight = true;
         this.pnlTrainingStats.add(this.spContent, constraint);
 
-        this.btnSubmit.setPreferredSize(new Dimension(300, 50));
+        this.btnSubmit.setPreferredSize(new Dimension(250, 50));
         constraint = new TrainingStatsConstraint();
         constraint.insets = new Insets(30, 0, 30, 0);
         constraint.alignment = Alignment.CENTER;
