@@ -2,9 +2,9 @@ package models;
 
 import configuration.Constants;
 import database.DataBaseManager;
+import enums.Direction;
 import pdfGeneration.CalculateStats;
 import enums.ExerciseType;
-import com.sun.javafx.scene.traversal.Direction;
 import java.util.*;
 import java.util.stream.Collectors;
 

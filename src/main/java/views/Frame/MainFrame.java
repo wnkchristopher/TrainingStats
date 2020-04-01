@@ -29,6 +29,7 @@ public class MainFrame implements FrameContentChanger{
         this.pnlPdf = this.pdfPanel.getPnlPdfGeneration();
 
         this.createFrame();
+
     }
 
     private void createFrame() {
@@ -44,6 +45,7 @@ public class MainFrame implements FrameContentChanger{
         this.changeGui(PanelType.START_PANEL);
 
         this.frame.setVisible(true);
+
         this.pack();
         this.setMinimumSize();
         this.centerFrame();

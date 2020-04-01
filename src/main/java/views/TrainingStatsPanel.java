@@ -130,7 +130,7 @@ public class TrainingStatsPanel {
     public void addExercisePanel(String exercise, ExercisePanel exercisePanel) {
         if (!this.exercisePanels.containsKey(exercise)) {
             Dimension max = exercisePanel.getPnlExercise().getMaximumSize();
-            exercisePanel.getPnlExercise().setMaximumSize(new Dimension(max.width, 110));
+            exercisePanel.getPnlExercise().setMaximumSize(new Dimension(max.width, 90));
             this.exercisePanels.put(exercise, exercisePanel);
         }
     }

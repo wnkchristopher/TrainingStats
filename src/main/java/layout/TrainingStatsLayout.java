@@ -27,7 +27,7 @@ public class TrainingStatsLayout implements LayoutManager2 {
 
     @Override
     public Dimension maximumLayoutSize(Container target) {
-        return null;
+            return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 
     @Override

@@ -1,8 +1,8 @@
 package controller;
 
+import enums.Direction;
 import models.DataManager;
 import views.ExercisePanel;
-import com.sun.javafx.scene.traversal.Direction;
 
 import java.util.Observable;
 import java.util.Observer;
