@@ -62,7 +62,7 @@ public class PdfPanel {
         JLabel label = new JLabel();
         label.setText("Generate pdf");
         label.setHorizontalAlignment(JLabel.CENTER);
-        label.setFont(new Font("ITALIC", 2, 27));
+        label.setFont(new Font("ITALIC", Font.CENTER_BASELINE, Constants.HeadlineTextSize));
         label.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
         label.setVisible(true);
 
@@ -102,6 +102,7 @@ public class PdfPanel {
 
     private JButton getSubmitButton() {
         JButton btnSubmit = new JButton("Generate PDF");
+        btnSubmit.setFont(new Font("Helvetica", Font.BOLD, Constants.ButtonTextSize));
         btnSubmit.setVisible(true);
 
         return btnSubmit;

@@ -71,7 +71,7 @@ public class TrainingStatsPanel {
         JLabel label = new JLabel();
         label.setText("Add your workout");
         label.setHorizontalAlignment(JLabel.CENTER);
-        label.setFont(new Font("ITALIC", 2, 24));
+        label.setFont(new Font("ITALIC", Font.CENTER_BASELINE, Constants.HeadlineTextSize));
         label.setVisible(true);
 
         return label;
@@ -82,11 +82,12 @@ public class TrainingStatsPanel {
         pnl.setLayout(new FlowLayout(FlowLayout.CENTER, 3,3));
         pnl.setOpaque(false);
         this.txtDate = new PlaceholderTextField();
+        this.txtDate.setFont(new Font("Arial", Font.PLAIN, 13));
         this.txtDate.setPlaceholder("dd.mm.yyyy");
         JLabel lbl = new JLabel();
-        lbl.setPreferredSize(new Dimension(50, 50));
+        lbl.setPreferredSize(new Dimension(40, 50));
         lbl.setText("Date: ");
-        lbl.setFont(new Font("Helvetica", 3, 16));
+        lbl.setFont(new Font("Helvetica", Font.BOLD, 14));
         this.txtDate.setPreferredSize(new Dimension(200, 30));
         pnl.add(lbl);
         pnl.add(this.txtDate);
@@ -115,7 +116,7 @@ public class TrainingStatsPanel {
     private JButton getSubmitButton() {
         this.btnSubmit = new JButton();
         this.btnSubmit.setText("Add to your training stats");
-        this.btnSubmit.setFont(new Font("Helvetica", 3, 16));
+        this.btnSubmit.setFont(new Font("Helvetica", Font.BOLD, Constants.ButtonTextSize));
 
         return this.btnSubmit;
     }

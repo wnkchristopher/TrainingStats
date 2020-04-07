@@ -27,6 +27,11 @@ public class Constants {
     public final static String RenamedExercise = "RenamedExercise";
     public final static String ChangedOrder = "ChangedOrder";
 
+    //Sizes
+    public final static int ButtonTextSize = 14;
+    public final static int ComboBoxTextSize = 14;
+    public final static int HeadlineTextSize = 25;
+
     //Texts
     public final static String TrainingStatsInfoText =
             "<html><body>For body weight exercises " +

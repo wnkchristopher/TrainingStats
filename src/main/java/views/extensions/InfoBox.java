@@ -50,7 +50,7 @@ public class InfoBox {
         JLabel tmpLblText = new JLabel();
         tmpLblText.setOpaque(true);
         tmpLblText.setBackground(Color.white);
-        tmpLblText.setFont(new Font("Serif", Font.BOLD, 16));
+        tmpLblText.setFont(new Font("Serif", Font.PLAIN, 15));
         tmpLblText.setText(text);
         Border border = BorderFactory.createLineBorder(Color.BLACK, 3);
         Border margin = new EmptyBorder(10, 10, 10, 10);

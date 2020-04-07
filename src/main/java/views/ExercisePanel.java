@@ -39,7 +39,7 @@ public class ExercisePanel {
 
         JLabel lblExerciseTitle = new JLabel();
         lblExerciseTitle.setText(exercise);
-        lblExerciseTitle.setFont(new Font("Helvetica", 1, 14));
+        lblExerciseTitle.setFont(new Font("Helvetica", Font.CENTER_BASELINE, 13));
         lblExerciseTitle.setPreferredSize(new Dimension(200, 30));
         lblExerciseTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
 
@@ -50,7 +50,7 @@ public class ExercisePanel {
         this.pnlSpacer = new JPanel();
 
         JButton btnPlus = new JButton("+");
-        btnPlus.setFont(new Font("Helvetica", 1, 50));
+        btnPlus.setFont(new Font("Helvetica", Font.PLAIN, 48));
         this.btnPlus = btnPlus;
 
         panel.add(Box.createHorizontalStrut(10));
@@ -126,13 +126,16 @@ public class ExercisePanel {
         panel.setMaximumSize(new Dimension(90, 70));
 
         JLabel lblSet = new JLabel("set " + set);
+        lblSet.setFont(new Font("Helvetica", Font.BOLD, 12));
         lblSet.setPreferredSize(new Dimension(70, 30));
         PlaceholderTextField txtReps = new PlaceholderTextField();
         txtReps.setPreferredSize(new Dimension(70, 20));
+        txtReps.setFont(new Font("Helvetica", Font.PLAIN, 12));
         txtReps.setPlaceholder("Reps");
         PlaceholderTextField txtWeight = new PlaceholderTextField();
         txtWeight.setPreferredSize(new Dimension(70, 20));
         txtWeight.setPlaceholder("Weight in kg");
+        txtWeight.setFont(new Font("Helvetica", Font.PLAIN, 12));
 
         panel.add(lblSet);
 

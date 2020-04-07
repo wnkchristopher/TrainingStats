@@ -65,7 +65,7 @@ public class StartPanel {
     private JLabel createHeadline() {
         JLabel lblHeadline = new JLabel();
         lblHeadline.setText("Your training manager");
-        lblHeadline.setFont(new Font("ITALIC", 2, 25));
+        lblHeadline.setFont(new Font("ITALIC", Font.CENTER_BASELINE, Constants.HeadlineTextSize));
         lblHeadline.setHorizontalAlignment(SwingConstants.CENTER);
         lblHeadline.setVisible(true);
 
@@ -78,7 +78,7 @@ public class StartPanel {
         pnlExercises.setLayout(new BoxLayout(pnlExercises, BoxLayout.X_AXIS));
 
         this.cBExercises = new JComboBox();
-        this.cBExercises.setFont(new Font("Helvetica", 3, 16));
+        this.cBExercises.setFont(new Font("Helvetica", 3, Constants.ComboBoxTextSize));
         this.cBExercises.setVisible(true);
 
 
@@ -111,7 +111,7 @@ public class StartPanel {
     private JButton createAddWorkoutButton() {
         JButton btnAddTraining = new JButton();
         btnAddTraining.setText("Add training stats");
-        btnAddTraining.setFont(new Font("Helvetica", 1, 16));
+        btnAddTraining.setFont(new Font("Helvetica", Font.CENTER_BASELINE, Constants.ButtonTextSize));
         btnAddTraining.setVisible(true);
 
         return btnAddTraining;
@@ -120,14 +120,14 @@ public class StartPanel {
     private JButton createAddExerciseButton() {
         JButton btnAddExercise = new JButton();
         btnAddExercise.setText("Add exercise");
-        btnAddExercise.setFont(new Font("Helvetica", 1, 16));
+        btnAddExercise.setFont(new Font("Helvetica", Font.CENTER_BASELINE, Constants.ButtonTextSize));
 
         return btnAddExercise;
     }
 
     private JButton createGeneratePdfButton() {
         JButton btnGeneratePdf = new JButton();
-        btnGeneratePdf.setFont(new Font("Helvetica", 1, 16));
+        btnGeneratePdf.setFont(new Font("Helvetica", Font.CENTER_BASELINE, Constants.ButtonTextSize));
         btnGeneratePdf.setText("Generate PDFs");
         btnGeneratePdf.setVisible(true);
 
@@ -159,6 +159,7 @@ public class StartPanel {
 
         this.btnSubmitWeight = new JButton();
         this.btnSubmitWeight.setText("update");
+        this.btnSubmitWeight.setFont(new Font("Helvetica", Font.BOLD, Constants.ButtonTextSize-1));
         this.btnSubmitWeight.setMaximumSize(new Dimension(130, 65));
 
         groupLayout.setHorizontalGroup(
