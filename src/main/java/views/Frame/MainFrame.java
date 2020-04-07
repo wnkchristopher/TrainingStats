@@ -8,6 +8,8 @@ import views.TrainingStatsPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 public class MainFrame implements FrameContentChanger{
 
@@ -19,7 +21,7 @@ public class MainFrame implements FrameContentChanger{
     private JPanel pnlTrainingStats;
     private JPanel pnlPdf;
 
-    public MainFrame(StartPanel startPanel, TrainingStatsPanel trainingStatsPanel, PdfPanel pdfPanel) {
+    public MainFrame(StartPanel startPanel, TrainingStatsPanel trainingStatsPanel, PdfPanel pdfPanel){
         this.startPanel = startPanel;
         this.trainingStatsPanel = trainingStatsPanel;
         this.pdfPanel = pdfPanel;
@@ -61,7 +63,10 @@ public class MainFrame implements FrameContentChanger{
     private void pack() {
         this.frame.pack();
         Dimension dimension = new Dimension();
-        Dimension dimStart = this.pnlStart.getPreferredSize();
+
+        //uncomment part, is to set minimum preferred size of all panels
+
+   /*     Dimension dimStart = this.pnlStart.getPreferredSize();
         Dimension dimTrain = this.pnlTrainingStats.getPreferredSize();
         Dimension dimPdf = this.pnlPdf.getPreferredSize();
 
@@ -79,7 +84,11 @@ public class MainFrame implements FrameContentChanger{
         }
         if(dimension.height < dimPdf.height) {
             dimension.height = dimPdf.height;
-        }
+        }*/
+
+        //set size manual because it looks better
+        dimension.height = 610;
+        dimension.width = 720;
 
         this.frame.setSize(dimension);
     }
